@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okio-1.0.0-a6a811b97ad5aaa7d586633d80717107fd38f669.jar"
+        jar="C:\Users\Арген\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.0.0\2534c458682c73f5b9871131ab3098d3f987ca3\okio-1.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="02534c458682c73f5b9871131ab3098d3f987ca3"/>
+    <item
+        dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\retrofit-1.6.1-32460c3733521c418dce0844609916310b0888e6.jar"
+        jar="C:\Users\Арген\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.6.1\efb0a36546aa8857ab8df358b106c1817e03cbee\retrofit-1.6.1.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="efb0a36546aa8857ab8df358b106c1817e03cbee"/>
+    <item
+        dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okhttp-2.0.0-6e90be8dda50498624370d13b826b6e9f39dafb2.jar"
+        jar="C:\Users\Арген\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp\2.0.0\4c8d1536dba3812cc1592090dc20c47a4ed3c35e\okhttp-2.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="4c8d1536dba3812cc1592090dc20c47a4ed3c35e"/>
+    <item
+        dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-a2f43f65501cc7591f6042f45ab86f11878d79f0.jar"
+        jar="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
+    <item
+        dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-2.0.0-7c7ce5b098ae7ea698b20e846437f6482d5768b0.jar"
+        jar="C:\Users\Арген\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp-urlconnection\2.0.0\afe8399d352713b66e597e9670c741d1e60ae923\okhttp-urlconnection-2.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="afe8399d352713b66e597e9670c741d1e60ae923"/>
+    <item
+        dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\gson-2.2.4-bd820d23549346913e4718f55b81d6af7b1130b6.jar"
+        jar="C:\Users\Арген\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568"/>
+    <item
+        dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-706f577d1f7b04494a82b079165aa74df81cb98c.jar"
+        jar="C:\Android\Android Studio\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
+    <item
+        dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\classes-83b2d6a719a4fc990dab0463ad6cea6856fa918a.jar"
+        jar="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
+
+</pre-dex-items>
