@@ -35,7 +35,7 @@ class NetworkTask extends AsyncTask<Object, Void, Object> {
     protected Object doInBackground(Object... params) {
 
         Parus service = ParusService.getService();
-
+//66
         Method m =null;
         Object ret=null;
         Class[] paramTypes=new Class[params.length-1];
