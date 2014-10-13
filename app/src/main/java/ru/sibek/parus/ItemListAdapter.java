@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import ru.sibek.parus.Invoices.Item;
+import ru.sibek.parus.mappers.Invoices.Item;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +18,17 @@ import java.util.List;
  * Created by Developer on 06.10.2014.
  */
 
-public class ItemListAdapter extends BaseAdapter {
+public class ItemListAdapter<T> extends BaseAdapter {
     private Context mContext;
-    private List<Item> listItems = new ArrayList<Item>();
+    private List<T> listItems = new ArrayList<T>();
 
     public ItemListAdapter(Context context) {
         super();
 
-        mContext = context;
+        this.mContext = context;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<T> items) {
         listItems = items;
         notifyDataSetChanged();
     }
@@ -37,7 +39,7 @@ public class ItemListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Item getItem(int i) {
+    public T getItem(int i) {
         return listItems.get(i);
     }
 
@@ -56,14 +58,22 @@ public class ItemListAdapter extends BaseAdapter {
             ItemHolder holder = new ItemHolder();
             holder.tvName = (TextView) listItem.findViewById(R.id.tvName);
             //holder.language = (TextView) row.findViewById(R.id.repo_language);
+            //listItem.setTag(listItems);
             listItem.setTag(holder);
         }
 
         ItemHolder holder = (ItemHolder) listItem.getTag();
-        Item item = listItems.get(position);
-        holder.tvName.setText(item.getSdoctype() + ", " + item.getSpref().trim() + "-" + item.getSnumb().trim() + ", " +
-                item.getDdocDate() +
-                "\nПоставщик: " + item.getSagent());
+
+        //if (listItems.get(0).getClass()==itemClass){
+
+        Item item = (Item)listItems.get(position);
+            holder.tvName.setText(item.getSdoctype() + ", " + item.getSpref().trim() + "-" + item.getSnumb().trim() + ", " +
+                    item.getDdocDate() +
+                    "\nПоставщик: " + item.getSagent());
+
+      //  }
+
+
         //holder.language.setText(repo.language);
 
         return listItem;
@@ -73,4 +83,5 @@ public class ItemListAdapter extends BaseAdapter {
         TextView tvName;
         //TextView language;
     }
+
 }

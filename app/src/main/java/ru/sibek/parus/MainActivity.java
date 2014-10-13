@@ -1,39 +1,28 @@
 package ru.sibek.parus;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 
-import java.util.concurrent.ExecutionException;
+import ru.sibek.parus.mappers.Invoices.Item;
+import ru.sibek.parus.mappers.Invoices;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity implements InvoicesFragment.OnHeadlineSelectedListener {
 
 
     Invoices invoices = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.in_invoices);
 
-        ListView lvMain = (ListView) findViewById(R.id.lvMain);
-
-        NetworkTask n = NetworkTask.getInstance();
-        n.execute("listInv","59945");
-
-        try {
-            invoices = (Invoices)n.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        ItemListAdapter adapter = new ItemListAdapter(this);
-        adapter.setItems(invoices.getItems());
-        lvMain.setAdapter(adapter);
+        InvoicesFragment masterFragment = new InvoicesFragment();
+        masterFragment.setArguments(getIntent().getExtras());
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, masterFragment).commit();
 
 
 
@@ -57,5 +46,11 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMasterItemSelected(Item item) {
+
+
     }
 }

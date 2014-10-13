@@ -1,4 +1,4 @@
-package ru.sibek.parus;
+package ru.sibek.parus.mappers;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

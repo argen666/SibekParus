@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
+import ru.sibek.parus.mappers.Invoices;
 
 /**
  * Created by Developer on 09.10.2014.
