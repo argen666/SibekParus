@@ -14,14 +14,14 @@ import retrofit.converter.GsonConverter;
 class NetworkTask extends AsyncTask<Object, Void, Object> {
 
     private static NetworkTask instance=null;
-    private NetworkTask() {
-    }
+   /* private NetworkTask() {
+    }*/
 
     public static NetworkTask getInstance()
     {
-        if (instance==null){
+        //if (instance==null){
             instance = new NetworkTask();
-        }
+       // }
        return instance;
     }
 
