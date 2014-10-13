@@ -77,7 +77,7 @@ public class InvoicesFragment extends ListFragment {
         // Notify the parent activity of selected item
 
        //Item item =  ((List<Item>) v.getTag(0)).get(position);
-      // mCallback.onMasterItemSelected(item);
+       //mCallback.onMasterItemSelected(data);
         // Set the item as checked to be highlighted when in two-pane layout
         getListView().setItemChecked(position, true);
     }
