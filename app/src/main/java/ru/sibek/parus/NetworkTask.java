@@ -52,7 +52,10 @@ class NetworkTask extends AsyncTask<Object, Void, Object> {
 
 
         try {
-           ret= m.invoke(service,params[1]);
+            if (params.length>1){
+           ret= m.invoke(service,params[1]);} else{
+                ret= m.invoke(service);
+            }
             //inv = service.listInv("59945");
         } catch (Exception e) {
             Log.d("MyParusExp", e.toString());

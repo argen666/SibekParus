@@ -7,10 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import ru.sibek.parus.mappers.Invoices.Item;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
+import ru.sibek.parus.mappers.Companies;
+import ru.sibek.parus.mappers.Invoices;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,12 +65,16 @@ public class ItemListAdapter<T> extends BaseAdapter {
         ItemHolder holder = (ItemHolder) listItem.getTag();
 
         //if (listItems.get(0).getClass()==itemClass){
-
-        Item item = (Item)listItems.get(position);
+        if (listItems.get(position) instanceof Invoices.ItemInvoice) {
+            Invoices.ItemInvoice item = (Invoices.ItemInvoice) listItems.get(position);
             holder.tvName.setText(item.getSdoctype() + ", " + item.getSpref().trim() + "-" + item.getSnumb().trim() + ", " +
                     item.getDdocDate() +
                     "\nПоставщик: " + item.getSagent());
-
+        }
+        if (listItems.get(position) instanceof Companies.ItemCompany) {
+            Companies.ItemCompany item = (Companies.ItemCompany) listItems.get(position);
+            holder.tvName.setText(item.getFullname());
+        }
       //  }
 
 

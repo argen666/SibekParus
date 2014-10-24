@@ -24,8 +24,9 @@ public class JSONDeserializer<T> implements JsonDeserializer<T>
     public T deserialize(JsonElement je, Type type, JsonDeserializationContext jdc)
             throws JsonParseException
     {
-        Invoices obj = new Gson().fromJson(je, type);
-        for (Invoices.Item item:obj.getItems())
+
+       /* Invoices obj = new Gson().fromJson(je, type);
+        for (Invoices.ItemInvoice item:obj.getItems())
         {
             try {
                Date d=((new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")).parse(item.getDdocDate()));
@@ -33,10 +34,13 @@ public class JSONDeserializer<T> implements JsonDeserializer<T>
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         Log.d("MyDes", "Start...");
 
-        return (T)obj;
+
+
+        //return (T)obj;
+        return new Gson().fromJson(je, type);
 
     }
 }

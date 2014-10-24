@@ -1,12 +1,18 @@
 package ru.sibek.parus;
 
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import ru.sibek.parus.mappers.Invoices.Item;
+import java.io.IOException;
+
+import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.mappers.Invoices;
 
 
@@ -19,6 +25,11 @@ public class MainActivity extends FragmentActivity implements InvoicesFragment.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.in_invoices);
 
+        final AccountManager am = AccountManager.get(this);
+        if (am.getAccountsByType(ParusAccount.TYPE).length == 0) {
+           // addNewAccount(am);
+        }
+
         InvoicesFragment masterFragment = new InvoicesFragment();
         masterFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction()
@@ -28,6 +39,20 @@ public class MainActivity extends FragmentActivity implements InvoicesFragment.O
 
     }
 
+    private void addNewAccount(AccountManager am) {
+        am.addAccount(ParusAccount.TYPE, ParusAccount.TOKEN_FULL_ACCESS, null, null, this,
+                new AccountManagerCallback<Bundle>() {
+                    @Override
+                    public void run(AccountManagerFuture<Bundle> future) {
+                        try {
+                            future.getResult();
+                        } catch (OperationCanceledException | IOException | AuthenticatorException e) {
+                            MainActivity.this.finish();
+                        }
+                    }
+                }, null
+        );
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -49,7 +74,7 @@ public class MainActivity extends FragmentActivity implements InvoicesFragment.O
     }
 
     @Override
-    public void onMasterItemSelected(Item item) {
+    public void onMasterItemSelected(Invoices.ItemInvoice item) {
 
 
     }

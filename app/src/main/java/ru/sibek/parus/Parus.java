@@ -3,6 +3,7 @@ package ru.sibek.parus;
         import retrofit.client.Response;
         import retrofit.http.GET;
         import retrofit.http.Path;
+        import ru.sibek.parus.mappers.Companies;
         import ru.sibek.parus.mappers.Invoices;
 
 /**
@@ -18,7 +19,7 @@ public interface Parus {
     @GET("/parus/ru/ininvoices/{company}")
     Response RespInInvoices(@Path("company") String company);
 
-   /* @GET("/parus/ru/companies/")
-    List<InInvoice> listInInvoices();*/
+    @GET("/parus/ru/companies/")
+    Companies listCompanies();
 
 }

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
+import ru.sibek.parus.mappers.Companies;
 import ru.sibek.parus.mappers.Invoices;
 
 /**
@@ -25,6 +26,7 @@ public class ParusService {
         {
         gson = new GsonBuilder()
                         .registerTypeAdapter(Invoices.class, new JSONDeserializer<Invoices>())
+                        .registerTypeAdapter(Companies.class, new JSONDeserializer<Companies>())
                         .create();
         }
         if (instance==null) {

@@ -6,11 +6,10 @@ import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import ru.sibek.parus.mappers.Companies;
 import ru.sibek.parus.mappers.Invoices;
-import ru.sibek.parus.mappers.Invoices.Item;
 
 public class InvoicesFragment extends ListFragment {
     OnHeadlineSelectedListener mCallback;
@@ -18,7 +17,7 @@ public class InvoicesFragment extends ListFragment {
     // The container Activity must implement this interface so the frag can deliver messages
     public interface OnHeadlineSelectedListener {
         /** Called by HeadlinesFragment when a list item is selected */
-        public void onMasterItemSelected(Item position);
+        public void onMasterItemSelected(Invoices.ItemInvoice position);
     }
 
     @Override
@@ -29,6 +28,7 @@ public class InvoicesFragment extends ListFragment {
 
         NetworkTask n = NetworkTask.getInstance();
         n.execute("listInvoices","59945");
+        //n.execute("listCompanies");
 
         try {
             data = n.get();
@@ -42,6 +42,8 @@ public class InvoicesFragment extends ListFragment {
         ItemListAdapter adapter = new ItemListAdapter(getActivity());
         if (data instanceof Invoices){
         adapter.setItems(((Invoices) data).getItems());}
+        if (data instanceof Companies){
+            adapter.setItems(((Companies) data).getItems());}
         setListAdapter(adapter);
 
 

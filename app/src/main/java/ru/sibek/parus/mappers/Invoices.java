@@ -10,13 +10,13 @@ public class Invoices {
 
 
     @Expose
-    private List<Item> items = new ArrayList<Item>();
+    private List<ItemInvoice> items = new ArrayList<ItemInvoice>();
 
-    public List<Item> getItems() {
+    public List<ItemInvoice> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<ItemInvoice> items) {
         this.items = items;
     }
 
@@ -24,7 +24,7 @@ public class Invoices {
 
 
 
-public class Item {
+public class ItemInvoice {
 
     @Expose
     private Long nrn;
