@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
-class NetworkTask extends AsyncTask<Object, Void, Object> {
+public class NetworkTask extends AsyncTask<Object, Void, Object> {
 
     private static NetworkTask instance=null;
    /* private NetworkTask() {

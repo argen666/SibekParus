@@ -1,4 +1,4 @@
-package ru.sibek.parus;
+package ru.sibek.parus.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.ListView;
 
 import java.util.concurrent.ExecutionException;
 
+import ru.sibek.parus.ItemListAdapter;
+import ru.sibek.parus.NetworkTask;
 import ru.sibek.parus.mappers.Companies;
 import ru.sibek.parus.mappers.Invoices;
 

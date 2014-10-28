@@ -1,5 +1,6 @@
-package ru.sibek.parus;
+package ru.sibek.parus.activity;
 
+import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
@@ -12,6 +13,8 @@ import android.view.MenuItem;
 
 import java.io.IOException;
 
+import ru.sibek.parus.fragment.InvoicesFragment;
+import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.mappers.Invoices;
 
@@ -20,22 +23,21 @@ public class MainActivity extends FragmentActivity implements InvoicesFragment.O
 
 
     Invoices invoices = null;
+    Account sAccount=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.in_invoices);
 
         final AccountManager am = AccountManager.get(this);
-        if (am.getAccountsByType(ParusAccount.TYPE).length == 0) {
-           // addNewAccount(am);
-        }
+       /* if (am.getAccountsByType(ParusAccount.TYPE).length == 0) {
+            addNewAccount(am);
+        }*/
 
         InvoicesFragment masterFragment = new InvoicesFragment();
         masterFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, masterFragment).commit();
-
-
 
     }
 

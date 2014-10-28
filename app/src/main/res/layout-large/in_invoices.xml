@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- <fragment android:name="ru.sibek.parus.InvoicesFragment"
+    <!-- <fragment android:name="ru.sibek.parus.fragment.InvoicesFragment"
         android:id="@+id/invoices_fragment"
         android:layout_weight="1"
         android:layout_width="0dp"

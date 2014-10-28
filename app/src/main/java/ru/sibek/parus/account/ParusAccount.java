@@ -14,6 +14,10 @@ public class ParusAccount extends Account {
 
     public static final String KEY_PASSWORD = "ru.sibek.parus.KEY_PASSWORD";
 
+    public static final String ACCOUNT_TYPE = "ru.sibek.parus.account";
+
+    public static final String AUTHORITY = "ru.sibek.parus";
+
     public ParusAccount(Parcel in) {
         super(in);
     }

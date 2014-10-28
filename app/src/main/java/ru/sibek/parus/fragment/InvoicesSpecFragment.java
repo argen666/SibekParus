@@ -1,4 +1,4 @@
-package ru.sibek.parus;
+package ru.sibek.parus.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
