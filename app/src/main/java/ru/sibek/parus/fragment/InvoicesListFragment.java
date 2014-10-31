@@ -20,7 +20,6 @@ import android.accounts.Account;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 
-import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 //import com.elegion.newsfeed.activity.NewsActivity;
 import ru.sibek.parus.account.ParusAccount;
@@ -47,12 +45,12 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
         super.onActivityCreated(savedInstanceState);
         mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_feed);
         setListAdapter(mListAdapter);
-        getLoaderManager().initLoader(R.id.feeds_loader, null, this);
+        getLoaderManager().initLoader(R.id.invoices_loader, null, this);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (id == R.id.feeds_loader) {
+        if (id == R.id.invoices_loader) {
             return new CursorLoader(
                     getActivity().getApplicationContext(),
                     InvoiceProvider.URI, null, null, null, null
@@ -63,14 +61,14 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (loader.getId() == R.id.feeds_loader) {
+        if (loader.getId() == R.id.invoices_loader) {
             mListAdapter.swapCursor(data);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        if (loader.getId() == R.id.feeds_loader) {
+        if (loader.getId() == R.id.invoices_loader) {
             mListAdapter.swapCursor(null);
         }
     }

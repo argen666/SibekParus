@@ -39,7 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SQLiteContentProvider extends ContentProvider {
 
-    private static final String DATABASE_NAME = "newsfeed.db";
+    private static final String DATABASE_NAME = "parus.db";
 
     private static final int DATABASE_VERSION = 1;
 

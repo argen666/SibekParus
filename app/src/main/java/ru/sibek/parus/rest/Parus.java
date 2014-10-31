@@ -1,4 +1,4 @@
-package ru.sibek.parus;
+package ru.sibek.parus.rest;
 
         import retrofit.client.Response;
         import retrofit.http.GET;

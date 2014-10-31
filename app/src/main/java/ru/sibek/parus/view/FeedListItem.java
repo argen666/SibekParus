@@ -60,7 +60,7 @@ public class FeedListItem extends LinearLayout implements CursorBinder {
         } else {
             mTitle.setText(getResources().getString(R.string.hello_world, InvoiceProvider.getId(c)));
         }
-        final String link = InvoiceProvider.getSnumb(c)+" - "+InvoiceProvider.getSpref(c);
+        final String link = InvoiceProvider.getSnumb(c)+" - "+(InvoiceProvider.getSpref(c)).trim();
         if (!TextUtils.isEmpty(link)) {
             mLink.setText(link);
         } else {

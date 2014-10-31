@@ -3,25 +3,20 @@ package ru.sibek.parus;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.lang.reflect.Method;
 
-import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
+import ru.sibek.parus.rest.Parus;
+import ru.sibek.parus.rest.ParusService;
 
 public class NetworkTask extends AsyncTask<Object, Void, Object> {
 
     private static NetworkTask instance=null;
-   /* private NetworkTask() {
-    }*/
+    private NetworkTask() {
+    }
 
     public static NetworkTask getInstance()
     {
-        //if (instance==null){
             instance = new NetworkTask();
-       // }
        return instance;
     }
 

@@ -1,10 +1,15 @@
 package ru.sibek.parus.mappers;
 
+import android.content.ContentValues;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.sibek.parus.rest.ParusDate;
+import ru.sibek.parus.sqlite.InvoiceProvider;
 
 public class Invoices {
 
@@ -22,9 +27,26 @@ public class Invoices {
 
 
 
+    public ContentValues[] toContentValues() {
 
+        final List<ContentValues> contentValuesList = new ArrayList<>();
+        List<ItemInvoice> items = this.getItems();
+        for (ItemInvoice item:items)
+        {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(InvoiceProvider.Columns.SNUMB,item.getSnumb());
+            contentValues.put(InvoiceProvider.Columns.SPREF,item.getSpref());
+            contentValues.put(InvoiceProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
+            contentValues.put(InvoiceProvider.Columns.SAGENT,item.getSagent());
+            contentValues.put(InvoiceProvider.Columns.NSUMMTAX,item.getNsummtax());
+            contentValues.put(InvoiceProvider.Columns.NSTATUS,item.getNstatus());
+            contentValuesList.add(contentValues);
+        }
 
-public class ItemInvoice {
+        return contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
+    }
+
+    public class ItemInvoice {
 
     @Expose
     private Long nrn;
@@ -527,7 +549,154 @@ public class ItemInvoice {
         this.doutdocDate = doutdocDate;
     }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
 
+            ItemInvoice that = (ItemInvoice) o;
 
-}
+            if (ddocDate != null ? !ddocDate.equals(that.ddocDate) : that.ddocDate != null)
+                return false;
+            if (dindocDate != null ? !dindocDate.equals(that.dindocDate) : that.dindocDate != null)
+                return false;
+            if (doutdocDate != null ? !doutdocDate.equals(that.doutdocDate) : that.doutdocDate != null)
+                return false;
+            if (dvalidDocdate != null ? !dvalidDocdate.equals(that.dvalidDocdate) : that.dvalidDocdate != null)
+                return false;
+            if (dworkDate != null ? !dworkDate.equals(that.dworkDate) : that.dworkDate != null)
+                return false;
+            if (nagent != null ? !nagent.equals(that.nagent) : that.nagent != null) return false;
+            if (nagentCat != null ? !nagentCat.equals(that.nagentCat) : that.nagentCat != null)
+                return false;
+            if (ncompany != null ? !ncompany.equals(that.ncompany) : that.ncompany != null)
+                return false;
+            if (ncrn != null ? !ncrn.equals(that.ncrn) : that.ncrn != null) return false;
+            if (ncurbasecours != null ? !ncurbasecours.equals(that.ncurbasecours) : that.ncurbasecours != null)
+                return false;
+            if (ncurcours != null ? !ncurcours.equals(that.ncurcours) : that.ncurcours != null)
+                return false;
+            if (ncurrency != null ? !ncurrency.equals(that.ncurrency) : that.ncurrency != null)
+                return false;
+            if (ndiscount != null ? !ndiscount.equals(that.ndiscount) : that.ndiscount != null)
+                return false;
+            if (ndoctype != null ? !ndoctype.equals(that.ndoctype) : that.ndoctype != null)
+                return false;
+            if (nfaBasecours != null ? !nfaBasecours.equals(that.nfaBasecours) : that.nfaBasecours != null)
+                return false;
+            if (nfaCours != null ? !nfaCours.equals(that.nfaCours) : that.nfaCours != null)
+                return false;
+            if (nfaCurrency != null ? !nfaCurrency.equals(that.nfaCurrency) : that.nfaCurrency != null)
+                return false;
+            if (nfaceacc != null ? !nfaceacc.equals(that.nfaceacc) : that.nfaceacc != null)
+                return false;
+            if (nfaceaccCat != null ? !nfaceaccCat.equals(that.nfaceaccCat) : that.nfaceaccCat != null)
+                return false;
+            if (nfactpaysumm != null ? !nfactpaysumm.equals(that.nfactpaysumm) : that.nfactpaysumm != null)
+                return false;
+            if (nisSigned != null ? !nisSigned.equals(that.nisSigned) : that.nisSigned != null)
+                return false;
+            if (njurPers != null ? !njurPers.equals(that.njurPers) : that.njurPers != null)
+                return false;
+            if (nplanpaysumm != null ? !nplanpaysumm.equals(that.nplanpaysumm) : that.nplanpaysumm != null)
+                return false;
+            if (nrn != null ? !nrn.equals(that.nrn) : that.nrn != null) return false;
+            if (nservactSign != null ? !nservactSign.equals(that.nservactSign) : that.nservactSign != null)
+                return false;
+            if (nsigntax != null ? !nsigntax.equals(that.nsigntax) : that.nsigntax != null)
+                return false;
+            if (nstatus != null ? !nstatus.equals(that.nstatus) : that.nstatus != null)
+                return false;
+            if (nstore != null ? !nstore.equals(that.nstore) : that.nstore != null) return false;
+            if (nstoreoper != null ? !nstoreoper.equals(that.nstoreoper) : that.nstoreoper != null)
+                return false;
+            if (nsumm != null ? !nsumm.equals(that.nsumm) : that.nsumm != null) return false;
+            if (nsummOrders != null ? !nsummOrders.equals(that.nsummOrders) : that.nsummOrders != null)
+                return false;
+            if (nsummtax != null ? !nsummtax.equals(that.nsummtax) : that.nsummtax != null)
+                return false;
+            if (nvalidDoctype != null ? !nvalidDoctype.equals(that.nvalidDoctype) : that.nvalidDoctype != null)
+                return false;
+            if (sagent != null ? !sagent.equals(that.sagent) : that.sagent != null) return false;
+            if (sagentName != null ? !sagentName.equals(that.sagentName) : that.sagentName != null)
+                return false;
+            if (scurrency != null ? !scurrency.equals(that.scurrency) : that.scurrency != null)
+                return false;
+            if (sdoctype != null ? !sdoctype.equals(that.sdoctype) : that.sdoctype != null)
+                return false;
+            if (sfaCurrency != null ? !sfaCurrency.equals(that.sfaCurrency) : that.sfaCurrency != null)
+                return false;
+            if (sfaceacc != null ? !sfaceacc.equals(that.sfaceacc) : that.sfaceacc != null)
+                return false;
+            if (sjurPers != null ? !sjurPers.equals(that.sjurPers) : that.sjurPers != null)
+                return false;
+            if (snumb != null ? !snumb.equals(that.snumb) : that.snumb != null) return false;
+            if (sparty != null ? !sparty.equals(that.sparty) : that.sparty != null) return false;
+            if (spref != null ? !spref.equals(that.spref) : that.spref != null) return false;
+            if (sstatus != null ? !sstatus.equals(that.sstatus) : that.sstatus != null)
+                return false;
+            if (sstore != null ? !sstore.equals(that.sstore) : that.sstore != null) return false;
+            if (sstoreoper != null ? !sstoreoper.equals(that.sstoreoper) : that.sstoreoper != null)
+                return false;
+            if (svalidDocnumb != null ? !svalidDocnumb.equals(that.svalidDocnumb) : that.svalidDocnumb != null)
+                return false;
+            if (svalidDoctype != null ? !svalidDoctype.equals(that.svalidDoctype) : that.svalidDoctype != null)
+                return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = nrn != null ? nrn.hashCode() : 0;
+            result = 31 * result + (ncompany != null ? ncompany.hashCode() : 0);
+            result = 31 * result + (ncrn != null ? ncrn.hashCode() : 0);
+            result = 31 * result + (njurPers != null ? njurPers.hashCode() : 0);
+            result = 31 * result + (sjurPers != null ? sjurPers.hashCode() : 0);
+            result = 31 * result + (ndoctype != null ? ndoctype.hashCode() : 0);
+            result = 31 * result + (sdoctype != null ? sdoctype.hashCode() : 0);
+            result = 31 * result + (spref != null ? spref.hashCode() : 0);
+            result = 31 * result + (snumb != null ? snumb.hashCode() : 0);
+            result = 31 * result + (ddocDate != null ? ddocDate.hashCode() : 0);
+            result = 31 * result + (nstatus != null ? nstatus.hashCode() : 0);
+            result = 31 * result + (sstatus != null ? sstatus.hashCode() : 0);
+            result = 31 * result + (dworkDate != null ? dworkDate.hashCode() : 0);
+            result = 31 * result + (nservactSign != null ? nservactSign.hashCode() : 0);
+            result = 31 * result + (nvalidDoctype != null ? nvalidDoctype.hashCode() : 0);
+            result = 31 * result + (svalidDoctype != null ? svalidDoctype.hashCode() : 0);
+            result = 31 * result + (svalidDocnumb != null ? svalidDocnumb.hashCode() : 0);
+            result = 31 * result + (dvalidDocdate != null ? dvalidDocdate.hashCode() : 0);
+            result = 31 * result + (nstore != null ? nstore.hashCode() : 0);
+            result = 31 * result + (sstore != null ? sstore.hashCode() : 0);
+            result = 31 * result + (nfaceacc != null ? nfaceacc.hashCode() : 0);
+            result = 31 * result + (sfaceacc != null ? sfaceacc.hashCode() : 0);
+            result = 31 * result + (nfaceaccCat != null ? nfaceaccCat.hashCode() : 0);
+            result = 31 * result + (nfaCurrency != null ? nfaCurrency.hashCode() : 0);
+            result = 31 * result + (sfaCurrency != null ? sfaCurrency.hashCode() : 0);
+            result = 31 * result + (nagent != null ? nagent.hashCode() : 0);
+            result = 31 * result + (sagent != null ? sagent.hashCode() : 0);
+            result = 31 * result + (sagentName != null ? sagentName.hashCode() : 0);
+            result = 31 * result + (nagentCat != null ? nagentCat.hashCode() : 0);
+            result = 31 * result + (ncurrency != null ? ncurrency.hashCode() : 0);
+            result = 31 * result + (scurrency != null ? scurrency.hashCode() : 0);
+            result = 31 * result + (ncurcours != null ? ncurcours.hashCode() : 0);
+            result = 31 * result + (ncurbasecours != null ? ncurbasecours.hashCode() : 0);
+            result = 31 * result + (nfaCours != null ? nfaCours.hashCode() : 0);
+            result = 31 * result + (nfaBasecours != null ? nfaBasecours.hashCode() : 0);
+            result = 31 * result + (nsumm != null ? nsumm.hashCode() : 0);
+            result = 31 * result + (nsummtax != null ? nsummtax.hashCode() : 0);
+            result = 31 * result + (nplanpaysumm != null ? nplanpaysumm.hashCode() : 0);
+            result = 31 * result + (nfactpaysumm != null ? nfactpaysumm.hashCode() : 0);
+            result = 31 * result + (nsummOrders != null ? nsummOrders.hashCode() : 0);
+            result = 31 * result + (nstoreoper != null ? nstoreoper.hashCode() : 0);
+            result = 31 * result + (sstoreoper != null ? sstoreoper.hashCode() : 0);
+            result = 31 * result + (nsigntax != null ? nsigntax.hashCode() : 0);
+            result = 31 * result + (dindocDate != null ? dindocDate.hashCode() : 0);
+            result = 31 * result + (ndiscount != null ? ndiscount.hashCode() : 0);
+            result = 31 * result + (nisSigned != null ? nisSigned.hashCode() : 0);
+            result = 31 * result + (sparty != null ? sparty.hashCode() : 0);
+            result = 31 * result + (doutdocDate != null ? doutdocDate.hashCode() : 0);
+            return result;
+        }
+    }
 }

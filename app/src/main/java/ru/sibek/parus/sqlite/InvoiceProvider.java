@@ -16,12 +16,17 @@
 
 package ru.sibek.parus.sqlite;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+
+import ru.sibek.parus.ParusApplication;
+import ru.sibek.parus.account.ParusAccount;
+import ru.sibek.parus.sync.SyncAdapter;
 
 /*import com.elegion.newsfeed.AppDelegate;
 import com.elegion.newsfeed.sync.SyncAdapter;*/
@@ -73,8 +78,8 @@ public class InvoiceProvider extends SQLiteTableProvider {
         if (operation == INSERT) {
             extras.keySet();
             final Bundle syncExtras = new Bundle();
-        //    syncExtras.putLong(SyncAdapter.KEY_FEED_ID, extras.getLong(KEY_LAST_ID, -1));
-        //    ContentResolver.requestSync(AppDelegate.sAccount, AppDelegate.AUTHORITY, syncExtras);
+            syncExtras.putLong(SyncAdapter.KEY_INVOICE_ID, extras.getLong(KEY_LAST_ID, -1));
+            ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
         }
     }
 

@@ -2,6 +2,7 @@
 <resources>
 
     <string-array name="auto_sync_intervals">
+        <item>Каждые 5 секунд</item>
         <item>Каждую минуту</item>
         <item>Каждые десять минут</item>
         <item>Каждый час</item>
@@ -10,13 +11,14 @@
     </string-array>
 
     <string-array name="auto_sync_interval_values">
-        <item>60</item>
-        <item>600</item>
+        <item>5</item>
         <item>@string/auto_sync_interval_default</item>
+        <item>600</item>
+        <item>3600</item>
         <item>10800</item>
         <item>86400</item>
     </string-array>
 
-    <string name="auto_sync_interval_default">3600</string>
+    <string name="auto_sync_interval_default">60</string>
 
 </resources>

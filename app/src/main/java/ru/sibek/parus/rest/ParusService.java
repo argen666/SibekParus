@@ -1,10 +1,11 @@
-package ru.sibek.parus;
+package ru.sibek.parus.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
+import ru.sibek.parus.rest.JSONDeserializer;
 import ru.sibek.parus.mappers.Companies;
 import ru.sibek.parus.mappers.Invoices;
 

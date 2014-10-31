@@ -27,11 +27,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
+import ru.sibek.parus.rest.NetworkTask;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 
 /**
@@ -40,7 +36,7 @@ import ru.sibek.parus.sqlite.InvoiceProvider;
  */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
-    public static final String KEY_FEED_ID = "ru.sibek.parus.sync.KEY_FEED_ID";
+    public static final String KEY_INVOICE_ID = "ru.sibek.parus.sync.KEY_INVOICE_ID";
 
     public SyncAdapter(Context context) {
         super(context, true);
@@ -49,27 +45,31 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider,
                               SyncResult syncResult) {
-        final long feedId = extras.getLong(KEY_FEED_ID, -1);
+        final long feedId = extras.getLong(KEY_INVOICE_ID, -1);
         if (feedId > 0) {
-            syncFeeds(provider, syncResult, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(feedId)});
+            syncInvoices(provider, syncResult, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(feedId)});
         } else {
-            syncFeeds(provider, syncResult, null, null);
+            syncInvoices(provider, syncResult, null, null);
         }
+        Log.d("PARUS_Sync","Start"+feedId);
     }
 
-    private void syncFeeds(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
+    private void syncInvoices(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
         try {
             final Cursor feeds = provider.query(
                     InvoiceProvider.URI, new String[]{
-                            InvoiceProvider.Columns._ID,
-                            InvoiceProvider.Columns.SAGENT
+                            InvoiceProvider.Columns._ID
                     }, where, whereArgs, null
             );
+
             try {
                 if (feeds.moveToFirst()) {
                     do {
-                        //syncFeed(feeds.getString(0), feeds.getString(1), provider, syncResult);
+                      //  getInvoices(feeds.getString(0),provider,syncResult);
                     } while (feeds.moveToNext());
+                }
+                else {
+                    getInvoices(null,provider,syncResult);
                 }
             } finally {
                 feeds.close();
@@ -78,6 +78,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Log.e(SyncAdapter.class.getName(), e.getMessage(), e);
             ++syncResult.stats.numIoExceptions;
         }
+    }
+
+    private void syncInvoice(String invoiceID, ContentProviderClient provider, SyncResult syncResult) {
+       /* syncResult.stats.numUpdates += provider
+                .update(InvoiceProvider.URI, channelValues, FeedProvider.Columns._ID + "=?", new String[]{invoiceID});*/
     }
 
    /* private void syncFeed(String feedId, String feedUrl, ContentProviderClient provider, SyncResult syncResult) {
@@ -98,5 +103,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             ++syncResult.stats.numIoExceptions;
         }
     }*/
+
+    private void getInvoices(String invoiceID, ContentProviderClient provider, SyncResult syncResult){
+
+        NetworkTask n = new NetworkTask(provider,syncResult);
+        try {
+            n.getData(invoiceID,"listInvoices","59945");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

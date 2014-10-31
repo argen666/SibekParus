@@ -40,6 +40,7 @@ public final class ParusDate {
     };
 
     private static final String[] COMPATIBLE_DATE_FORMATS = new String[]{
+            "yyyy-MM-dd'T'HH:mm:ss'Z'",
             "EEEE, dd-MMM-yy HH:mm:ss zzz",
             "EEE MMM d HH:mm:ss yyyy",
             "EEE, dd-MMM-yyyy HH:mm:ss z",
