@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:persistent="true">
+
+    <PreferenceCategory android:title="@string/general_settings" />
+
+    <PreferenceScreen
+        android:key="ru.sibek.parus.KEY_ACCOUNT_SYNC"
+        android:summary="@string/sync_settings_summary"
+        android:title="@string/sync">
+        <intent
+            android:action="ru.sibek.parus.ACTION_SYNC_SETTINGS"
+            android:targetClass="ru.sibek.parus.activity.SyncSettingActivity"
+            android:targetPackage="ru.sibek.parus" />
+    </PreferenceScreen>
+
+</PreferenceScreen>
