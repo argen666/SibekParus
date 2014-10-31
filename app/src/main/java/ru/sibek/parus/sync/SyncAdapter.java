@@ -64,7 +64,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             try {
                 if (feeds.moveToFirst()) {
-                    do {
+                    do {//
                       //  getInvoices(feeds.getString(0),provider,syncResult);
                     } while (feeds.moveToNext());
                 }
