@@ -68,7 +68,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
                     getActivity().getApplicationContext(),
                     InvoiceProvider.URI, null, null, null, InvoiceProvider.Columns.DDOC_DATE+" DESC"
 
-                    
+
             );
         }
         return null;
