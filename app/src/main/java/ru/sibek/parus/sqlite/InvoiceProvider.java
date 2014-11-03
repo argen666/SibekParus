@@ -60,6 +60,11 @@ public class InvoiceProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.NCOMPANY));
     }
 
+    public static String getSDoctype(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SDOCTYPE));
+    }
+
+
     public static long getSnumb(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.SNUMB));
     }
@@ -75,12 +80,12 @@ public class InvoiceProvider extends SQLiteTableProvider {
 
     @Override
     public void onContentChanged(Context context, int operation, Bundle extras) {
-        if (operation == INSERT) {
+      /*  if (operation == INSERT) {
             extras.keySet();
             final Bundle syncExtras = new Bundle();
             syncExtras.putLong(SyncAdapter.KEY_INVOICE_ID, extras.getLong(KEY_LAST_ID, -1));
             ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
-        }
+        }*/
     }
 
     @Override

@@ -35,6 +35,7 @@ public class Invoices {
         {
             ContentValues contentValues = new ContentValues();
             contentValues.put(InvoiceProvider.Columns.SNUMB,item.getSnumb());
+            contentValues.put(InvoiceProvider.Columns.SDOCTYPE,item.getSdoctype());
             contentValues.put(InvoiceProvider.Columns.SPREF,item.getSpref());
             contentValues.put(InvoiceProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
             contentValues.put(InvoiceProvider.Columns.SAGENT,item.getSagent());

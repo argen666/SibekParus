@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.InvoicesListFragment;
 import ru.sibek.parus.fragment.LogoFragment;
+import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.view.DummyFragment;
 import ru.sibek.parus.view.TabListener;
@@ -62,7 +63,7 @@ public class InvoicesActivity extends Activity {
         ActionBar.Tab tab = actionBar.newTab()
                 .setText("Приход")
                 .setTabListener(new TabListener<InvoicesListFragment>(
-                        this, "invoice", InvoicesListFragment.class));
+                        this, Types.ININVOICES, InvoicesListFragment.class));
         actionBar.addTab(tab,false);
 
         tab = actionBar.newTab()

@@ -2,12 +2,6 @@
 <pre-dex-items>
 
     <item
-        dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okio-1.0.0-a6a811b97ad5aaa7d586633d80717107fd38f669.jar"
-        jar="C:\Users\Арген\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.0.0\2534c458682c73f5b9871131ab3098d3f987ca3\okio-1.0.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="02534c458682c73f5b9871131ab3098d3f987ca3"/>
-    <item
         dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-7a570fae41f53c40a4c38cff4e01e4c92573d3a7.jar"
         jar="C:\Android\Android Studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
         jumboMode="false"
@@ -19,6 +13,12 @@
         jumboMode="false"
         revision="20.0.0"
         sha1="efb0a36546aa8857ab8df358b106c1817e03cbee"/>
+    <item
+        dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okio-1.0.0-a6a811b97ad5aaa7d586633d80717107fd38f669.jar"
+        jar="C:\Users\Арген\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.0.0\2534c458682c73f5b9871131ab3098d3f987ca3\okio-1.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="02534c458682c73f5b9871131ab3098d3f987ca3"/>
     <item
         dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okhttp-2.0.0-6e90be8dda50498624370d13b826b6e9f39dafb2.jar"
         jar="C:\Users\Арген\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp\2.0.0\4c8d1536dba3812cc1592090dc20c47a4ed3c35e\okhttp-2.0.0.jar"

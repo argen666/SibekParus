@@ -6,7 +6,9 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 
 import ru.sibek.parus.R;
+import ru.sibek.parus.fragment.ControlPanelFragment;
 import ru.sibek.parus.fragment.LogoFragment;
+import ru.sibek.parus.fragment.Types;
 
 /**
  * Created by argen666 on 01.11.14.
@@ -32,6 +34,11 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
 
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         // Check if the fragment is already initialized
+        if (mTag == Types.ININVOICES) {
+            ft.add(R.id.control_panel_frame, ControlPanelFragment.newInstance(Types.ININVOICES));
+        } else {
+            ft.add(R.id.control_panel_frame, ControlPanelFragment.newInstance("other"));
+        }
         Fragment logo = mActivity.getFragmentManager().findFragmentById(R.id.frame1);
         if (mFragment == null){
             mFragment = Fragment.instantiate(mActivity, mClass.getName());

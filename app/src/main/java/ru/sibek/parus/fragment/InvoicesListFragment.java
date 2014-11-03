@@ -22,10 +22,13 @@ import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.TextView;
 
 import ru.sibek.parus.R;
 //import com.elegion.newsfeed.activity.NewsActivity;
@@ -46,6 +49,13 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
         mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_feed);
         setListAdapter(mListAdapter);
         getLoaderManager().initLoader(R.id.invoices_loader, null, this);
+
+    }
+
+    private void initControlPanel() {
+        ControlPanel.cDate=(TextView) getActivity().findViewById(R.id.ininvoice_date);
+        ControlPanel.cItemName=(TextView) getActivity().findViewById(R.id.ininvoice_item_name);
+        ControlPanel.cButton=(Button) getActivity().findViewById(R.id.ininvoice_button);
     }
 
     @Override
@@ -64,6 +74,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
         if (loader.getId() == R.id.invoices_loader) {
             mListAdapter.swapCursor(data);
         }
+        initControlPanel();
     }
 
     @Override
@@ -78,6 +89,10 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
        /* final Intent intent = new Intent(getActivity(), NewsActivity.class);
         intent.putExtra(NewsActivity.EXTRA_FEED_ID, id);
         startActivity(intent);*/
+
+        ControlPanel.cItemName.setText(((TextView)view.findViewById(R.id.link)).getText());
+        ControlPanel.cDate.setText(((TextView)view.findViewById(R.id.pub_date)).getText());
+        ControlPanel.cButton.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -105,5 +120,10 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
     protected void onSyncStatusChanged(Account account, boolean isSyncActive) {
         setRefreshing(isSyncActive);
     }
-
+        static class ControlPanel
+        {
+        static TextView cDate;
+        static TextView cItemName;
+        static Button cButton;
+        }
 }
