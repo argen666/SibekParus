@@ -23,9 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
-/**
- * @author Daniel Serdyukov
- */
+
 class SwipeToDismissAnimator {
 
     public static final float NO_FLING = 0.0f;

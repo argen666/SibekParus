@@ -22,7 +22,6 @@ import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,7 +45,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_feed);
+        mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_invoice);
         setListAdapter(mListAdapter);
         getLoaderManager().initLoader(R.id.invoices_loader, null, this);
 
@@ -90,8 +89,8 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
         intent.putExtra(NewsActivity.EXTRA_FEED_ID, id);
         startActivity(intent);*/
 
-        ControlPanel.cItemName.setText(((TextView)view.findViewById(R.id.link)).getText());
-        ControlPanel.cDate.setText(((TextView)view.findViewById(R.id.pub_date)).getText());
+        ControlPanel.cItemName.setText(((TextView)view.findViewById(R.id.title)).getText());
+        ControlPanel.cDate.setText(((TextView)view.findViewById(R.id.doc_date)).getText());
         ControlPanel.cButton.setVisibility(View.VISIBLE);
     }
 

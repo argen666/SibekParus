@@ -37,9 +37,7 @@ import ru.sibek.parus.view.SwipeToDismissCallback;
 import ru.sibek.parus.view.SwipeToDismissController;
 
 
-/**
- * @author Daniel Serdyukov
- */
+
 public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.OnRefreshListener, SyncStatusObserver,
         AdapterView.OnItemClickListener, SwipeToDismissCallback {
 

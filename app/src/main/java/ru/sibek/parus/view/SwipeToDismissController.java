@@ -22,9 +22,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.AbsListView;
 
-/**
- * @author Daniel Serdyukov
- */
+
 public class SwipeToDismissController implements View.OnTouchListener, AbsListView.OnScrollListener {
 
     private final DataSetObserver mDataSetObserver = new DataSetObserverImpl();

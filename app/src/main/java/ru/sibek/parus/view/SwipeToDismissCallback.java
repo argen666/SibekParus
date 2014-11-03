@@ -18,9 +18,6 @@ package ru.sibek.parus.view;
 
 import android.view.View;
 
-/**
- * @author Daniel Serdyukov
- */
 public interface SwipeToDismissCallback {
 
     boolean canDismissView(View view, int position);

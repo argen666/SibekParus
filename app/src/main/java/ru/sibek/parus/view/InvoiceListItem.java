@@ -36,17 +36,17 @@ import ru.sibek.parus.widget.CursorBinder;
 /**
  * @author Daniel Serdyukov
  */
-public class FeedListItem extends LinearLayout implements CursorBinder {
+public class InvoiceListItem extends LinearLayout implements CursorBinder {
 
    // private FeedIconView mIcon;
 
     private TextView mTitle;
 
-    private TextView mLink;
+    private TextView mAgent;
 
-    private TextView mPubDate;
+    private TextView mDocDate;
 
-    public FeedListItem(Context context, AttributeSet attrs) {
+    public InvoiceListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -54,21 +54,22 @@ public class FeedListItem extends LinearLayout implements CursorBinder {
     @SuppressLint("StringFormatMatches")
     public void bindCursor(Cursor c) {
        // mIcon.loadIcon(Provider.getIconUrl(c));
-        final String title = InvoiceProvider.getSagent(c);
+        final String agent = InvoiceProvider.getSagent(c);
+        if (!TextUtils.isEmpty(agent)) {
+            mAgent.setText("Поставщик: "+agent);
+        } else {
+            mAgent.setText("Поставщик: "+getResources().getString(R.string.hello_world, InvoiceProvider.getId(c)));
+        }
+        final String title = InvoiceProvider.getSDoctype(c)+", "+InvoiceProvider.getSpref(c).trim()+"-"+(InvoiceProvider.getSnumb(c));
         if (!TextUtils.isEmpty(title)) {
+
             mTitle.setText(title);
         } else {
             mTitle.setText(getResources().getString(R.string.hello_world, InvoiceProvider.getId(c)));
         }
-        final String link = InvoiceProvider.getSDoctype(c)+", "+InvoiceProvider.getSpref(c).trim()+"-"+(InvoiceProvider.getSnumb(c));
-        if (!TextUtils.isEmpty(link)) {
-            mLink.setText(link);
-        } else {
-           // mLink.setText(FeedProvider.getRssLink(c));
-        }
-        final long pubDate = InvoiceProvider.getDdocdate(c);
-        if (pubDate > 0) {
-            mPubDate.setText(DateFormat.getDateTimeInstance().format(new Date(pubDate)));
+        final long docDate = InvoiceProvider.getDdocdate(c);
+        if (docDate > 0) {
+            mDocDate.setText(DateFormat.getDateTimeInstance().format(new Date(docDate)));
         }
     }
 
@@ -77,8 +78,8 @@ public class FeedListItem extends LinearLayout implements CursorBinder {
         super.onFinishInflate();
        // mIcon = (FeedIconView) findViewById(R.id.feed_icon);
         mTitle = (TextView) findViewById(R.id.title);
-        mLink = (TextView) findViewById(R.id.link);
-        mPubDate = (TextView) findViewById(R.id.pub_date);
+        mAgent = (TextView) findViewById(R.id.agent);
+        mDocDate = (TextView) findViewById(R.id.doc_date);
     }
 
 }

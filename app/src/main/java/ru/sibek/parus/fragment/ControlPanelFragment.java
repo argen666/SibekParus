@@ -86,7 +86,7 @@ public class ControlPanelFragment extends Fragment {
         itemName.setId(R.id.ininvoice_item_name);
         itemName.setGravity(Gravity.CENTER_VERTICAL);
         itemName.setLayoutParams(new LayoutParams(
-                /*LayoutParams.WRAP_CONTENT,*/(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics()),
+                /*LayoutParams.WRAP_CONTENT,*/(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()),
                 LayoutParams.MATCH_PARENT/*,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics())*/
         ));
                 //linLayout.addView(itemName);
