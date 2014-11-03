@@ -15,6 +15,7 @@ import ru.sibek.parus.fragment.Types;
  */
 public class TabListener<T extends Fragment> implements ActionBar.TabListener {
     private Fragment mFragment;
+    private ControlPanelFragment cPanel;
     private final Activity mActivity;
     private final String mTag;
     private final Class<T> mClass;
@@ -35,7 +36,13 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         // Check if the fragment is already initialized
         if (mTag == Types.ININVOICES) {
-            ft.add(R.id.control_panel_frame, ControlPanelFragment.newInstance(Types.ININVOICES));
+           // if (cPanel == null){
+            cPanel = ControlPanelFragment.newInstance(Types.ININVOICES);
+            ft.add(R.id.control_panel_frame, cPanel);
+            //}
+           // else {
+              // ft.add(R.id.control_panel_frame,cPanel);// запихать ControlPanelFr которф    предварительно сохранить
+          //  }
         } else {
             ft.add(R.id.control_panel_frame, ControlPanelFragment.newInstance("other"));
         }
@@ -66,6 +73,7 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
         if (mFragment != null) {
             // Detach the fragment, because another one is being attached
             ft.detach(mFragment);
+            ft.detach(cPanel);
         }
     }
 
