@@ -67,6 +67,8 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
             return new CursorLoader(
                     getActivity().getApplicationContext(),
                     InvoiceProvider.URI, null, null, null, InvoiceProvider.Columns.DDOC_DATE+" DESC"
+
+                    
             );
         }
         return null;
