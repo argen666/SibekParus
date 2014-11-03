@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.util.Log;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.ControlPanelFragment;
@@ -36,21 +37,32 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         // Check if the fragment is already initialized
         if (mTag == Types.ININVOICES) {
-           // if (cPanel == null){
+           if (cPanel == null){
             cPanel = ControlPanelFragment.newInstance(Types.ININVOICES);
-            ft.add(R.id.control_panel_frame, cPanel);
-            //}
-           // else {
-              // ft.add(R.id.control_panel_frame,cPanel);// запихать ControlPanelFr которф    предварительно сохранить
-          //  }
-        } else {
-            ft.add(R.id.control_panel_frame, ControlPanelFragment.newInstance("other"));
-        }
+           ft.add(R.id.control_panel_frame, cPanel);
+               Log.d("IN_NULL", cPanel.getId()+"");
+            }
+            else {
+               Log.d("IN_!NULL", cPanel.getId()+"");
+               ft.attach(cPanel);
+               //ft.attach(cPanel);
+               // запихать ControlPanelFr которф    предварительно сохранить
+            }
+        } /*else {
+            if (cPanel == null) {
+                cPanel=ControlPanelFragment.newInstance("other");
+                ft.add(R.id.control_panel_frame, cPanel);
+                Log.d("OTHER_NULL", cPanel.getId()+"");
+            } else {
+                Log.d("OTHER_!NULL", cPanel.getId()+"");
+                ft.replace(R.id.control_panel_frame,cPanel);
+            }
+        }*/
         Fragment logo = mActivity.getFragmentManager().findFragmentById(R.id.frame1);
         if (mFragment == null){
             mFragment = Fragment.instantiate(mActivity, mClass.getName());
         if (logo!=null && logo instanceof LogoFragment) {
-            ft.replace(R.id.frame1,mFragment);
+            ft.replace(R.id.frame1,mFragment,mTag);
 
         } else {
             ft.add(R.id.frame1, mFragment, mTag);
@@ -73,6 +85,9 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
         if (mFragment != null) {
             // Detach the fragment, because another one is being attached
             ft.detach(mFragment);
+
+        }
+        if (cPanel!=null){
             ft.detach(cPanel);
         }
     }

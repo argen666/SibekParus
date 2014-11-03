@@ -127,6 +127,7 @@ public class InvoiceProvider extends SQLiteTableProvider {
         String SAGENT_NAME= "SAGENT_NAME";
         String NSUMM= "NSUMM";
         String NSUMMTAX= "NSUMMTAX";
+
     }
 
 }

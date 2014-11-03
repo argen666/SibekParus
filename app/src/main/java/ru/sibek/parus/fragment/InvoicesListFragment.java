@@ -23,6 +23,7 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -52,17 +53,20 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
     }
 
     private void initControlPanel() {
-        ControlPanel.cDate=(TextView) getActivity().findViewById(R.id.ininvoice_date);
+       /* ControlPanel.cDate=(TextView) getActivity().findViewById(R.id.ininvoice_date);
         ControlPanel.cItemName=(TextView) getActivity().findViewById(R.id.ininvoice_item_name);
-        ControlPanel.cButton=(Button) getActivity().findViewById(R.id.ininvoice_button);
+        ControlPanel.cButton=(Button) getActivity().findViewById(R.id.ininvoice_button);*/
+        ControlPanel.controlFragment= (ControlPanelFragment) getFragmentManager().findFragmentById(R.id.control_panel_frame);
+        //Log.d("KKKK",cf.toString());
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         if (id == R.id.invoices_loader) {
+           // String[] projection = {InvoiceProvider.Columns._ID, InvoiceProvider.Columns.SNUMB,InvoiceProvider.Columns.SPREF + " * " + InvoiceProvider.Columns.DDOC_DATE + " as data"};
             return new CursorLoader(
                     getActivity().getApplicationContext(),
-                    InvoiceProvider.URI, null, null, null, null
+                    InvoiceProvider.URI, null, null, null, InvoiceProvider.Columns.DDOC_DATE+" DESC"
             );
         }
         return null;
@@ -89,9 +93,14 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
         intent.putExtra(NewsActivity.EXTRA_FEED_ID, id);
         startActivity(intent);*/
 
-        ControlPanel.cItemName.setText(((TextView)view.findViewById(R.id.title)).getText());
+        ControlPanel.controlFragment.addInfoToPanel(
+                ((TextView) view.findViewById(R.id.title)).getText().toString(),
+                ((TextView) view.findViewById(R.id.doc_date)).getText().toString(),
+                View.VISIBLE
+        );
+        /*ControlPanel.cItemName.setText(((TextView)view.findViewById(R.id.title)).getText());
         ControlPanel.cDate.setText(((TextView)view.findViewById(R.id.doc_date)).getText());
-        ControlPanel.cButton.setVisibility(View.VISIBLE);
+        ControlPanel.cButton.setVisibility(View.VISIBLE);*/
     }
 
     @Override
@@ -121,8 +130,9 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
     }
         static class ControlPanel
         {
-        static TextView cDate;
+            static ControlPanelFragment controlFragment;
+        /*static TextView cDate;
         static TextView cItemName;
-        static Button cButton;
+        static Button cButton;*/
         }
 }
