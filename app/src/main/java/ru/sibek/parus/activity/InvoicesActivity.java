@@ -16,6 +16,7 @@
 
 package ru.sibek.parus.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -25,7 +26,10 @@ import android.view.MenuItem;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.InvoicesListFragment;
+import ru.sibek.parus.fragment.LogoFragment;
 import ru.sibek.parus.sqlite.InvoiceProvider;
+import ru.sibek.parus.view.DummyFragment;
+import ru.sibek.parus.view.TabListener;
 
 
 /**
@@ -37,10 +41,12 @@ public class InvoicesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_single_frame);
+        showTabs();
+
         if (savedInstanceState == null) {
-            getFragmentManager()
+           getFragmentManager()
                     .beginTransaction()
-                    .add(R.id.frame1, new InvoicesListFragment())
+                    .add(R.id.frame1, new LogoFragment())
                     .commit();
         }
 
@@ -48,6 +54,40 @@ public class InvoicesActivity extends Activity {
         values.put(InvoiceProvider.Columns.SAGENT, "OOLOLO");
         getContentResolver().insert(InvoiceProvider.URI, values);*/
 
+    }
+
+    private void showTabs() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        ActionBar.Tab tab = actionBar.newTab()
+                .setText("Приход")
+                .setTabListener(new TabListener<InvoicesListFragment>(
+                        this, "invoice", InvoicesListFragment.class));
+        actionBar.addTab(tab,false);
+
+        tab = actionBar.newTab()
+                .setText("Расход")
+                .setTabListener(new TabListener<DummyFragment>(
+                        this, "outvoice", DummyFragment.class));
+        actionBar.addTab(tab);
+
+        tab = actionBar.newTab()
+                .setText("Комплект.")
+                .setTabListener(new TabListener<DummyFragment>(
+                        this, "complectation", DummyFragment.class));
+        actionBar.addTab(tab);
+
+        tab = actionBar.newTab()
+                .setText("Номенкл.")
+                .setTabListener(new TabListener<DummyFragment>(
+                        this, "nomenclature", DummyFragment.class));
+        actionBar.addTab(tab);
+
+        tab = actionBar.newTab()
+                .setText("Склады")
+                .setTabListener(new TabListener<DummyFragment>(
+                        this, "stores", DummyFragment.class));
+        actionBar.addTab(tab,false);
     }
 
     @Override
