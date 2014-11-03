@@ -36,9 +36,7 @@ import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
-/**
- * @author Daniel Serdyukov
- */
+
 public class InvoicesListFragment extends SwipeToRefreshList implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private CursorAdapter mListAdapter;
