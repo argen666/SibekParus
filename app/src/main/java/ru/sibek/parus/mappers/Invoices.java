@@ -11,7 +11,7 @@ import java.util.List;
 import ru.sibek.parus.rest.ParusDate;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 
-public class Invoices {
+public class Invoices implements IContentValues {
 
 
     @Expose
@@ -25,8 +25,7 @@ public class Invoices {
         this.items = items;
     }
 
-
-
+    @Override
     public ContentValues[] toContentValues() {
 
         final List<ContentValues> contentValuesList = new ArrayList<>();
@@ -42,6 +41,8 @@ public class Invoices {
             contentValues.put(InvoiceProvider.Columns.NSUMMTAX,item.getNsummtax());
             contentValues.put(InvoiceProvider.Columns.NSTATUS,item.getNstatus());
             contentValues.put(InvoiceProvider.Columns.SSTATUS,item.getSstatus());
+            contentValues.put(InvoiceProvider.Columns.NRN,item.getNrn());
+            contentValues.put(InvoiceProvider.Columns.NCOMPANY,item.getNcompany());
             contentValuesList.add(contentValues);
         }
 

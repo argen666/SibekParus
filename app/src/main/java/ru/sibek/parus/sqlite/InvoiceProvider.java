@@ -72,9 +72,14 @@ public class InvoiceProvider extends SQLiteTableProvider {
         return c.getInt(c.getColumnIndex(Columns.NSTATUS));
     }
 
+    public static int getNRN(Cursor c) {
+        return c.getInt(c.getColumnIndex(Columns.NRN));
+    }
+
     public static long getSnumb(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.SNUMB));
     }
+
 
     public static String getSagent(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SAGENT));
@@ -108,15 +113,17 @@ public class InvoiceProvider extends SQLiteTableProvider {
                 + Columns.DDOC_DATE + " integer, "
                 + Columns.NSTATUS + " integer, "
                 + Columns.SSTATUS + " text, "
+                + Columns.NRN+ " integer, "
                 + Columns.DWORK_DATE + " integer, "
                 + Columns.SAGENT + " text, "
                 + Columns.SAGENT_NAME + " text, "
                 + Columns.NSUMM + " integer, "
                 + Columns.NSUMMTAX + " integer)");
-        /*db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
+        //ахуенный триггер
+        db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
                 " begin " +
-                " delete from " + InvoiceSpecProvider.TABLE_NAME + " where " + InvoiceSpecProvider.Columns.FEED_ID + "=old." + Columns._ID + ";" +
-                " end;");*/
+                " delete from " + InvoiceSpecProvider.TABLE_NAME + " where " + InvoiceSpecProvider.Columns.INVOICE_ID + "=old." + Columns._ID + ";" +
+                " end;");
     }
 
     public interface Columns extends BaseColumns {
@@ -134,6 +141,7 @@ public class InvoiceProvider extends SQLiteTableProvider {
         String SAGENT_NAME= "SAGENT_NAME";
         String NSUMM= "NSUMM";
         String NSUMMTAX= "NSUMMTAX";
+        String NRN= "NRN";
 
     }
 
