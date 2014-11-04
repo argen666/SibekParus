@@ -11,11 +11,39 @@
         android:layout_height="wrap_content">
     </FrameLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/frame1"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="ru.sibek.parus.activity.InvoicesActivity">
+
+
+        <FrameLayout
+            android:id="@+id/master_frame"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/detail_frame"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:background="#eeeeee"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_height="match_parent"
+                android:layout_width="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:id="@+id/detail_empty_textView" />
         </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

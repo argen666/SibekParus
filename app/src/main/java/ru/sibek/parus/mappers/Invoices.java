@@ -41,6 +41,7 @@ public class Invoices {
             contentValues.put(InvoiceProvider.Columns.SAGENT,item.getSagent());
             contentValues.put(InvoiceProvider.Columns.NSUMMTAX,item.getNsummtax());
             contentValues.put(InvoiceProvider.Columns.NSTATUS,item.getNstatus());
+            contentValues.put(InvoiceProvider.Columns.SSTATUS,item.getSstatus());
             contentValuesList.add(contentValues);
         }
 

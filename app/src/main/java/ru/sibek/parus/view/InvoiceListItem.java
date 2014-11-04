@@ -19,8 +19,12 @@ package ru.sibek.parus.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,12 +43,12 @@ import ru.sibek.parus.widget.CursorBinder;
 public class InvoiceListItem extends LinearLayout implements CursorBinder {
 
    // private FeedIconView mIcon;
-
+    Cursor mCur;
     private TextView mTitle;
-
     private TextView mAgent;
-
     private TextView mDocDate;
+    private TextView mStatus;
+    private ImageView mInvoiceIcon;
 
     public InvoiceListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -53,6 +57,7 @@ public class InvoiceListItem extends LinearLayout implements CursorBinder {
     @Override
     @SuppressLint("StringFormatMatches")
     public void bindCursor(Cursor c) {
+        mCur=c;
        // mIcon.loadIcon(Provider.getIconUrl(c));
         final String agent = InvoiceProvider.getSagent(c);
         if (!TextUtils.isEmpty(agent)) {
@@ -71,6 +76,19 @@ public class InvoiceListItem extends LinearLayout implements CursorBinder {
         if (docDate > 0) {
             mDocDate.setText(DateFormat.getDateTimeInstance().format(new Date(docDate)));
         }
+        final String status = InvoiceProvider.getStatus(c);
+        if (!TextUtils.isEmpty(status)) {
+            mStatus.setText(/*"Статус: "+*/status);
+        } else {
+            mStatus.setText("Статус: "+getResources().getString(R.string.hello_world, InvoiceProvider.getId(c)));
+        }
+
+        final int numStatus = InvoiceProvider.getNStatus(c);
+        if (numStatus==0) {
+            mInvoiceIcon.setImageResource(R.drawable.invoice_non_accepted);
+        } else {
+            mInvoiceIcon.setImageResource(R.drawable.invoice_accepted);
+        }
     }
 
     @Override
@@ -80,6 +98,8 @@ public class InvoiceListItem extends LinearLayout implements CursorBinder {
         mTitle = (TextView) findViewById(R.id.title);
         mAgent = (TextView) findViewById(R.id.agent);
         mDocDate = (TextView) findViewById(R.id.doc_date);
+        mStatus = (TextView) findViewById(R.id.status);
+        mInvoiceIcon = (ImageView) findViewById(R.id.status_image);
     }
 
 }

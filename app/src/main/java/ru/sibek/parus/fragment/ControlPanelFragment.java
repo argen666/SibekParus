@@ -3,6 +3,7 @@ package ru.sibek.parus.fragment;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -22,6 +23,14 @@ public class ControlPanelFragment extends Fragment {
     //private static final String ARG_PARAM2 = "param2";
 
     private String type;
+    private  String itemTitle="";
+    private  String strDate="";
+    String btnActText;
+    private  int visibility=View.INVISIBLE;
+
+    TextView itemName;
+    TextView itemDate;
+    Button actionBtn;
 
     public static ControlPanelFragment newInstance(String type) {
         ControlPanelFragment fragment = new ControlPanelFragment();
@@ -62,8 +71,27 @@ public class ControlPanelFragment extends Fragment {
         return view;
     }
 
+    public void addInfoToPanel(String title, String date, int btnVisibility, String btnText)
+    {
+        itemTitle=title;
+        strDate=date;
+        btnActText = btnText;
+        visibility=btnVisibility;
+        itemName.setText(itemTitle);
+        itemDate.setText(date);
+        actionBtn.setVisibility(btnVisibility);
+        if (btnActText==null){
+            actionBtn.setText("Отработать накладную");
+            actionBtn.setEnabled(true);
+        } else {
+            actionBtn.setText(btnActText);
+            actionBtn.setEnabled(false);
+
+        }
+
+    }
     private View getIninvoicesView(View view, LinearLayout layout) {
-            TextView moduleName = new TextView(getActivity());
+        TextView moduleName = new TextView(getActivity());
         moduleName.setText(R.string.ininvoice);
         moduleName.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
         moduleName.setTextSize(26);
@@ -79,8 +107,8 @@ public class ControlPanelFragment extends Fragment {
         linLayout.setOrientation(LinearLayout.VERTICAL);
         LayoutParams linLayoutParam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         linLayout.setLayoutParams(linLayoutParam);*/
-        TextView itemName = new TextView(getActivity());
-       // itemName.setText("ВЭР 001.003.004 КЗ");
+         itemName = new TextView(getActivity());
+        itemName.setText(itemTitle);
         itemName.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
         itemName.setTextSize(26);
         itemName.setId(R.id.ininvoice_item_name);
@@ -92,19 +120,19 @@ public class ControlPanelFragment extends Fragment {
                 //linLayout.addView(itemName);
              //layout.addView(linLayout);
             layout.addView(itemName);
-        Button actionBtn = new Button(getActivity());
+        actionBtn = new Button(getActivity());
         actionBtn.setLayoutParams(new LayoutParams(
-                LayoutParams.WRAP_CONTENT,//(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics()),
+                /*LayoutParams.WRAP_CONTENT,*/(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 230, getResources().getDisplayMetrics()),
                 LayoutParams.MATCH_PARENT/*,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics())*/
                 ));
         actionBtn.setId(R.id.ininvoice_button);
         actionBtn.setText("Отработать накладную");
-        actionBtn.setVisibility(View.INVISIBLE);
+        actionBtn.setVisibility(visibility);
             layout.addView(actionBtn);
 
-        TextView itemDate = new TextView(getActivity());
+        itemDate = new TextView(getActivity());
         itemDate.setId(R.id.ininvoice_date);
-        //itemDate.setText("12.05.2014,12:10");
+        itemDate.setText(strDate);
         itemDate.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
         itemDate.setTextSize(26);
         itemDate.setPadding(50,0,0,0);

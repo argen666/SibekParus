@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.ControlPanelFragment;
@@ -16,7 +14,7 @@ import ru.sibek.parus.fragment.Types;
 /**
  * Created by argen666 on 01.11.14.
  */
-public class TabListener<T extends Fragment> implements ActionBar.TabListener {
+public class _TabListener<T extends Fragment> implements ActionBar.TabListener {
     private Fragment mFragment;
     private ControlPanelFragment cPanel;
     private final Activity mActivity;
@@ -28,7 +26,7 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
      * @param tag  The identifier tag for the fragment
      * @param clz  The fragment's Class, used to instantiate the fragment
      */
-    public TabListener(Activity activity, String tag, Class<T> clz) {
+    public _TabListener(Activity activity, String tag, Class<T> clz) {
         mActivity = activity;
         mTag = tag;
         mClass = clz;
@@ -38,7 +36,6 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
 
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         // Check if the fragment is already initialized
-        TextView emptyDetailView = ((TextView) mActivity.findViewById(R.id.detail_empty_textView));
         if (mTag == Types.ININVOICES) {
            if (cPanel == null){
             cPanel = ControlPanelFragment.newInstance(Types.ININVOICES);
@@ -51,46 +48,36 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                //ft.attach(cPanel);
                // запихать ControlPanelFr которф    предварительно сохранить
             }
-            emptyDetailView.setVisibility(View.VISIBLE);
-            emptyDetailView.setText("Выберите накладную");
-
-        } else {
-            /*if (cPanel == null) {
+        } /*else {
+            if (cPanel == null) {
                 cPanel=ControlPanelFragment.newInstance("other");
                 ft.add(R.id.control_panel_frame, cPanel);
                 Log.d("OTHER_NULL", cPanel.getId()+"");
             } else {
                 Log.d("OTHER_!NULL", cPanel.getId()+"");
                 ft.replace(R.id.control_panel_frame,cPanel);
-            }*/
-
-            emptyDetailView.setVisibility(View.VISIBLE);
-            emptyDetailView.setText("Выберите empty");
-        }
+            }
+        }*/
         Fragment logo = mActivity.getFragmentManager().findFragmentById(R.id.frame1);
         if (mFragment == null){
             mFragment = Fragment.instantiate(mActivity, mClass.getName());
         if (logo!=null && logo instanceof LogoFragment) {
-            ft.detach(logo);
-            ft.add(R.id.master_frame, mFragment, mTag);
+            ft.replace(R.id.frame1,mFragment,mTag);
 
         } else {
-            ft.add(R.id.master_frame, mFragment, mTag);
+            ft.add(R.id.frame1, mFragment, mTag);
         }
             // If not, instantiate and add it to the activity
 
         } else {
             // If it exists, simply attach it in order to show it
             if (logo!=null && logo instanceof LogoFragment) {
-                ft.detach(logo);
-                ft.attach(mFragment);
+                ft.replace(R.id.frame1,mFragment);
 
             } else {
                 ft.attach(mFragment);
             }
         }
-
-
 
     }
 

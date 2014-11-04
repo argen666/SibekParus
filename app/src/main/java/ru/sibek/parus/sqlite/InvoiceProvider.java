@@ -64,6 +64,13 @@ public class InvoiceProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SDOCTYPE));
     }
 
+    public static String getStatus(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SSTATUS));
+    }
+
+    public static int getNStatus(Cursor c) {
+        return c.getInt(c.getColumnIndex(Columns.NSTATUS));
+    }
 
     public static long getSnumb(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.SNUMB));
@@ -127,6 +134,7 @@ public class InvoiceProvider extends SQLiteTableProvider {
         String SAGENT_NAME= "SAGENT_NAME";
         String NSUMM= "NSUMM";
         String NSUMMTAX= "NSUMMTAX";
+
     }
 
 }

@@ -26,9 +26,9 @@ import android.provider.BaseColumns;
  */
 public class InvoiceSpecProvider extends SQLiteTableProvider {
 
-    public static final String TABLE_NAME = "news";
+    public static final String TABLE_NAME = "invoicesspec";
 
-    public static final Uri URI = Uri.parse("content://com.elegion.newsfeed/" + TABLE_NAME);
+    public static final Uri URI = Uri.parse("content://ru.sibek.parus/" + TABLE_NAME);
 
     public InvoiceSpecProvider() {
         super(TABLE_NAME);
