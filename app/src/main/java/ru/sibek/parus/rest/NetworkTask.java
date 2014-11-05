@@ -9,7 +9,9 @@ import android.util.Log;
 import java.lang.reflect.Method;
 
 import ru.sibek.parus.mappers.Invoices;
+import ru.sibek.parus.mappers.InvoicesSpec;
 import ru.sibek.parus.sqlite.InvoiceProvider;
+import ru.sibek.parus.sqlite.InvoiceSpecProvider;
 
 /**
  * Created by Developer on 31.10.2014.
@@ -25,7 +27,7 @@ public class NetworkTask {
     }
 
 
-    public void getData(String invoiceID, Object... params) throws RemoteException {
+    public void getData(String invoiceID, String tag, Object... params) throws RemoteException {
         Parus service = ParusService.getService();
         Method m =null;
         Object ret=null;
@@ -58,8 +60,38 @@ public class NetworkTask {
             syncResult.stats.numDeletes += provider
                     .delete(InvoiceProvider.URI, InvoiceProvider.Columns._ID + "=?", new String[]{invoiceID});
         }*/
+
+
+
+switch (tag)
+{
+    case "FULL_INSERT":
+    {
         syncResult.stats.numUpdates += provider
                 .bulkInsert(InvoiceProvider.URI, ((Invoices)ret).toContentValues());
-       // return ret;
+        break;
+    }
+    case "UPDATE_INVOICE":
+    {
+        syncResult.stats.numUpdates += provider
+                .update(InvoiceProvider.URI, ((Invoices) ret).toContentValues()[0], InvoiceProvider.Columns._ID + "=?", new String[]{invoiceID});
+        //Log.d("UPDATE_INVOICE_SIZE>>>>>>>>>>>>>",((Invoices)ret).toString());
+
+        break;
+    }
+
+    case "UPDATE_SPEC":
+    {
+        syncResult.stats.numDeletes += provider
+                .delete(InvoiceSpecProvider.URI, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{invoiceID});
+        syncResult.stats.numUpdates += provider
+                .bulkInsert(InvoiceSpecProvider.URI, ((InvoicesSpec)ret).toContentValues(invoiceID));
+        Log.d("UPDATE_SPEC_SIZE>>>>>>>>>>>>>",((InvoicesSpec)ret).toString());
+        break;
+    }
+}
+
+
+        //return ret;
     }
 }

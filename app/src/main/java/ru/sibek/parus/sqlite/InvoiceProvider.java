@@ -23,6 +23,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.account.ParusAccount;
@@ -92,12 +93,13 @@ public class InvoiceProvider extends SQLiteTableProvider {
 
     @Override
     public void onContentChanged(Context context, int operation, Bundle extras) {
-      /*  if (operation == INSERT) {
+        if (operation == INSERT) {
             extras.keySet();
             final Bundle syncExtras = new Bundle();
             syncExtras.putLong(SyncAdapter.KEY_INVOICE_ID, extras.getLong(KEY_LAST_ID, -1));
             ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
-        }*/
+            //Log.d("QQcontentChanged","insert");
+        }
     }
 
     @Override

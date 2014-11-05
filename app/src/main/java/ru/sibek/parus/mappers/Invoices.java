@@ -11,7 +11,7 @@ import java.util.List;
 import ru.sibek.parus.rest.ParusDate;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 
-public class Invoices implements IContentValues {
+public class Invoices/* implements IContentValues*/ {
 
 
     @Expose
@@ -25,7 +25,8 @@ public class Invoices implements IContentValues {
         this.items = items;
     }
 
-    @Override
+
+    //@Override
     public ContentValues[] toContentValues() {
 
         final List<ContentValues> contentValuesList = new ArrayList<>();
@@ -701,5 +702,12 @@ public class Invoices implements IContentValues {
             result = 31 * result + (doutdocDate != null ? doutdocDate.hashCode() : 0);
             return result;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Invoices{" +
+                "items=" + items.size() +
+                '}';
     }
 }

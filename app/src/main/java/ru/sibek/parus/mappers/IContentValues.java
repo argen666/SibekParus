@@ -5,4 +5,6 @@ package ru.sibek.parus.mappers;
  */
 public interface IContentValues {
     public android.content.ContentValues[] toContentValues();
+
+    public android.content.ContentValues[] toContentValues(String invoicsID);
 }

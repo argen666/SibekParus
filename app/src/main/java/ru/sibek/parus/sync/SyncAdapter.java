@@ -27,6 +27,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 
+import ru.sibek.parus.mappers.Invoices;
 import ru.sibek.parus.rest.NetworkTask;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 
@@ -55,24 +56,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void syncInvoices(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
-        //TODO: Алгоритм: Качать все накладные, после чего!  все спецификации. В спецификации ид накладной=нулл. При вставке в таблицу
-        //TODO: спепификаций срабатывает триггер который делает апдейт своего поля ИД_НАКЛАДНОЙ полученного where inv.NRN=spec.NRPN
+        //Альтернативный Алгоритм: Качать все накладные, после чего!  все спецификации. В спецификации ид накладной=нулл. При вставке в таблицу
+        // спепификаций срабатывает триггер который делает апдейт своего поля ИД_НАКЛАДНОЙ полученного where inv.NRN=spec.NRPN
+        //TODO: Если синхронизация не закончена не давать вызывать еще раз или вообще писать подождите...
         try {
             final Cursor feeds = provider.query(
                     InvoiceProvider.URI, new String[]{
-                            InvoiceProvider.Columns._ID
+                            InvoiceProvider.Columns._ID,
+                            InvoiceProvider.Columns.NRN
                     }, where, whereArgs, null
             );
 
             try {
                 if (feeds.moveToFirst()) {
-                    do {//
-
-                      //  getInvoices(feeds.getString(0),provider,syncResult);
+                    do {
+                      getInvoices(feeds.getString(0),feeds.getString(1),provider,syncResult);
                     } while (feeds.moveToNext());
                 }
                 else {
-                    getInvoices(null,provider,syncResult);
+                    getInvoices(null,null,provider,syncResult);
                 }
             } finally {
                 feeds.close();
@@ -83,35 +85,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private void syncInvoice(String invoiceID, ContentProviderClient provider, SyncResult syncResult) {
-       /* syncResult.stats.numUpdates += provider
-                .update(InvoiceProvider.URI, channelValues, FeedProvider.Columns._ID + "=?", new String[]{invoiceID});*/
-    }
-
-   /* private void syncFeed(String feedId, String feedUrl, ContentProviderClient provider, SyncResult syncResult) {
-        try {
-            final HttpURLConnection cn = (HttpURLConnection) new URL(feedUrl).openConnection();
-            try {
-                final RssFeedParser parser = new RssFeedParser(cn.getInputStream());
-                try {
-                    parser.parse(feedId, provider, syncResult);
-                } finally {
-                    parser.close();
-                }
-            } finally {
-                cn.disconnect();
-            }
-        } catch (IOException e) {
-            Log.e(SyncAdapter.class.getName(), e.getMessage(), e);
-            ++syncResult.stats.numIoExceptions;
-        }
-    }*/
-
-    private void getInvoices(String invoiceID, ContentProviderClient provider, SyncResult syncResult){
+    private void getInvoices(String invoiceID,String NRN, ContentProviderClient provider, SyncResult syncResult){
 
         NetworkTask n = new NetworkTask(provider,syncResult);
         try {
-            n.getData(invoiceID,"listInvoices","59945");
+            if (invoiceID==null){
+                n.getData(null,"FULL_INSERT","listInvoices","59945");
+                Log.d("QQ_FIRST>>>","FIRST INSERT");
+            } else {
+
+                n.getData(invoiceID,"UPDATE_INVOICE","invoiceByNRN",NRN);
+                Log.d("QQ_UPDATE>>>",invoiceID+"___"+NRN);
+                n.getData(invoiceID,"UPDATE_SPEC","invoiceSpecByNRN",NRN);
+                Log.d("QQ_UPDATE_SPEC>>>",invoiceID+"___"+NRN);
+
+            }
+
         } catch (RemoteException e) {
             e.printStackTrace();
         }
