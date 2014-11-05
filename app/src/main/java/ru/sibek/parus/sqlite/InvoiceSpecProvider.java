@@ -30,7 +30,6 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
 
     public static final Uri URI = Uri.parse("content://ru.sibek.parus/" + TABLE_NAME);
 
-    // TODO: add all getters
     public InvoiceSpecProvider() {
         super(TABLE_NAME);
     }
@@ -39,20 +38,40 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         return c.getLong(c.getColumnIndex(Columns._ID));
     }
 
-    public static String getTitle(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.SNOMEN));
-    }
-
-    public static String getAuthor(Cursor c) {
+    public static String getSNOMENNAME(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SNOMENNAME));
     }
 
-    public static String getLink(Cursor c) {
+    public static String getSSERNUMB(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SSERNUMB));
     }
 
-    public static long getPubDate(Cursor c) {
+    public static String getSSTORE(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SSTORE));
+    }
+
+    public static String getSNOTE(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SNOTE));
+    }
+
+    public static String getSNOMEN(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SNOMEN));
+    }
+
+    public static long getNQUANT(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.NQUANT));
+    }
+
+    public static long getNPRICE(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.NPRICE));
+    }
+
+    public static long getNSUMMTAX(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.NSUMMTAX));
+    }
+
+    public static long getINVOICE_ID(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.INVOICE_ID));
     }
 
     @Override

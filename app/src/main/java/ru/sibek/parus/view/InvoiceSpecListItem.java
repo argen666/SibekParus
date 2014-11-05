@@ -24,11 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ru.sibek.parus.R;
-import ru.sibek.parus.sqlite.InvoiceProvider;
+import ru.sibek.parus.sqlite.InvoiceSpecProvider;
 import ru.sibek.parus.widget.CursorBinder;
-
-import java.text.DateFormat;
-import java.util.Date;
 
 /**
  * @author Daniel Serdyukov
@@ -37,7 +34,7 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
 
     private TextView mTitle;
 
-    private TextView mAuthor;
+    private TextView mTitleNum;
 
     private TextView mPubDate;
 
@@ -48,20 +45,21 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
     @Override
     @SuppressLint("StringFormatMatches")
     public void bindCursor(Cursor c) {
-       /* mTitle.setText(InvoiceProvider.getSnumb(c));
-        mAuthor.setText(InvoiceProvider.getSpref(c));
-        final long pubDate = InvoiceProvider.getDdocdate(c));
+        mTitle.setText(InvoiceSpecProvider.getSNOMENNAME(c));
+        mTitleNum.setText(InvoiceSpecProvider.getSNOMEN(c));
+       /* final long pubDate = InvoiceProvider.getDdocdate(c));
         if (pubDate > 0) {
-            mPubDate.setText(DateFormat.getDateTimeInstance().format(new Date(pubDate)));*/
-        }
+            mPubDate.setText(DateFormat.getDateTimeInstance().format(new Date(pubDate)));
+        }*/
+    }
 
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        /*mTitle = (TextView) findViewById(R.id.title);
-        mAuthor = (TextView) findViewById(R.id.author);
-        mPubDate = (TextView) findViewById(R.id.pub_date);*/
+        mTitle = (TextView) findViewById(R.id.title_spec);
+        mTitleNum = (TextView) findViewById(R.id.title_spec_number);
+       // mPubDate = (TextView) findViewById(R.id.pub_date);
     }
 
 }

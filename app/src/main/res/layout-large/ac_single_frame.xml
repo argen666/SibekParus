@@ -25,24 +25,30 @@
             android:layout_width="0dp"
             android:layout_height="match_parent" />
 
+        <View
+            android:layout_height="match_parent"
+            android:layout_width="1dp"
+            android:background="@android:color/darker_gray"/>
+
         <FrameLayout
             android:id="@+id/detail_frame"
             android:layout_weight="2"
             android:layout_width="0dp"
             android:background="#eeeeee"
             android:layout_height="match_parent">
+        <!--<fragment
+            class="ru.sibek.parus.fragment.InvoicesSpecFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/li_invoice_spec">
 
-            <View
-                android:layout_height="match_parent"
-                android:layout_width="1dp"
-                android:background="@android:color/darker_gray"/>
-
-            <TextView
+            </fragment>-->
+          <!--  <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:id="@+id/detail_empty_textView" />
+                android:id="@+id/detail_empty_textView" /> -->
         </FrameLayout>
     </LinearLayout>
 

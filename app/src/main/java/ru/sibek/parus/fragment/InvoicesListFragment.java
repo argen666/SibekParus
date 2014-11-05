@@ -17,9 +17,11 @@
 package ru.sibek.parus.fragment;
 
 import android.accounts.Account;
+import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import android.widget.TextView;
 import ru.sibek.parus.R;
 //import com.elegion.newsfeed.activity.NewsActivity;
 import ru.sibek.parus.account.ParusAccount;
+import ru.sibek.parus.activity.SpecActivity;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
@@ -40,6 +43,7 @@ import ru.sibek.parus.widget.CursorBinderAdapter;
 public class InvoicesListFragment extends SwipeToRefreshList implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private CursorAdapter mListAdapter;
+    private InvoicesSpecFragment specFragment;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -55,6 +59,8 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
         ControlPanel.cItemName=(TextView) getActivity().findViewById(R.id.ininvoice_item_name);
         ControlPanel.cButton=(Button) getActivity().findViewById(R.id.ininvoice_button);*/
         ControlPanel.controlFragment= (ControlPanelFragment) getFragmentManager().findFragmentById(R.id.control_panel_frame);
+
+        specFragment = (InvoicesSpecFragment) getFragmentManager().findFragmentById(R.id.detail_frame);
         //Log.d("KKKK",cf.toString());
     }
 
@@ -98,11 +104,11 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
         intent.putExtra(NewsActivity.EXTRA_FEED_ID, id);
         startActivity(intent);*/
     Log.d("ITEM_CLICK: ","pos: "+position+"; id= "+id);
-        Cursor feed = mListAdapter.getCursor();
+        Cursor curInv = mListAdapter.getCursor();
        // feed = getActivity().getContentResolver().query(InvoiceProvider.URI, new String[]{InvoiceProvider.Columns.SSTATUS} ,InvoiceProvider.Columns._ID+ "=?",new String[]{String.valueOf(id)},null);
-        Log.d("ITEM_CLICK: ",InvoiceProvider.getNStatus(feed)+"");
+        Log.d("ITEM_CLICK: ",InvoiceProvider.getNStatus(curInv)+"");
         String btnText=null;
-        if (InvoiceProvider.getNStatus(feed)!=0){
+        if (InvoiceProvider.getNStatus(curInv)!=0){
             btnText="Отработано";
         }
         ControlPanel.controlFragment.addInfoToPanel(
@@ -110,6 +116,22 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
                 ((TextView) view.findViewById(R.id.doc_date)).getText().toString(),
                 View.VISIBLE,btnText
         );
+
+      /*  if (specFragment==null)
+        {
+            Log.d("REPLACE!!!","!!!!!");*/
+           /* final Intent intent = new Intent(getActivity(), SpecActivity.class);
+            intent.putExtra(SpecActivity.EXTRA_FEED_ID, id);
+            startActivity(intent);*/
+
+        //TODO: check this
+           getFragmentManager().beginTransaction().replace(R.id.detail_frame, InvoicesSpecFragment.newInstance(id)).commit();
+       /* } else {
+           // getFragmentManager().beginTransaction()
+            specFragment.setId(id);
+            getFragmentManager().beginTransaction().replace(R.id.detail_frame, specFragment).commit();
+        }*/
+
         /*ControlPanel.cItemName.setText(((TextView)view.findViewById(R.id.title)).getText());
         ControlPanel.cDate.setText(((TextView)view.findViewById(R.id.doc_date)).getText());
         ControlPanel.cButton.setVisibility(View.VISIBLE);*/

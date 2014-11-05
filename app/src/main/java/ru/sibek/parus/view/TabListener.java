@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.ControlPanelFragment;
+import ru.sibek.parus.fragment.InvoicesSpecFragment;
 import ru.sibek.parus.fragment.LogoFragment;
 import ru.sibek.parus.fragment.Types;
 
@@ -38,7 +39,7 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
 
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         // Check if the fragment is already initialized
-        TextView emptyDetailView = ((TextView) mActivity.findViewById(R.id.detail_empty_textView));
+       // TextView emptyDetailView = ((TextView) mActivity.findViewById(R.id.detail_empty_textView));
         if (mTag == Types.ININVOICES) {
            if (cPanel == null){
             cPanel = ControlPanelFragment.newInstance(Types.ININVOICES);
@@ -51,8 +52,8 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                //ft.attach(cPanel);
                // запихать ControlPanelFr которф    предварительно сохранить
             }
-            emptyDetailView.setVisibility(View.VISIBLE);
-            emptyDetailView.setText("Выберите накладную");
+       //     emptyDetailView.setVisibility(View.VISIBLE);
+     //       emptyDetailView.setText("Выберите накладную");
 
         } else {
             /*if (cPanel == null) {
@@ -64,8 +65,8 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                 ft.replace(R.id.control_panel_frame,cPanel);
             }*/
 
-            emptyDetailView.setVisibility(View.VISIBLE);
-            emptyDetailView.setText("Выберите empty");
+     //       emptyDetailView.setVisibility(View.VISIBLE);
+     //       emptyDetailView.setText("Выберите empty");
         }
         Fragment logo = mActivity.getFragmentManager().findFragmentById(R.id.frame1);
         if (mFragment == null){

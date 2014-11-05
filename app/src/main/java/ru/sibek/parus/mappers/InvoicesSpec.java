@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
 import ru.sibek.parus.rest.ParusDate;
 import ru.sibek.parus.sqlite.InvoiceSpecProvider;
 
-public class InvoicesSpec implements IContentValues {
+public class InvoicesSpec /*implements IContentValues*/ {
 
     @Expose
     private List<ItemInvoiceSpec> items = new ArrayList<ItemInvoiceSpec>();
@@ -24,25 +24,25 @@ public class InvoicesSpec implements IContentValues {
         this.items = items;
     }
 
-    @Override
-    public ContentValues[] toContentValues() {
+    //@Override
+    public ContentValues[] toContentValues(String invoiceID) {
         final List<ContentValues> contentValuesList = new ArrayList<>();
         List<ItemInvoiceSpec> items = this.getItems();
         for (ItemInvoiceSpec item:items)
         {
-            // TODO: put all rows
+
             ContentValues contentValues = new ContentValues();
-         //   contentValues.put(InvoiceSpecProvider.Columns.INVOICE_ID,item.InvoiceID);
-          /*  contentValues.put(InvoiceSpecProvider.Columns.SDOCTYPE,item.getSdoctype());
-            contentValues.put(InvoiceSpecProvider.Columns.SPREF,item.getSpref());
-            contentValues.put(InvoiceSpecProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
-            contentValues.put(InvoiceSpecProvider.Columns.SAGENT,item.getSagent());
+            contentValues.put(InvoiceSpecProvider.Columns.INVOICE_ID, invoiceID);
+            contentValues.put(InvoiceSpecProvider.Columns.SNOMEN,item.getSnomen());
+            contentValues.put(InvoiceSpecProvider.Columns.SNOMENNAME,item.getSnomenname());
+            //contentValues.put(InvoiceSpecProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
+            contentValues.put(InvoiceSpecProvider.Columns.SSERNUMB,item.getSsernumb());
             contentValues.put(InvoiceSpecProvider.Columns.NSUMMTAX,item.getNsummtax());
-            contentValues.put(InvoiceSpecProvider.Columns.NSTATUS,item.getNstatus());
-            contentValues.put(InvoiceSpecProvider.Columns.SSTATUS,item.getSstatus());
-            contentValues.put(InvoiceSpecProvider.Columns.NRN,item.getNrn());
-            contentValues.put(InvoiceSpecProvider.Columns.NCOMPANY,item.getNcompany());
-            contentValuesList.add(contentValues);*/
+            contentValues.put(InvoiceSpecProvider.Columns.NQUANT,item.getNquant());
+            contentValues.put(InvoiceSpecProvider.Columns.NPRICE,item.getNprice());
+            contentValues.put(InvoiceSpecProvider.Columns.SSTORE,item.getSstore());
+            contentValues.put(InvoiceSpecProvider.Columns.SNOTE,item.getSnote());
+            contentValuesList.add(contentValues);
         }
 
         return contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
@@ -63,6 +63,10 @@ public class InvoicesSpec implements IContentValues {
         private Integer nnomen;
         @Expose
         private String snomen;
+        @Expose
+        private String snote;
+        @Expose
+        private String ssernumb;
         @Expose
         private String snomenname;
         @SerializedName("nnomen_type")
@@ -130,6 +134,22 @@ public class InvoicesSpec implements IContentValues {
         private Integer nmuSize;
         @Expose
         private Integer ndiscount;
+
+        public String getSnote() {
+            return snote;
+        }
+
+        public void setSnote(String snote) {
+            this.snote = snote;
+        }
+
+        public String getSsernumb() {
+            return ssernumb;
+        }
+
+        public void setSsernumb(String ssernumb) {
+            this.ssernumb = ssernumb;
+        }
 
         /**
          * @return The nrn
@@ -607,5 +627,12 @@ public class InvoicesSpec implements IContentValues {
             this.ndiscount = ndiscount;
         }
 
+    }
+
+    @Override
+    public String toString() {
+        return "InvoicesSpec{" +
+                "items=" + items.size() +
+                '}';
     }
 }
