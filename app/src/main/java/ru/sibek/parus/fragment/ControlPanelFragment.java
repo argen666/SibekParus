@@ -25,6 +25,7 @@ public class ControlPanelFragment extends Fragment {
     private String type;
     private  String itemTitle="";
     private  String strDate="";
+    String btnActText;
     private  int visibility=View.INVISIBLE;
 
     TextView itemName;
@@ -70,14 +71,23 @@ public class ControlPanelFragment extends Fragment {
         return view;
     }
 
-    public void addInfoToPanel(String title, String date, int btnVisibility)
+    public void addInfoToPanel(String title, String date, int btnVisibility, String btnText)
     {
         itemTitle=title;
         strDate=date;
+        btnActText = btnText;
         visibility=btnVisibility;
         itemName.setText(itemTitle);
         itemDate.setText(date);
         actionBtn.setVisibility(btnVisibility);
+        if (btnActText==null){
+            actionBtn.setText("Отработать накладную");
+            actionBtn.setEnabled(true);
+        } else {
+            actionBtn.setText(btnActText);
+            actionBtn.setEnabled(false);
+
+        }
 
     }
     private View getIninvoicesView(View view, LinearLayout layout) {
@@ -112,7 +122,7 @@ public class ControlPanelFragment extends Fragment {
             layout.addView(itemName);
         actionBtn = new Button(getActivity());
         actionBtn.setLayoutParams(new LayoutParams(
-                LayoutParams.WRAP_CONTENT,//(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics()),
+                /*LayoutParams.WRAP_CONTENT,*/(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 230, getResources().getDisplayMetrics()),
                 LayoutParams.MATCH_PARENT/*,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics())*/
                 ));
         actionBtn.setId(R.id.ininvoice_button);

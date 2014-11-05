@@ -12,6 +12,17 @@
         android:layout_height="48dp"
         android:contentDescription="Icon"
         android:src="@drawable/ic_launcher" /> -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/status_image" />
+
 
     <LinearLayout
         android:layout_width="0dp"
@@ -19,6 +30,8 @@
         android:layout_marginLeft="8dp"
         android:layout_weight="1"
         android:orientation="vertical">
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,15 +58,33 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/agent"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            android:ellipsize="end"
-            android:textSize="18sp"
-            android:singleLine="true" />
+            <TextView
+                android:id="@+id/agent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textSize="18sp"
+                android:singleLine="true" />
 
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:singleLine="true"
+                android:textColor="@android:color/holo_red_dark" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
     </LinearLayout>
 
 </ru.sibek.parus.view.InvoiceListItem>

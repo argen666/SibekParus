@@ -55,6 +55,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void syncInvoices(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
+        //TODO: Алгоритм: Качать все накладные, после чего!  все спецификации. В спецификации ид накладной=нулл. При вставке в таблицу
+        //TODO: спепификаций срабатывает триггер который делает апдейт своего поля ИД_НАКЛАДНОЙ полученного where inv.NRN=spec.NRPN
         try {
             final Cursor feeds = provider.query(
                     InvoiceProvider.URI, new String[]{
@@ -65,6 +67,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             try {
                 if (feeds.moveToFirst()) {
                     do {//
+
                       //  getInvoices(feeds.getString(0),provider,syncResult);
                     } while (feeds.moveToNext());
                 }

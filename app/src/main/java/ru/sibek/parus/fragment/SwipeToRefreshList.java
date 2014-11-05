@@ -65,7 +65,7 @@ public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.O
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light
         );
-        mSwipeToDismissController = new SwipeToDismissController(mListView, this);
+       // mSwipeToDismissController = new SwipeToDismissController(mListView, this);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.O
                 this
         );
         mListView.setOnItemClickListener(this);
-        mListView.setOnTouchListener(mSwipeToDismissController);
+       // mListView.setOnTouchListener(mSwipeToDismissController);
         mListView.setOnScrollListener(mSwipeToDismissController);
     }
 
@@ -124,13 +124,13 @@ public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.O
     }
 
     public void setListAdapter(ListAdapter adapter) {
-        final DataSetObserver dataSetObserver = mSwipeToDismissController.getDataSetObserver();
+//        final DataSetObserver dataSetObserver = mSwipeToDismissController.getDataSetObserver();
         final ListAdapter oldAdapter = mListView.getAdapter();
         if (oldAdapter != null) {
-            oldAdapter.unregisterDataSetObserver(dataSetObserver);
+ //           oldAdapter.unregisterDataSetObserver(dataSetObserver);
         }
         mListView.setAdapter(adapter);
-        adapter.registerDataSetObserver(dataSetObserver);
+  //      adapter.registerDataSetObserver(dataSetObserver);
     }
 
     protected void onRefresh(Account account) {

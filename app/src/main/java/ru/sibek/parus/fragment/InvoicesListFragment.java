@@ -64,7 +64,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
            // String[] projection = {InvoiceProvider.Columns._ID, InvoiceProvider.Columns.SNUMB,InvoiceProvider.Columns.SPREF + " * " + InvoiceProvider.Columns.DDOC_DATE + " as data"};
             return new CursorLoader(
                     getActivity().getApplicationContext(),
-                    InvoiceProvider.URI, null, null, null, InvoiceProvider.Columns.DDOC_DATE+" DESC"
+                    InvoiceProvider.URI, null, null, null, InvoiceProvider.Columns.NSTATUS+" ASC, "+ InvoiceProvider.Columns.DDOC_DATE+" DESC"
 
 
             );
@@ -74,10 +74,15 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        initControlPanel();
+
+        //TextView emptyDetailView = ((TextView) getActivity().findViewById(R.id.detail_empty_textView));
+       // emptyDetailView.setVisibility(View.VISIBLE);
         if (loader.getId() == R.id.invoices_loader) {
             mListAdapter.swapCursor(data);
+            //emptyDetailView.setText("Выберите накладную");
         }
-        initControlPanel();
+
     }
 
     @Override
@@ -92,11 +97,18 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
        /* final Intent intent = new Intent(getActivity(), NewsActivity.class);
         intent.putExtra(NewsActivity.EXTRA_FEED_ID, id);
         startActivity(intent);*/
-
+    Log.d("ITEM_CLICK: ","pos: "+position+"; id= "+id);
+        Cursor feed = mListAdapter.getCursor();
+       // feed = getActivity().getContentResolver().query(InvoiceProvider.URI, new String[]{InvoiceProvider.Columns.SSTATUS} ,InvoiceProvider.Columns._ID+ "=?",new String[]{String.valueOf(id)},null);
+        Log.d("ITEM_CLICK: ",InvoiceProvider.getNStatus(feed)+"");
+        String btnText=null;
+        if (InvoiceProvider.getNStatus(feed)!=0){
+            btnText="Отработано";
+        }
         ControlPanel.controlFragment.addInfoToPanel(
                 ((TextView) view.findViewById(R.id.title)).getText().toString(),
                 ((TextView) view.findViewById(R.id.doc_date)).getText().toString(),
-                View.VISIBLE
+                View.VISIBLE,btnText
         );
         /*ControlPanel.cItemName.setText(((TextView)view.findViewById(R.id.title)).getText());
         ControlPanel.cDate.setText(((TextView)view.findViewById(R.id.doc_date)).getText());

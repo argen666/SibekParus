@@ -26,10 +26,11 @@ import android.provider.BaseColumns;
  */
 public class InvoiceSpecProvider extends SQLiteTableProvider {
 
-    public static final String TABLE_NAME = "news";
+    public static final String TABLE_NAME = "invoicesspec";
 
-    public static final Uri URI = Uri.parse("content://com.elegion.newsfeed/" + TABLE_NAME);
+    public static final Uri URI = Uri.parse("content://ru.sibek.parus/" + TABLE_NAME);
 
+    // TODO: add all getters
     public InvoiceSpecProvider() {
         super(TABLE_NAME);
     }
@@ -39,19 +40,19 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
     }
 
     public static String getTitle(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.TITLE));
+        return c.getString(c.getColumnIndex(Columns.SNOMEN));
     }
 
     public static String getAuthor(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.AUTHOR));
+        return c.getString(c.getColumnIndex(Columns.SNOMENNAME));
     }
 
     public static String getLink(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.LINK));
+        return c.getString(c.getColumnIndex(Columns.SSERNUMB));
     }
 
     public static long getPubDate(Cursor c) {
-        return c.getLong(c.getColumnIndex(Columns.PUB_DATE));
+        return c.getLong(c.getColumnIndex(Columns.NQUANT));
     }
 
     @Override
@@ -63,22 +64,36 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table if not exists " + TABLE_NAME +
                 "(" + Columns._ID + " integer primary key on conflict replace, "
-                + Columns.TITLE + " text, "
-                + Columns.LINK + " text, "
-                + Columns.AUTHOR + " text, "
-                + Columns.PUB_DATE + " integer, "
-                + Columns.FEED_ID + " integer);");
+                + Columns.SNOMEN + " text, "
+                + Columns.SNOMENNAME + " text, "
+                + Columns.SSERNUMB + " text, "
+                + Columns.SSTORE + " text, "
+                + Columns.SNOTE + " text, "
+                + Columns.NQUANT + " integer, "
+                + Columns.NPRICE + " integer, "
+                + Columns.NSUMMTAX + " integer, "
+                + Columns.INVOICE_ID + " integer);");
         db.execSQL("create index if not exists " +
-                TABLE_NAME + "_" + Columns.FEED_ID + "_index" +
-                " on " + TABLE_NAME + "(" + Columns.FEED_ID + ");");
+                TABLE_NAME + "_" + Columns.INVOICE_ID + "_index" +
+                " on " + TABLE_NAME + "(" + Columns.INVOICE_ID + ");");
     }
 
     public interface Columns extends BaseColumns {
-        String TITLE = "title";
+        String SNOMEN= "SNOMEN";
+        String SNOMENNAME= "SNOMENNAME";
+        String SSERNUMB= "SSERNUMB";
+        String SSTORE= "SSTORE";
+        String SNOTE= "SNOTE";
+        String NQUANT= "NQUANT";
+        String NPRICE= "NPRICE";
+        String NSUMMTAX= "NSUMMTAX";
+        String INVOICE_ID="INVOICE_ID";
+
+        /*String TITLE = "title";
         String LINK = "link";
         String PUB_DATE = "pubDate";
         String AUTHOR = "author";
-        String FEED_ID = "feedId";
+        String FEED_ID = "feedId";*/
     }
 
 }

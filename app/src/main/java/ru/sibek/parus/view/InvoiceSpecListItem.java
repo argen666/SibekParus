@@ -33,7 +33,7 @@ import java.util.Date;
 /**
  * @author Daniel Serdyukov
  */
-public class NewsListItem extends LinearLayout implements CursorBinder {
+public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
 
     private TextView mTitle;
 
@@ -41,7 +41,7 @@ public class NewsListItem extends LinearLayout implements CursorBinder {
 
     private TextView mPubDate;
 
-    public NewsListItem(Context context, AttributeSet attrs) {
+    public InvoiceSpecListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
