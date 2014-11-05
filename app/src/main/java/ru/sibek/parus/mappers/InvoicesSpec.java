@@ -99,7 +99,7 @@ public class InvoicesSpec /*implements IContentValues*/ {
         @Expose
         private Integer nmMeasCategory;
         @Expose
-        private Integer nquant;
+        private Double nquant;
         @Expose
         private Integer nquantalt;
         @SerializedName("nquant_volume")
@@ -420,14 +420,14 @@ public class InvoicesSpec /*implements IContentValues*/ {
         /**
          * @return The nquant
          */
-        public Integer getNquant() {
+        public Double getNquant() {
             return nquant;
         }
 
         /**
          * @param nquant The nquant
          */
-        public void setNquant(Integer nquant) {
+        public void setNquant(Double nquant) {
             this.nquant = nquant;
         }
 

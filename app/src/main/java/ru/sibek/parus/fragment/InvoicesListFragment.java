@@ -35,7 +35,7 @@ import android.widget.TextView;
 import ru.sibek.parus.R;
 //import com.elegion.newsfeed.activity.NewsActivity;
 import ru.sibek.parus.account.ParusAccount;
-import ru.sibek.parus.activity.SpecActivity;
+//import ru.sibek.parus.activity.SpecActivity;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 

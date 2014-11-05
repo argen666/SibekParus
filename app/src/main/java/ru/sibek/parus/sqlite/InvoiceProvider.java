@@ -99,6 +99,7 @@ public class InvoiceProvider extends SQLiteTableProvider {
             syncExtras.putLong(SyncAdapter.KEY_INVOICE_ID, extras.getLong(KEY_LAST_ID, -1));
             ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
             //Log.d("QQcontentChanged","insert");
+
         }
     }
 

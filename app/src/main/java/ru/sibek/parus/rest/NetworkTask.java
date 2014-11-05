@@ -44,13 +44,15 @@ public class NetworkTask {
 
         try {
             if (params.length>1){
-                ret= m.invoke(service,params[1]);
+                ret= m.invoke(service,(String)params[1]);
+                Log.d("PARAM>>>>>",(String)params[1]);
             }
             else{
                 ret= m.invoke(service);
             }
             //inv = service.listInv("59945");
         } catch (Exception e) {
+            e.printStackTrace();
             Log.d("MyParusExp", e.toString());
         }
 
@@ -82,11 +84,13 @@ switch (tag)
 
     case "UPDATE_SPEC":
     {
+        Log.d("UPDATE_SPEC_SIZE>>>>>>>>>>>>>",((InvoicesSpec)ret).toString());
         syncResult.stats.numDeletes += provider
                 .delete(InvoiceSpecProvider.URI, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{invoiceID});
+        //Log.d("invoiceID>>>>>",invoiceID);
         syncResult.stats.numUpdates += provider
                 .bulkInsert(InvoiceSpecProvider.URI, ((InvoicesSpec)ret).toContentValues(invoiceID));
-        Log.d("UPDATE_SPEC_SIZE>>>>>>>>>>>>>",((InvoicesSpec)ret).toString());
+
         break;
     }
 }
