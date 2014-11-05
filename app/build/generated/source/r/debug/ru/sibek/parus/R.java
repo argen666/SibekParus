@@ -58,7 +58,7 @@ public final class R {
     }
     public static final class id {
         public static final int action_settings=0x7f070018;
-        public static final int agent=0x7f070013;
+        public static final int agent=0x7f070015;
         public static final int container=0x7f07000f;
         public static final int control_panel1=0x7f07000e;
         public static final int control_panel_frame=0x7f070006;
@@ -78,9 +78,9 @@ public final class R {
         public static final int master_frame=0x7f070008;
         public static final int refresh_layout=0x7f07000d;
         public static final int status=0x7f070016;
-        public static final int status_image=0x7f070015;
+        public static final int status_image=0x7f070012;
         public static final int text=0x7f07000c;
-        public static final int title=0x7f070012;
+        public static final int title=0x7f070013;
         public static final int tvName=0x7f070017;
     }
     public static final class layout {
@@ -91,8 +91,8 @@ public final class R {
         public static final int fragment_control_panel=0x7f030004;
         public static final int fragment_logo=0x7f030005;
         public static final int in_invoices=0x7f030006;
-        public static final int li_feed=0x7f030007;
-        public static final int li_invoice=0x7f030008;
+        public static final int li_invoice=0x7f030007;
+        public static final int li_invoice_spec=0x7f030008;
         public static final int list_item=0x7f030009;
     }
     public static final class menu {
