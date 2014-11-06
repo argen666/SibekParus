@@ -8,8 +8,7 @@
     <FrameLayout
         android:id="@+id/control_panel_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
+        android:layout_height="wrap_content"></FrameLayout>
 
     <LinearLayout
         android:id="@+id/frame1"
@@ -28,7 +27,7 @@
         <View
             android:layout_height="match_parent"
             android:layout_width="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray" />
 
         <FrameLayout
             android:id="@+id/detail_frame"
@@ -36,19 +35,20 @@
             android:layout_width="0dp"
             android:background="#eeeeee"
             android:layout_height="match_parent">
-        <!--<fragment
-            class="ru.sibek.parus.fragment.InvoicesSpecFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout="@layout/li_invoice_spec">
+            <!--<fragment
+                class="ru.sibek.parus.fragment.InvoicesSpecFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:layout="@layout/li_invoice_spec">
 
-            </fragment>-->
-          <!--  <TextView
+                </fragment>-->
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="gone"
-                android:id="@+id/detail_empty_textView" /> -->
+                android:visibility="visible"
+                android:text="Выберите элемент"
+                android:id="@+id/detail_empty_textView" />
         </FrameLayout>
     </LinearLayout>
 

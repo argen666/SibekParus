@@ -1,7 +1,6 @@
 package ru.sibek.parus.rest;
 
 import android.content.ContentProviderClient;
-import android.content.ContentValues;
 import android.content.SyncResult;
 import android.os.RemoteException;
 import android.util.Log;
@@ -18,42 +17,41 @@ import ru.sibek.parus.sqlite.InvoiceSpecProvider;
  */
 public class NetworkTask {
 
-    private ContentProviderClient provider=null;
-    private SyncResult syncResult=null;
+    private ContentProviderClient provider = null;
+    private SyncResult syncResult = null;
 
     public NetworkTask(ContentProviderClient provider, SyncResult syncResult) {
-        this.provider=provider;
-        this.syncResult=syncResult;
+        this.provider = provider;
+        this.syncResult = syncResult;
     }
 
 
     public void getData(String invoiceID, String tag, Object... params) throws RemoteException {
         Parus service = ParusService.getService();
-        Method m =null;
-        Object ret=null;
-        Class[] paramTypes=new Class[params.length-1];
-        for (short i=1;i<params.length;i++)
-        {
-            paramTypes[i-1]=params[i].getClass();
+        Method m = null;
+        Object ret = null;
+        Class[] paramTypes = new Class[params.length - 1];
+        for (short i = 1; i < params.length; i++) {
+            paramTypes[i - 1] = params[i].getClass();
         }
         try {
-            m =  Parus.class.getDeclaredMethod((String)params[0],paramTypes);
+            m = Parus.class.getDeclaredMethod((String) params[0], paramTypes);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
 
         try {
-            if (params.length>1){
-                ret= m.invoke(service,(String)params[1]);
-                Log.d("PARAM>>>>>",(String)params[1]);
-            }
-            else{
-                ret= m.invoke(service);
+            if (params.length > 1) {
+                ret = m.invoke(service, (String) params[1]);
+                Log.d("PARAM>>>>>", (String) params[1]);
+            } else {
+                ret = m.invoke(service);
             }
             //inv = service.listInv("59945");
         } catch (Exception e) {
+            // TODO: тут может случаться говно...
             e.printStackTrace();
-            Log.d("MyParusExp", e.toString());
+            Log.d(Log.DEBUG + "MyParusExp", e.toString());
         }
 
         /*syncResult.stats.numUpdates += provider.u
@@ -64,36 +62,31 @@ public class NetworkTask {
         }*/
 
 
+        switch (tag) {
+            case "FULL_INSERT": {
+                syncResult.stats.numUpdates += provider
+                        .bulkInsert(InvoiceProvider.URI, ((Invoices) ret).toContentValues());
+                break;
+            }
+            case "UPDATE_INVOICE": {
+                syncResult.stats.numUpdates += provider
+                        .update(InvoiceProvider.URI, ((Invoices) ret).toContentValues()[0], InvoiceProvider.Columns._ID + "=?", new String[]{invoiceID});
+                //Log.d("UPDATE_INVOICE_SIZE>>>>>>>>>>>>>",((Invoices)ret).toString());
 
-switch (tag)
-{
-    case "FULL_INSERT":
-    {
-        syncResult.stats.numUpdates += provider
-                .bulkInsert(InvoiceProvider.URI, ((Invoices)ret).toContentValues());
-        break;
-    }
-    case "UPDATE_INVOICE":
-    {
-        syncResult.stats.numUpdates += provider
-                .update(InvoiceProvider.URI, ((Invoices) ret).toContentValues()[0], InvoiceProvider.Columns._ID + "=?", new String[]{invoiceID});
-        //Log.d("UPDATE_INVOICE_SIZE>>>>>>>>>>>>>",((Invoices)ret).toString());
+                break;
+            }
 
-        break;
-    }
+            case "UPDATE_SPEC": {
+                Log.d("UPDATE_SPEC_SIZE>>>>>>>>>>>>>", ((InvoicesSpec) ret).toString());
+                syncResult.stats.numDeletes += provider
+                        .delete(InvoiceSpecProvider.URI, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{invoiceID});
+                //Log.d("invoiceID>>>>>",invoiceID);
+                syncResult.stats.numUpdates += provider
+                        .bulkInsert(InvoiceSpecProvider.URI, ((InvoicesSpec) ret).toContentValues(invoiceID));
 
-    case "UPDATE_SPEC":
-    {
-        Log.d("UPDATE_SPEC_SIZE>>>>>>>>>>>>>",((InvoicesSpec)ret).toString());
-        syncResult.stats.numDeletes += provider
-                .delete(InvoiceSpecProvider.URI, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{invoiceID});
-        //Log.d("invoiceID>>>>>",invoiceID);
-        syncResult.stats.numUpdates += provider
-                .bulkInsert(InvoiceSpecProvider.URI, ((InvoicesSpec)ret).toContentValues(invoiceID));
-
-        break;
-    }
-}
+                break;
+            }
+        }
 
 
         //return ret;

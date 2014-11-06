@@ -1,14 +1,12 @@
 package ru.sibek.parus.fragment;
 
 import android.accounts.Account;
-import android.app.Application;
+import android.app.FragmentManager;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +14,6 @@ import android.widget.CursorAdapter;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
-import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.sqlite.InvoiceSpecProvider;
 import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.widget.CursorBinderAdapter;
@@ -88,6 +85,13 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
         if (news.moveToPosition(position)) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(InvoiceSpecProvider.getLink(news))));
         }*/
+        //TODO: check this!
+        final FragmentManager fm = getActivity().getFragmentManager();
+        final InvoicesSpecFragment specFragment = (InvoicesSpecFragment) fm.findFragmentById(R.id.detail_frame);
+        //fm.beginTransaction().detach(specFragment).commit();
+        final SpecDetailFragment specDetail = new SpecDetailFragment();
+        fm.beginTransaction().replace(R.id.detail_frame, specDetail).addToBackStack("specDetailFragment").commit();
+
     }
 
     @Override

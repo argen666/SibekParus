@@ -1,11 +1,9 @@
 package ru.sibek.parus.fragment;
 
 import android.app.Activity;
-import android.graphics.Typeface;
-import android.net.Uri;
-import android.opengl.Visibility;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.graphics.Typeface;
+import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -13,9 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+
 import ru.sibek.parus.R;
 
 public class ControlPanelFragment extends Fragment {
@@ -71,7 +70,7 @@ public class ControlPanelFragment extends Fragment {
         return view;
     }
 
-    public void addInfoToPanel(String title, String date, int btnVisibility, String btnText)
+    public void addInfoToPanel(String title, String date, int btnVisibility, String btnText, Object btnTag)
     {
         itemTitle=title;
         strDate=date;
@@ -80,6 +79,8 @@ public class ControlPanelFragment extends Fragment {
         itemName.setText(itemTitle);
         itemDate.setText(date);
         actionBtn.setVisibility(btnVisibility);
+        actionBtn.setTag(btnTag);
+        actionBtn.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         if (btnActText==null){
             actionBtn.setText("Отработать накладную");
             actionBtn.setEnabled(true);
@@ -93,12 +94,12 @@ public class ControlPanelFragment extends Fragment {
     private View getIninvoicesView(View view, LinearLayout layout) {
         TextView moduleName = new TextView(getActivity());
         moduleName.setText(R.string.ininvoice);
-        moduleName.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+        moduleName.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         moduleName.setTextSize(26);
         moduleName.setId(R.id.ininvoice_module_name);
         moduleName.setGravity(Gravity.CENTER_VERTICAL);
         moduleName.setLayoutParams(new LayoutParams(
-                /*LayoutParams.WRAP_CONTENT,*/(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 350, getResources().getDisplayMetrics()),
+                /*LayoutParams.WRAP_CONTENT,*/(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 430, getResources().getDisplayMetrics()),
                 LayoutParams.MATCH_PARENT/*,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics())*/
         ));
         moduleName.setPadding(20,0,0,0);
@@ -109,7 +110,7 @@ public class ControlPanelFragment extends Fragment {
         linLayout.setLayoutParams(linLayoutParam);*/
          itemName = new TextView(getActivity());
         itemName.setText(itemTitle);
-        itemName.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+        itemName.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         itemName.setTextSize(26);
         itemName.setId(R.id.ininvoice_item_name);
         itemName.setGravity(Gravity.CENTER_VERTICAL);
@@ -133,7 +134,7 @@ public class ControlPanelFragment extends Fragment {
         itemDate = new TextView(getActivity());
         itemDate.setId(R.id.ininvoice_date);
         itemDate.setText(strDate);
-        itemDate.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+        itemDate.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         itemDate.setTextSize(26);
         itemDate.setPadding(50,0,0,0);
         itemDate.setGravity(Gravity.CENTER_VERTICAL);

@@ -46,7 +46,7 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
     @SuppressLint("StringFormatMatches")
     public void bindCursor(Cursor c) {
         mTitle.setText(InvoiceSpecProvider.getSNOMENNAME(c));
-        mTitleNum.setText(InvoiceSpecProvider.getSNOMEN(c));
+        mTitleNum.setText(InvoiceSpecProvider.getSNOMEN(c) + ">>" + InvoiceSpecProvider.getSNOTE(c));
        /* final long pubDate = InvoiceProvider.getDdocdate(c));
         if (pubDate > 0) {
             mPubDate.setText(DateFormat.getDateTimeInstance().format(new Date(pubDate)));
@@ -59,7 +59,7 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
         super.onFinishInflate();
         mTitle = (TextView) findViewById(R.id.title_spec);
         mTitleNum = (TextView) findViewById(R.id.title_spec_number);
-       // mPubDate = (TextView) findViewById(R.id.pub_date);
+        // mPubDate = (TextView) findViewById(R.id.pub_date);
     }
 
 }

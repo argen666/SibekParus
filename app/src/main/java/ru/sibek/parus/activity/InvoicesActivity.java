@@ -18,17 +18,13 @@ package ru.sibek.parus.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.InvoicesListFragment;
 import ru.sibek.parus.fragment.LogoFragment;
 import ru.sibek.parus.fragment.Types;
-import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.view.DummyFragment;
 import ru.sibek.parus.view.TabListener;
 
@@ -96,6 +92,8 @@ public class InvoicesActivity extends Activity {
        // getMenuInflater().inflate(R.menu.feeds, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+
 
    /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -98,7 +98,7 @@ public class InvoiceProvider extends SQLiteTableProvider {
             final Bundle syncExtras = new Bundle();
             syncExtras.putLong(SyncAdapter.KEY_INVOICE_ID, extras.getLong(KEY_LAST_ID, -1));
             ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
-            //Log.d("QQcontentChanged","insert");
+            Log.d("QQcontentChanged", "insert");
 
         }
     }
@@ -116,7 +116,7 @@ public class InvoiceProvider extends SQLiteTableProvider {
                 + Columns.DDOC_DATE + " integer, "
                 + Columns.NSTATUS + " integer, "
                 + Columns.SSTATUS + " text, "
-                + Columns.NRN+ " integer, "
+                + Columns.NRN + " integer, "
                 + Columns.DWORK_DATE + " integer, "
                 + Columns.SAGENT + " text, "
                 + Columns.SAGENT_NAME + " text, "
@@ -130,21 +130,21 @@ public class InvoiceProvider extends SQLiteTableProvider {
     }
 
     public interface Columns extends BaseColumns {
-        String NCOMPANY= "NCOMPANY";
-        String SJUR_PERS= "SJUR_PERS";
-        String NDOCTYPE= "NDOCTYPE";
-        String SDOCTYPE= "SDOCTYPE";
-        String SPREF= "SPREF";
-        String SNUMB= "SNUMB";
-        String DDOC_DATE= "DDOC_DATE";
-        String NSTATUS= "NSTATUS";
-        String SSTATUS= "SSTATUS";
-        String DWORK_DATE= "DWORK_DATE";
-        String SAGENT= "SAGENT";
-        String SAGENT_NAME= "SAGENT_NAME";
-        String NSUMM= "NSUMM";
-        String NSUMMTAX= "NSUMMTAX";
-        String NRN= "NRN";
+        String NCOMPANY = "NCOMPANY";
+        String SJUR_PERS = "SJUR_PERS";
+        String NDOCTYPE = "NDOCTYPE";
+        String SDOCTYPE = "SDOCTYPE";
+        String SPREF = "SPREF";
+        String SNUMB = "SNUMB";
+        String DDOC_DATE = "DDOC_DATE";
+        String NSTATUS = "NSTATUS";
+        String SSTATUS = "SSTATUS";
+        String DWORK_DATE = "DWORK_DATE";
+        String SAGENT = "SAGENT";
+        String SAGENT_NAME = "SAGENT_NAME";
+        String NSUMM = "NSUMM";
+        String NSUMMTAX = "NSUMMTAX";
+        String NRN = "NRN";
 
     }
 
