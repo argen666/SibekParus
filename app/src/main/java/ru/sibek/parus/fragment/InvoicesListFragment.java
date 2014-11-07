@@ -43,6 +43,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
     private CursorAdapter mListAdapter;
     private InvoicesSpecFragment specFragment;
 
+    //TODO: Создавать тут бандл <ид инвойса,Фрагмент спеки> и при нажатии на инвойс проверять есть ли для него спека...также сделать для детальной спеки
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

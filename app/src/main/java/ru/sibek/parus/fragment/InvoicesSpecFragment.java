@@ -2,12 +2,14 @@ package ru.sibek.parus.fragment;
 
 import android.accounts.Account;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
@@ -26,6 +28,8 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
     public static final String KEY_INVOICE_ID = "ru.sibek.parus.KEY_INVOICE_ID";
 
     private long mInvoiceId;
+
+    // Fragment specFragment=null;
 
     private CursorAdapter mListAdapter;
 
@@ -85,12 +89,16 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
         if (news.moveToPosition(position)) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(InvoiceSpecProvider.getLink(news))));
         }*/
+        Log.d("SPEC_ITEM_CLICK: ", "pos: " + position + "; id= " + id);
         //TODO: check this!
         final FragmentManager fm = getActivity().getFragmentManager();
-        final InvoicesSpecFragment specFragment = (InvoicesSpecFragment) fm.findFragmentById(R.id.detail_frame);
-        //fm.beginTransaction().detach(specFragment).commit();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack(null);
+        //  specFragment = fm.findFragmentById(R.id.detail_frame);
+        //fm.beginTransaction().detach(specFragment).addToBackStack(null).commit();
         final SpecDetailFragment specDetail = new SpecDetailFragment();
-        fm.beginTransaction().replace(R.id.detail_frame, specDetail).addToBackStack("specDetailFragment").commit();
+        ft.replace(R.id.detail_frame, specDetail).addToBackStack("specDetailFragment").commit();
+
 
     }
 
