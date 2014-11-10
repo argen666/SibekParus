@@ -41,6 +41,10 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
 
     private TextView mPubDate;
 
+    private TextView mSpecQuant;
+    private TextView mSpecStore;
+    private TextView mSpecPlace;
+
     private ImageView mSelect;
 
     public InvoiceSpecListItem(Context context, AttributeSet attrs) {
@@ -52,7 +56,12 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
     @SuppressLint("StringFormatMatches")
     public void bindCursor(Cursor c) {
         mTitle.setText(InvoiceSpecProvider.getSNOMENNAME(c));
-        mTitleNum.setText(InvoiceSpecProvider.getSNOMEN(c) + ">>" + InvoiceSpecProvider.getSNOTE(c));
+        mTitleNum.setText(InvoiceSpecProvider.getSNOMEN(c) + "    ");
+
+        mSpecQuant.setText(InvoiceSpecProvider.getNQUANT(c) + InvoiceSpecProvider.getSMEAS_MAIN(c).toUpperCase());
+        mSpecStore.setText(" Cклад " + InvoiceSpecProvider.getSSTORE(c));
+        mSpecPlace.setText(" Место ");
+
         mSelect.setImageResource(R.drawable.invoice_spec_non_accepted);
         mSelect.setTag(SELECT);
         mSelect.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +90,11 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
         super.onFinishInflate();
         mTitle = (TextView) findViewById(R.id.title_spec);
         mTitleNum = (TextView) findViewById(R.id.title_spec_number);
+
+        mSpecQuant = (TextView) findViewById(R.id.spec_quant);
+        mSpecStore = (TextView) findViewById(R.id.spec_store);
+        mSpecPlace = (TextView) findViewById(R.id.spec_place);
+
         mSelect = (ImageView) findViewById(R.id.spec_image);
         // mPubDate = (TextView) findViewById(R.id.pub_date);
     }

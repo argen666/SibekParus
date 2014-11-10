@@ -61,12 +61,35 @@
 
                 <TextView
                     android:id="@+id/title_spec_number"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:textSize="18sp"
                     android:singleLine="true" />
 
+                <TextView
+                    android:id="@+id/spec_quant"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/spec_store"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/spec_place"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 

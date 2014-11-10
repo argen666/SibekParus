@@ -1,14 +1,13 @@
 package ru.sibek.parus.mappers;
 
-import android.content.*;
-
-import java.util.ArrayList;
-import java.util.List;
 import android.content.ContentValues;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import ru.sibek.parus.rest.ParusDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import ru.sibek.parus.sqlite.InvoiceSpecProvider;
 
 public class InvoicesSpec /*implements IContentValues*/ {
@@ -28,20 +27,20 @@ public class InvoicesSpec /*implements IContentValues*/ {
     public ContentValues[] toContentValues(String invoiceID) {
         final List<ContentValues> contentValuesList = new ArrayList<>();
         List<ItemInvoiceSpec> items = this.getItems();
-        for (ItemInvoiceSpec item:items)
-        {
+        for (ItemInvoiceSpec item : items) {
 
             ContentValues contentValues = new ContentValues();
             contentValues.put(InvoiceSpecProvider.Columns.INVOICE_ID, invoiceID);
-            contentValues.put(InvoiceSpecProvider.Columns.SNOMEN,item.getSnomen());
-            contentValues.put(InvoiceSpecProvider.Columns.SNOMENNAME,item.getSnomenname());
+            contentValues.put(InvoiceSpecProvider.Columns.SNOMEN, item.getSnomen());
+            contentValues.put(InvoiceSpecProvider.Columns.SNOMENNAME, item.getSnomenname());
             //contentValues.put(InvoiceSpecProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
-            contentValues.put(InvoiceSpecProvider.Columns.SSERNUMB,item.getSsernumb());
-            contentValues.put(InvoiceSpecProvider.Columns.NSUMMTAX,item.getNsummtax());
-            contentValues.put(InvoiceSpecProvider.Columns.NQUANT,item.getNquant());
-            contentValues.put(InvoiceSpecProvider.Columns.NPRICE,item.getNprice());
-            contentValues.put(InvoiceSpecProvider.Columns.SSTORE,item.getSstore());
-            contentValues.put(InvoiceSpecProvider.Columns.SNOTE,item.getSnote());
+            contentValues.put(InvoiceSpecProvider.Columns.SSERNUMB, item.getSsernumb());
+            contentValues.put(InvoiceSpecProvider.Columns.NSUMMTAX, item.getNsummtax());
+            contentValues.put(InvoiceSpecProvider.Columns.NQUANT, item.getNquant());
+            contentValues.put(InvoiceSpecProvider.Columns.NPRICE, item.getNprice());
+            contentValues.put(InvoiceSpecProvider.Columns.SSTORE, item.getSstore());
+            contentValues.put(InvoiceSpecProvider.Columns.SMEAS_MAIN, item.getSmeasMain());
+            contentValues.put(InvoiceSpecProvider.Columns.SNOTE, item.getSnote());
             contentValuesList.add(contentValues);
         }
 

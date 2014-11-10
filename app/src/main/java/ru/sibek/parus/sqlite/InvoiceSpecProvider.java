@@ -58,6 +58,10 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SNOMEN));
     }
 
+    public static String getSMEAS_MAIN(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SMEAS_MAIN));
+    }
+
     public static long getNQUANT(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.NQUANT));
     }
@@ -88,6 +92,7 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
                 + Columns.SSERNUMB + " text, "
                 + Columns.SSTORE + " text, "
                 + Columns.SNOTE + " text, "
+                + Columns.SMEAS_MAIN + " text, "
                 + Columns.NQUANT + " integer, "
                 + Columns.NPRICE + " integer, "
                 + Columns.NSUMMTAX + " integer, "
@@ -98,15 +103,16 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
     }
 
     public interface Columns extends BaseColumns {
-        String SNOMEN= "SNOMEN";
-        String SNOMENNAME= "SNOMENNAME";
-        String SSERNUMB= "SSERNUMB";
-        String SSTORE= "SSTORE";
-        String SNOTE= "SNOTE";
-        String NQUANT= "NQUANT";
-        String NPRICE= "NPRICE";
-        String NSUMMTAX= "NSUMMTAX";
-        String INVOICE_ID="INVOICE_ID";
+        String SNOMEN = "SNOMEN";
+        String SNOMENNAME = "SNOMENNAME";
+        String SSERNUMB = "SSERNUMB";
+        String SSTORE = "SSTORE";
+        String SMEAS_MAIN = "SMEAS_MAIN";
+        String SNOTE = "SNOTE";
+        String NQUANT = "NQUANT";
+        String NPRICE = "NPRICE";
+        String NSUMMTAX = "NSUMMTAX";
+        String INVOICE_ID = "INVOICE_ID";
 
         /*String TITLE = "title";
         String LINK = "link";

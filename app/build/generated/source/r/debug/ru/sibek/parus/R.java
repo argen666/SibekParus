@@ -60,15 +60,16 @@ public final class R {
         public static final int tab_unselected_pressed_example=0x7f020026;
     }
     public static final class id {
-        public static final int action_settings=0x7f07001b;
-        public static final int agent=0x7f070013;
+        public static final int action_settings=0x7f07001f;
+        public static final int agent=0x7f070014;
         public static final int container=0x7f07000f;
         public static final int control_panel1=0x7f07000e;
         public static final int control_panel_frame=0x7f070006;
         public static final int detail_empty_textView=0x7f07000a;
         public static final int detail_frame=0x7f070009;
-        public static final int doc_date=0x7f070014;
-        public static final int fragment_container=0x7f070011;
+        public static final int doc_date=0x7f070015;
+        public static final int editText=0x7f070011;
+        public static final int fragment_container=0x7f070012;
         public static final int frame1=0x7f070007;
         public static final int imageView=0x7f070010;
         public static final int ininvoice_button=0x7f070000;
@@ -80,14 +81,17 @@ public final class R {
         public static final int lvMain=0x7f07000b;
         public static final int master_frame=0x7f070008;
         public static final int refresh_layout=0x7f07000d;
-        public static final int spec_image=0x7f070017;
-        public static final int status=0x7f070016;
-        public static final int status_image=0x7f070015;
+        public static final int spec_image=0x7f070018;
+        public static final int spec_place=0x7f07001d;
+        public static final int spec_quant=0x7f07001b;
+        public static final int spec_store=0x7f07001c;
+        public static final int status=0x7f070017;
+        public static final int status_image=0x7f070016;
         public static final int text=0x7f07000c;
-        public static final int title=0x7f070012;
-        public static final int title_spec=0x7f070018;
-        public static final int title_spec_number=0x7f070019;
-        public static final int tvName=0x7f07001a;
+        public static final int title=0x7f070013;
+        public static final int title_spec=0x7f070019;
+        public static final int title_spec_number=0x7f07001a;
+        public static final int tvName=0x7f07001e;
     }
     public static final class layout {
         public static final int ac_single_frame=0x7f030000;

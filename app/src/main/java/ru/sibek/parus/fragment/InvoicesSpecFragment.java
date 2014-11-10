@@ -1,6 +1,7 @@
 package ru.sibek.parus.fragment;
 
 import android.accounts.Account;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
@@ -13,6 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
@@ -30,6 +34,11 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
     private long mInvoiceId;
 
     // Fragment specFragment=null;
+    Map<Long, Fragment> specsDetails = new HashMap<Long, Fragment>();
+
+    public Fragment getSpecDetailByID(Long id) {
+        return specsDetails.get(id);
+    }
 
     private CursorAdapter mListAdapter;
 
@@ -93,12 +102,17 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
         //TODO: check this!
         final FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.addToBackStack(null);
-        //  specFragment = fm.findFragmentById(R.id.detail_frame);
-        //fm.beginTransaction().detach(specFragment).addToBackStack(null).commit();
-        final SpecDetailFragment specDetail = new SpecDetailFragment();
-        ft.replace(R.id.detail_frame, specDetail).addToBackStack("specDetailFragment").commit();
+        //ft.addToBackStack(null);
 
+        if (getSpecDetailByID(id) == null) {
+            SpecDetailFragment specDetail = new SpecDetailFragment();
+            specsDetails.put(id, specDetail);
+            ft.replace(R.id.detail_frame, specDetail).addToBackStack(null).commit();
+            Log.d("CREATE DETAIL>>>>", specDetail.getId() + "");
+        } else {
+            ft.replace(R.id.detail_frame, (SpecDetailFragment) getSpecDetailByID(id)).addToBackStack(null).commit();
+            Log.d("RESTORE DETAIL>>>>", ((SpecDetailFragment) getSpecDetailByID(id)).getId() + "");
+        }
 
     }
 

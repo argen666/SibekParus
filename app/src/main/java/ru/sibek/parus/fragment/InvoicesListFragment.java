@@ -17,6 +17,7 @@
 package ru.sibek.parus.fragment;
 
 import android.accounts.Account;
+import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
@@ -28,6 +29,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
@@ -44,6 +48,15 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
     private InvoicesSpecFragment specFragment;
 
     //TODO: Создавать тут бандл <ид инвойса,Фрагмент спеки> и при нажатии на инвойс проверять есть ли для него спека...также сделать для детальной спеки
+    Map<Long, Fragment> specsInvoices = new HashMap<Long, Fragment>();
+
+    public Fragment getSpecInvoiceByID(Long id) {
+        return specsInvoices.get(id);
+    }
+
+    public void setSpecsInvoices(Map<Long, Fragment> specsInvoices) {
+        this.specsInvoices = specsInvoices;
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -126,8 +139,18 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
             startActivity(intent);*/
 
         //TODO: check this
+
         ((TextView) getActivity().findViewById(R.id.detail_empty_textView)).setVisibility(View.GONE);
-           getFragmentManager().beginTransaction().replace(R.id.detail_frame, InvoicesSpecFragment.newInstance(id)).commit();
+
+        if (getSpecInvoiceByID(id) == null) {
+            InvoicesSpecFragment invSpec = InvoicesSpecFragment.newInstance(id);
+            specsInvoices.put(id, invSpec);
+            getFragmentManager().beginTransaction().replace(R.id.detail_frame, invSpec).commit();
+            Log.d("CREATE SPEC>>>>", invSpec.getId() + "");
+        } else {
+            getFragmentManager().beginTransaction().replace(R.id.detail_frame, (InvoicesSpecFragment) getSpecInvoiceByID(id)).commit();
+            Log.d("RESTORE SPEC>>>>", ((InvoicesSpecFragment) getSpecInvoiceByID(id)).getId() + "");
+        }
        /* } else {
            // getFragmentManager().beginTransaction()
             specFragment.setId(id);
