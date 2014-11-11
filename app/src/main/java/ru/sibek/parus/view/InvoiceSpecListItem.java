@@ -19,6 +19,7 @@ package ru.sibek.parus.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -55,12 +56,39 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
     @Override
     @SuppressLint("StringFormatMatches")
     public void bindCursor(Cursor c) {
-        mTitle.setText(InvoiceSpecProvider.getSNOMENNAME(c));
+        mTitle.setText(InvoiceSpecProvider.getSNOMENNAME(c)/*+">>"+InvoiceSpecProvider.getNRN(c)+"/"+InvoiceSpecProvider.getNPRN(c)*/);
         mTitleNum.setText(InvoiceSpecProvider.getSNOMEN(c) + "    ");
 
-        mSpecQuant.setText(InvoiceSpecProvider.getNQUANT(c) + InvoiceSpecProvider.getSMEAS_MAIN(c).toUpperCase());
-        mSpecStore.setText(" Cклад " + InvoiceSpecProvider.getSSTORE(c));
-        mSpecPlace.setText(" Место ");
+        double quant = InvoiceSpecProvider.getNQUANT(c);
+        if (quant == (long) quant) {
+            mSpecQuant.setText(String.format("%d", (long) quant) + InvoiceSpecProvider.getSMEAS_MAIN(c).toUpperCase());
+        } else {
+            mSpecQuant.setText(String.format("%s", quant) + InvoiceSpecProvider.getSMEAS_MAIN(c).toUpperCase());
+        }
+        final String sstore = InvoiceSpecProvider.getSSTORE(c);
+        if (sstore != null) {
+            mSpecStore.setText(" Cклад: " + InvoiceSpecProvider.getSSTORE(c));
+            mSpecStore.setTextColor(Color.BLACK);
+        } else {
+            mSpecStore.setText("Cклад: - ");
+            mSpecStore.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        }
+        final long storageSign = InvoiceSpecProvider.getNDISTRIBUTION_SIGN(c);
+        if (storageSign == 1) {
+            final String rack = InvoiceSpecProvider.getSRACK(c);
+            final String cell = InvoiceSpecProvider.getSCELL(c);
+            if (rack != null) {
+                mSpecPlace.setText(" Место: " + rack + "/" + cell);
+                mSpecPlace.setTextColor(Color.BLACK);
+            } else {
+                mSpecPlace.setText(" Место: - ");
+                mSpecPlace.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            }
+        } else {
+            mSpecPlace.setText("");
+            //mSpecPlace.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        }
+
 
         mSelect.setImageResource(R.drawable.invoice_spec_non_accepted);
         mSelect.setTag(SELECT);

@@ -54,6 +54,14 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SNOTE));
     }
 
+    public static String getSRACK(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SRACK));
+    }
+
+    public static String getSCELL(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SCELL));
+    }
+
     public static String getSNOMEN(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SNOMEN));
     }
@@ -62,16 +70,28 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SMEAS_MAIN));
     }
 
-    public static long getNQUANT(Cursor c) {
-        return c.getLong(c.getColumnIndex(Columns.NQUANT));
+    public static double getNQUANT(Cursor c) {
+        return c.getDouble(c.getColumnIndex(Columns.NQUANT));
     }
 
     public static long getNPRICE(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.NPRICE));
     }
 
+    public static long getNRN(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.NRN));
+    }
+
+    public static long getNPRN(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.NPRN));
+    }
+
     public static long getNSUMMTAX(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.NSUMMTAX));
+    }
+
+    public static long getNDISTRIBUTION_SIGN(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.NDISTRIBUTION_SIGN));
     }
 
     public static long getINVOICE_ID(Cursor c) {
@@ -96,6 +116,22 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
                 + Columns.NQUANT + " integer, "
                 + Columns.NPRICE + " integer, "
                 + Columns.NSUMMTAX + " integer, "
+                + Columns.SRACK + " text, "
+                + Columns.SCELL + " text, "
+                + Columns.NDISTRIBUTION_SIGN + " integer, "
+                + Columns.NRN + " integer, "
+                + Columns.NPRN + " integer, "
+
+
+/*
+                + Columns.NQUANT + " integer, "
+                + Columns.SRACK + " text, "
+                + Columns.SCELL + " text, "
+                + Columns.NDISTRIBUTION_SIGN + " integer, "
+*/
+
+
+
                 + Columns.INVOICE_ID + " integer);");
         db.execSQL("create index if not exists " +
                 TABLE_NAME + "_" + Columns.INVOICE_ID + "_index" +
@@ -113,7 +149,12 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         String NPRICE = "NPRICE";
         String NSUMMTAX = "NSUMMTAX";
         String INVOICE_ID = "INVOICE_ID";
+        String NRN = "NRN";
+        String NPRN = "NPRN";
 
+        String SRACK = "SRACK";
+        String SCELL = "SCELL";
+        String NDISTRIBUTION_SIGN = "NDISTRIBUTION_SIGN";
         /*String TITLE = "title";
         String LINK = "link";
         String PUB_DATE = "pubDate";

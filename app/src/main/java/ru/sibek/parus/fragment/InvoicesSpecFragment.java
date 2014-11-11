@@ -11,7 +11,9 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 
@@ -50,11 +52,16 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
         return fragment;
     }
 
-    public void setId(long id)
-    {
+    public void setId(long id) {
         this.getArguments().remove(KEY_INVOICE_ID);
-        this.getArguments().putLong(KEY_INVOICE_ID,id);
+        this.getArguments().putLong(KEY_INVOICE_ID, id);
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

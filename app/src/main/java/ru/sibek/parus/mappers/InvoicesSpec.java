@@ -31,6 +31,8 @@ public class InvoicesSpec /*implements IContentValues*/ {
 
             ContentValues contentValues = new ContentValues();
             contentValues.put(InvoiceSpecProvider.Columns.INVOICE_ID, invoiceID);
+            contentValues.put(InvoiceSpecProvider.Columns.NRN, item.getNrn());
+            contentValues.put(InvoiceSpecProvider.Columns.NPRN, item.getNprn());
             contentValues.put(InvoiceSpecProvider.Columns.SNOMEN, item.getSnomen());
             contentValues.put(InvoiceSpecProvider.Columns.SNOMENNAME, item.getSnomenname());
             //contentValues.put(InvoiceSpecProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
@@ -41,6 +43,9 @@ public class InvoicesSpec /*implements IContentValues*/ {
             contentValues.put(InvoiceSpecProvider.Columns.SSTORE, item.getSstore());
             contentValues.put(InvoiceSpecProvider.Columns.SMEAS_MAIN, item.getSmeasMain());
             contentValues.put(InvoiceSpecProvider.Columns.SNOTE, item.getSnote());
+            contentValues.put(InvoiceSpecProvider.Columns.SRACK, item.getSrack());
+            contentValues.put(InvoiceSpecProvider.Columns.SCELL, item.getScell());
+            contentValues.put(InvoiceSpecProvider.Columns.NDISTRIBUTION_SIGN, item.getNdistribution_sign());
             contentValuesList.add(contentValues);
         }
 
@@ -87,6 +92,16 @@ public class InvoicesSpec /*implements IContentValues*/ {
         private Integer ntaxgr;
         @Expose
         private String staxgr;
+
+        @Expose
+        private String srack;
+        @Expose
+        private String scell;
+
+        @Expose
+        private Integer ndistribution_sign;
+
+
         @Expose
         private Integer nstore;
         @Expose
@@ -98,7 +113,7 @@ public class InvoicesSpec /*implements IContentValues*/ {
         @Expose
         private Integer nmMeasCategory;
         @Expose
-        private Double nquant;
+        private double nquant;
         @Expose
         private Integer nquantalt;
         @SerializedName("nquant_volume")
@@ -134,6 +149,14 @@ public class InvoicesSpec /*implements IContentValues*/ {
         @Expose
         private Integer ndiscount;
 
+        public Integer getNdistribution_sign() {
+            return ndistribution_sign;
+        }
+
+        public void setNdistribution_sign(Integer ndistribution_sign) {
+            this.ndistribution_sign = ndistribution_sign;
+        }
+
         public String getSnote() {
             return snote;
         }
@@ -148,6 +171,22 @@ public class InvoicesSpec /*implements IContentValues*/ {
 
         public void setSsernumb(String ssernumb) {
             this.ssernumb = ssernumb;
+        }
+
+        public String getSrack() {
+            return srack;
+        }
+
+        public void setSrack(String srack) {
+            this.srack = srack;
+        }
+
+        public String getScell() {
+            return scell;
+        }
+
+        public void setScell(String scell) {
+            this.scell = scell;
         }
 
         /**

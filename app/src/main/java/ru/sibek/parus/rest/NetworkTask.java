@@ -26,7 +26,7 @@ public class NetworkTask {
     }
 
 
-    public void getData(String invoiceID, String tag, Object... params) throws RemoteException {
+    public Object getData(String invoiceID, String tag, Object... params) throws RemoteException {
         Parus service = ParusService.getService();
         Method m = null;
         Object ret = null;
@@ -52,6 +52,7 @@ public class NetworkTask {
             // TODO: тут может случаться говно...
             e.printStackTrace();
             Log.d(Log.DEBUG + "MyParusExp", e.toString());
+
         }
 
         /*syncResult.stats.numUpdates += provider.u
@@ -89,6 +90,6 @@ public class NetworkTask {
         }
 
 
-        //return ret;
+        return ret;
     }
 }
