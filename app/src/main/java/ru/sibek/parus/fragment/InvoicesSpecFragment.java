@@ -120,7 +120,7 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
         //ft.addToBackStack(null);
 
         if (getSpecDetailByID(id) == null) {
-            SpecDetailFragment specDetail = new SpecDetailFragment();
+            SpecDetailFragment specDetail = SpecDetailFragment.newInstance(id);
             specsDetails.put(id, specDetail);
             ft.replace(R.id.detail_frame, specDetail).addToBackStack(null).commit();
             Log.d("CREATE DETAIL>>>>", specDetail.getId() + "");

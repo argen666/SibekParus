@@ -61,6 +61,8 @@ public class NetworkTask {
             syncResult.stats.numDeletes += provider
                     .delete(InvoiceProvider.URI, InvoiceProvider.Columns._ID + "=?", new String[]{invoiceID});
         }*/
+        if (ret!=null)
+        {
 
 
         switch (tag) {
@@ -91,6 +93,8 @@ public class NetworkTask {
                 break;
             }
         }
+
+    }
 
 
         return ret;
