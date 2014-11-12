@@ -54,25 +54,54 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SNOTE));
     }
 
+    public static String getSRACK(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SRACK));
+    }
+
+    public static String getSCELL(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SCELL));
+    }
+
     public static String getSNOMEN(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SNOMEN));
     }
 
-    public static long getNQUANT(Cursor c) {
-        return c.getLong(c.getColumnIndex(Columns.NQUANT));
+    public static String getSMEAS_MAIN(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SMEAS_MAIN));
+    }
+
+    public static double getNQUANT(Cursor c) {
+        return c.getDouble(c.getColumnIndex(Columns.NQUANT));
     }
 
     public static long getNPRICE(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.NPRICE));
     }
 
+    public static long getNRN(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.NRN));
+    }
+
+    public static long getNPRN(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.NPRN));
+    }
+
     public static long getNSUMMTAX(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.NSUMMTAX));
+    }
+
+    public static long getNDISTRIBUTION_SIGN(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.NDISTRIBUTION_SIGN));
     }
 
     public static long getINVOICE_ID(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.INVOICE_ID));
     }
+
+    public static long getLOCAL_ICON(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.LOCAL_ICON));
+    }
+
 
     @Override
     public Uri getBaseUri() {
@@ -88,9 +117,24 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
                 + Columns.SSERNUMB + " text, "
                 + Columns.SSTORE + " text, "
                 + Columns.SNOTE + " text, "
+                + Columns.SMEAS_MAIN + " text, "
                 + Columns.NQUANT + " integer, "
                 + Columns.NPRICE + " integer, "
                 + Columns.NSUMMTAX + " integer, "
+                + Columns.SRACK + " text, "
+                + Columns.SCELL + " text, "
+                + Columns.NDISTRIBUTION_SIGN + " integer, "
+                + Columns.NRN + " integer, "
+                + Columns.NPRN + " integer, "
+
+
+                + Columns.LOCAL_NQUANT + " integer, "
+                + Columns.LOCAL_SRACK + " text, "
+                + Columns.LOCAL_SCELL + " text, "
+                + Columns.LOCAL_SSTORE + " text, "
+                + Columns.LOCAL_ICON + " integer, "
+
+
                 + Columns.INVOICE_ID + " integer);");
         db.execSQL("create index if not exists " +
                 TABLE_NAME + "_" + Columns.INVOICE_ID + "_index" +
@@ -98,15 +142,29 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
     }
 
     public interface Columns extends BaseColumns {
-        String SNOMEN= "SNOMEN";
-        String SNOMENNAME= "SNOMENNAME";
-        String SSERNUMB= "SSERNUMB";
-        String SSTORE= "SSTORE";
-        String SNOTE= "SNOTE";
-        String NQUANT= "NQUANT";
-        String NPRICE= "NPRICE";
-        String NSUMMTAX= "NSUMMTAX";
-        String INVOICE_ID="INVOICE_ID";
+        String SNOMEN = "SNOMEN";
+        String SNOMENNAME = "SNOMENNAME";
+        String SSERNUMB = "SSERNUMB";
+        String SSTORE = "SSTORE";
+        String SMEAS_MAIN = "SMEAS_MAIN";
+        String SNOTE = "SNOTE";
+        String NQUANT = "NQUANT";
+        String NPRICE = "NPRICE";
+        String NSUMMTAX = "NSUMMTAX";
+        String INVOICE_ID = "INVOICE_ID";
+        String NRN = "NRN";
+        String NPRN = "NPRN";
+
+        String SRACK = "SRACK";
+        String SCELL = "SCELL";
+        String NDISTRIBUTION_SIGN = "NDISTRIBUTION_SIGN";
+
+
+        String LOCAL_NQUANT = "LOCAL_NQUANT";
+        String LOCAL_SRACK = "LOCAL_SRACK";
+        String LOCAL_SCELL = "LOCAL_SCELL";
+        String LOCAL_SSTORE = "LOCAL_SSTORE";
+        String LOCAL_ICON = "LOCAL_ICON";
 
         /*String TITLE = "title";
         String LINK = "link";

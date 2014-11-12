@@ -21,29 +21,42 @@ import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ru.sibek.parus.R;
-//import com.elegion.newsfeed.activity.NewsActivity;
 import ru.sibek.parus.account.ParusAccount;
-//import ru.sibek.parus.activity.SpecActivity;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.widget.CursorBinderAdapter;
+
+//import com.elegion.newsfeed.activity.NewsActivity;
+//import ru.sibek.parus.activity.SpecActivity;
 
 
 public class InvoicesListFragment extends SwipeToRefreshList implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private CursorAdapter mListAdapter;
     private InvoicesSpecFragment specFragment;
+
+    //TODO: Создавать тут бандл <ид инвойса,Фрагмент спеки> и при нажатии на инвойс проверять есть ли для него спека...также сделать для детальной спеки
+    Map<Long, Fragment> specsInvoices = new HashMap<Long, Fragment>();
+
+    public Fragment getSpecInvoiceByID(Long id) {
+        return specsInvoices.get(id);
+    }
+
+    public void setSpecsInvoices(Map<Long, Fragment> specsInvoices) {
+        this.specsInvoices = specsInvoices;
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -82,6 +95,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         initControlPanel();
 
+
         //TextView emptyDetailView = ((TextView) getActivity().findViewById(R.id.detail_empty_textView));
        // emptyDetailView.setVisibility(View.VISIBLE);
         if (loader.getId() == R.id.invoices_loader) {
@@ -114,7 +128,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
         ControlPanel.controlFragment.addInfoToPanel(
                 ((TextView) view.findViewById(R.id.title)).getText().toString(),
                 ((TextView) view.findViewById(R.id.doc_date)).getText().toString(),
-                View.VISIBLE,btnText
+                View.VISIBLE, btnText, id
         );
 
       /*  if (specFragment==null)
@@ -125,7 +139,18 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
             startActivity(intent);*/
 
         //TODO: check this
-           getFragmentManager().beginTransaction().replace(R.id.detail_frame, InvoicesSpecFragment.newInstance(id)).commit();
+
+        ((TextView) getActivity().findViewById(R.id.detail_empty_textView)).setVisibility(View.GONE);
+
+        if (getSpecInvoiceByID(id) == null) {
+            InvoicesSpecFragment invSpec = InvoicesSpecFragment.newInstance(id);
+            specsInvoices.put(id, invSpec);
+            getFragmentManager().beginTransaction().replace(R.id.detail_frame, invSpec).commit();
+            Log.d("CREATE SPEC>>>>", invSpec.getId() + "");
+        } else {
+            getFragmentManager().beginTransaction().replace(R.id.detail_frame, (InvoicesSpecFragment) getSpecInvoiceByID(id)).commit();
+            Log.d("RESTORE SPEC>>>>", ((InvoicesSpecFragment) getSpecInvoiceByID(id)).getId() + "");
+        }
        /* } else {
            // getFragmentManager().beginTransaction()
             specFragment.setId(id);
@@ -169,4 +194,6 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
         static TextView cItemName;
         static Button cButton;*/
         }
+
+
 }

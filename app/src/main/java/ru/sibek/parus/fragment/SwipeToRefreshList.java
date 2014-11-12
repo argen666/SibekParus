@@ -20,7 +20,6 @@ import android.accounts.Account;
 import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.SyncStatusObserver;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -37,9 +36,11 @@ import ru.sibek.parus.view.SwipeToDismissCallback;
 import ru.sibek.parus.view.SwipeToDismissController;
 
 
-
 public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.OnRefreshListener, SyncStatusObserver,
         AdapterView.OnItemClickListener, SwipeToDismissCallback {
+
+    private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    private int mActivatedPosition = ListView.INVALID_POSITION;
 
     private SwipeRefreshLayout mRefresher;
 
@@ -53,6 +54,7 @@ public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fmt_swipe_to_refresh_list, container, false);
         mListView = (ListView) view.findViewById(android.R.id.list);
+        setActivateOnItemClick(true);
         return (mRefresher = (SwipeRefreshLayout) view);
     }
 
@@ -65,7 +67,7 @@ public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.O
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light
         );
-       // mSwipeToDismissController = new SwipeToDismissController(mListView, this);
+        // mSwipeToDismissController = new SwipeToDismissController(mListView, this);
     }
 
     @Override
@@ -78,7 +80,7 @@ public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.O
                 this
         );
         mListView.setOnItemClickListener(this);
-       // mListView.setOnTouchListener(mSwipeToDismissController);
+        // mListView.setOnTouchListener(mSwipeToDismissController);
         mListView.setOnScrollListener(mSwipeToDismissController);
     }
 
@@ -127,10 +129,10 @@ public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.O
 //        final DataSetObserver dataSetObserver = mSwipeToDismissController.getDataSetObserver();
         final ListAdapter oldAdapter = mListView.getAdapter();
         if (oldAdapter != null) {
- //           oldAdapter.unregisterDataSetObserver(dataSetObserver);
+            //           oldAdapter.unregisterDataSetObserver(dataSetObserver);
         }
         mListView.setAdapter(adapter);
-  //      adapter.registerDataSetObserver(dataSetObserver);
+        //      adapter.registerDataSetObserver(dataSetObserver);
     }
 
     protected void onRefresh(Account account) {
@@ -143,6 +145,45 @@ public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.O
 
     protected void setRefreshing(boolean refreshing) {
         mRefresher.setRefreshing(refreshing);
+    }
+
+    //----------
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Restore the previously serialized activated item position.
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
+            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+        }
+    }
+
+    private void setActivatedPosition(int position) {
+        if (position == ListView.INVALID_POSITION) {
+            mListView.setItemChecked(mActivatedPosition, false);
+        } else {
+            mListView.setItemChecked(position, true);
+        }
+
+        mActivatedPosition = position;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mActivatedPosition != ListView.INVALID_POSITION) {
+            // Serialize and persist the activated item position.
+            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
+        }
+    }
+
+    public void setActivateOnItemClick(boolean activateOnItemClick) {
+        // When setting CHOICE_MODE_SINGLE, ListView will automatically
+        // give items the 'activated' state when touched.
+        mListView.setChoiceMode(activateOnItemClick
+                ? ListView.CHOICE_MODE_SINGLE
+                : ListView.CHOICE_MODE_NONE);
     }
 
 }

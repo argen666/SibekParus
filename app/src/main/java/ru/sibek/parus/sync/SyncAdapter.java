@@ -26,15 +26,10 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
 
-
-import ru.sibek.parus.mappers.Invoices;
 import ru.sibek.parus.rest.NetworkTask;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 
-/**
- * @author =Troy= <Daniel Serdyukov>
- * @version 1.0
- */
+
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final String KEY_INVOICE_ID = "ru.sibek.parus.sync.KEY_INVOICE_ID";
@@ -52,7 +47,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         } else {
             syncInvoices(provider, syncResult, null, null);
         }
-        Log.d("PARUS_Sync","Start"+feedId);
+        Log.d("PARUS_Sync", "Start" + feedId);
     }
 
     private void syncInvoices(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
@@ -70,11 +65,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             try {
                 if (feeds.moveToFirst()) {
                     do {
-                      getInvoices(feeds.getString(0),feeds.getString(1),provider,syncResult);
+                        getInvoices(feeds.getString(0), feeds.getString(1), provider, syncResult);
                     } while (feeds.moveToNext());
-                }
-                else {
-                    getInvoices(null,null,provider,syncResult);
+                } else {
+                    getInvoices(null, null, provider, syncResult);
                 }
             } finally {
                 feeds.close();
@@ -85,19 +79,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private void getInvoices(String invoiceID,String NRN, ContentProviderClient provider, SyncResult syncResult){
+    private void getInvoices(String invoiceID, String NRN, ContentProviderClient provider, SyncResult syncResult) {
 
-        NetworkTask n = new NetworkTask(provider,syncResult);
+        NetworkTask n = new NetworkTask(provider, syncResult);
         try {
-            if (invoiceID==null){
-                n.getData(null,"FULL_INSERT","listInvoices","59945");
-                Log.d("QQ_FIRST>>>","FIRST INSERT");
+            if (invoiceID == null) {
+                n.getData(null, "FULL_INSERT", "listInvoices", "59945");
+                Log.d("QQ_FIRST>>>", "FIRST INSERT");
             } else {
 
-                n.getData(invoiceID,"UPDATE_INVOICE","invoiceByNRN",NRN);
-                Log.d("QQ_UPDATE>>>",invoiceID+"___"+NRN);
-                n.getData(invoiceID,"UPDATE_SPEC","invoiceSpecByNRN",NRN);
-                Log.d("QQ_UPDATE_SPEC>>>",invoiceID+"___"+NRN);
+                n.getData(invoiceID, "UPDATE_INVOICE", "invoiceByNRN", NRN);
+                Log.d("QQ_UPDATE>>>", invoiceID + "___" + NRN);
+                n.getData(invoiceID, "UPDATE_SPEC", "invoiceSpecByNRN", NRN);
+                Log.d("QQ_UPDATE_SPEC>>>", invoiceID + "___" + NRN);
 
             }
 

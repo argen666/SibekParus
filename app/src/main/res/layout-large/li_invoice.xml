@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:background="?android:attr/activatedBackgroundIndicator"
     android:padding="8dp">
 
     <!--- <ru.sibek.parus.widget.FeedIconView
@@ -32,7 +33,6 @@
             android:orientation="vertical">
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:layout_marginLeft="10dp"
                     android:singleLine="true"
                     android:textStyle="bold"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -81,7 +81,6 @@
                     android:textColor="@android:color/holo_red_dark" />
 
             </LinearLayout>
-
 
 
         </LinearLayout>

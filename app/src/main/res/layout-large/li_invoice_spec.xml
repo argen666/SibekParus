@@ -13,24 +13,33 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:src="@drawable/invoice_non_accepted"
+            android:clickable="true"
             android:id="@+id/spec_image" />
 
 
+        <!-- <ImageButton
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+
+             android:src="@drawable/invoice_spec_non_accepted"
+             android:id="@+id/spec_image" />-->
+
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
 
             android:orientation="vertical">
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
@@ -46,23 +55,50 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/title_spec_number"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:textSize="18sp"
                     android:singleLine="true" />
 
+                <TextView
+                    android:id="@+id/spec_quant"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/spec_store"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/spec_place"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
 
-
         </LinearLayout>
+
+
+        />
+
     </LinearLayout>
 
 </ru.sibek.parus.view.InvoiceSpecListItem>
