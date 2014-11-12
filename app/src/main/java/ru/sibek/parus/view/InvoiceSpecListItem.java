@@ -17,16 +17,20 @@
 package ru.sibek.parus.view;
 
 import android.annotation.SuppressLint;
+import android.content.ContentProviderClient;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ru.sibek.parus.R;
+import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.sqlite.InvoiceSpecProvider;
 import ru.sibek.parus.widget.CursorBinder;
 
@@ -35,7 +39,6 @@ import ru.sibek.parus.widget.CursorBinder;
  */
 public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
 
-    private boolean SELECT = false;
     private TextView mTitle;
 
     private TextView mTitleNum;
@@ -48,6 +51,9 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
 
     private ImageView mSelect;
 
+    private long specId;
+    private ContentProviderClient provider = null;
+
     public InvoiceSpecListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -56,7 +62,9 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
     @Override
     @SuppressLint("StringFormatMatches")
     public void bindCursor(Cursor c) {
-        mTitle.setText(InvoiceSpecProvider.getSNOMENNAME(c)/*+">>"+InvoiceSpecProvider.getNRN(c)+"/"+InvoiceSpecProvider.getNPRN(c)*/);
+        specId = InvoiceSpecProvider.getId(c);
+
+        mTitle.setText(InvoiceSpecProvider.getSNOMENNAME(c)/*+">>"+InvoiceSpecProvider.getLOCAL_ICON(c)*//*+">>"+InvoiceSpecProvider.getNRN(c)+"/"+InvoiceSpecProvider.getNPRN(c)*/);
         mTitleNum.setText(InvoiceSpecProvider.getSNOMEN(c) + "    ");
 
         double quant = InvoiceSpecProvider.getNQUANT(c);
@@ -90,18 +98,49 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
         }
 
 
-        mSelect.setImageResource(R.drawable.invoice_spec_non_accepted);
-        mSelect.setTag(SELECT);
+       /* Cursor curIcn = getContext().getContentResolver().query(
+                InvoiceSpecProvider.URI,
+                new String[]{InvoiceSpecProvider.Columns.LOCAL_ICON},
+                InvoiceSpecProvider.Columns._ID+"=?",
+                new String[]{String.valueOf(specId)},
+                null
+        );*/
+        final long iconId = InvoiceSpecProvider.getLOCAL_ICON(c);
+        if (iconId != 0) {
+            mSelect.setTag((int) iconId);
+            mSelect.setImageResource((int) iconId);
+        } else {
+            mSelect.setTag(R.drawable.invoice_spec_non_accepted);
+            mSelect.setImageResource(R.drawable.invoice_spec_non_accepted);
+        }
+
+        //mSelect.setTag(SELECT);
+
         mSelect.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if ((boolean) mSelect.getTag()) {
-                    SELECT = false;
-                    mSelect.setTag(SELECT);
-                    mSelect.setImageResource(R.drawable.invoice_spec_non_accepted);
+
+                if (iconId == R.drawable.invoice_spec_accepted) {
+                    // mSelect.setTag(R.drawable.invoice_spec_non_accepted);
+                    // mSelect.setImageResource(R.drawable.invoice_spec_non_accepted);
+
+                   /* NetworkTask n = new NetworkTask(provider, null);
+                    n.getData(null,null,...);*/
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(InvoiceSpecProvider.Columns.LOCAL_ICON, R.drawable.invoice_spec_non_accepted);
+
+                    long id = getContext().getContentResolver().update(InvoiceSpecProvider.URI, contentValues, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(specId)});
+                    Log.d("INSERTED>>>>", id + "");
+
+
                 } else {
-                    SELECT = true;
-                    mSelect.setTag(SELECT);
-                    mSelect.setImageResource(R.drawable.invoice_spec_accepted);
+                    //SELECT = true;
+                    //  mSelect.setTag(R.drawable.invoice_spec_accepted);
+                    //  mSelect.setImageResource(R.drawable.invoice_spec_accepted);
+
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(InvoiceSpecProvider.Columns.LOCAL_ICON, R.drawable.invoice_spec_accepted);
+                    long id = getContext().getContentResolver().update(InvoiceSpecProvider.URI, contentValues, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(specId)});
+                    Log.d("INSERTED>>>>", id + "");
                 }
             }
         });
@@ -125,6 +164,11 @@ public class InvoiceSpecListItem extends LinearLayout implements CursorBinder {
 
         mSelect = (ImageView) findViewById(R.id.spec_image);
         // mPubDate = (TextView) findViewById(R.id.pub_date);
+
     }
 
+
 }
+
+
+

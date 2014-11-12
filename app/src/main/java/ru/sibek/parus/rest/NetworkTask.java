@@ -72,7 +72,7 @@ public class NetworkTask {
             case "UPDATE_INVOICE": {
                 syncResult.stats.numUpdates += provider
                         .update(InvoiceProvider.URI, ((Invoices) ret).toContentValues()[0], InvoiceProvider.Columns._ID + "=?", new String[]{invoiceID});
-                //Log.d("UPDATE_INVOICE_SIZE>>>>>>>>>>>>>",((Invoices)ret).toString());
+                Log.d("UPDATE_INVOICE_SIZE>>>>>>>>>>>>>", ((Invoices) ret).toString());
 
                 break;
             }
@@ -81,10 +81,13 @@ public class NetworkTask {
                 Log.d("UPDATE_SPEC_SIZE>>>>>>>>>>>>>", ((InvoicesSpec) ret).toString());
                 syncResult.stats.numDeletes += provider
                         .delete(InvoiceSpecProvider.URI, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{invoiceID});
-                //Log.d("invoiceID>>>>>",invoiceID);
+
                 syncResult.stats.numUpdates += provider
                         .bulkInsert(InvoiceSpecProvider.URI, ((InvoicesSpec) ret).toContentValues(invoiceID));
 
+/*
+                syncResult.stats.numUpdates += provider
+                        .update(InvoiceSpecProvider.URI, ((InvoicesSpec) ret).toContentValues(invoiceID)[0], InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{invoiceID});*/
                 break;
             }
         }

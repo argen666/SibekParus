@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +37,7 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
     public static final String KEY_INVOICE_ID = "ru.sibek.parus.KEY_INVOICE_ID";
 
     private long mInvoiceId;
-
+    private ImageView iconState;
     // Fragment specFragment=null;
     Map<Long, Fragment> specsDetails = new HashMap<Long, Fragment>();
 
@@ -69,6 +72,7 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
         mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_invoice_spec);
         setListAdapter(mListAdapter);
         getLoaderManager().initLoader(R.id.invoices_spec_loader, null, this);
+
     }
 
     @Override
@@ -89,6 +93,7 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == R.id.invoices_spec_loader) {
             mListAdapter.swapCursor(data);
+
         }
     }
 
@@ -105,7 +110,10 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
         if (news.moveToPosition(position)) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(InvoiceSpecProvider.getLink(news))));
         }*/
-        Log.d("SPEC_ITEM_CLICK: ", "pos: " + position + "; id= " + id);
+        iconState = (ImageView) ((LinearLayout) view).findViewById(R.id.spec_image);
+        if ((int) iconState.getTag() == R.drawable.invoice_spec_non_accepted) {
+
+            Log.d("SPEC_ITEM_CLICK: ", "pos: " + position + "; id= " + id);
         //TODO: check this!
         final FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -120,7 +128,10 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
             ft.replace(R.id.detail_frame, (SpecDetailFragment) getSpecDetailByID(id)).addToBackStack(null).commit();
             Log.d("RESTORE DETAIL>>>>", ((SpecDetailFragment) getSpecDetailByID(id)).getId() + "");
         }
-
+        } else {
+            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Снимите галочку", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     @Override

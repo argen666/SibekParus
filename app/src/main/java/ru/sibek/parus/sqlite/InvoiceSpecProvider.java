@@ -98,6 +98,11 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         return c.getLong(c.getColumnIndex(Columns.INVOICE_ID));
     }
 
+    public static long getLOCAL_ICON(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.LOCAL_ICON));
+    }
+
+
     @Override
     public Uri getBaseUri() {
         return URI;
@@ -123,13 +128,11 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
                 + Columns.NPRN + " integer, "
 
 
-/*
-                + Columns.NQUANT + " integer, "
-                + Columns.SRACK + " text, "
-                + Columns.SCELL + " text, "
-                + Columns.NDISTRIBUTION_SIGN + " integer, "
-*/
-
+                + Columns.LOCAL_NQUANT + " integer, "
+                + Columns.LOCAL_SRACK + " text, "
+                + Columns.LOCAL_SCELL + " text, "
+                + Columns.LOCAL_SSTORE + " text, "
+                + Columns.LOCAL_ICON + " integer, "
 
 
                 + Columns.INVOICE_ID + " integer);");
@@ -155,6 +158,14 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         String SRACK = "SRACK";
         String SCELL = "SCELL";
         String NDISTRIBUTION_SIGN = "NDISTRIBUTION_SIGN";
+
+
+        String LOCAL_NQUANT = "LOCAL_NQUANT";
+        String LOCAL_SRACK = "LOCAL_SRACK";
+        String LOCAL_SCELL = "LOCAL_SCELL";
+        String LOCAL_SSTORE = "LOCAL_SSTORE";
+        String LOCAL_ICON = "LOCAL_ICON";
+
         /*String TITLE = "title";
         String LINK = "link";
         String PUB_DATE = "pubDate";
