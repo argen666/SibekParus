@@ -57,7 +57,8 @@ public class StorageProvider extends SQLiteTableProvider {
 
     @Override
     public void onContentChanged(Context context, int operation, Bundle extras) {
-       /* if (operation == INSERT) {
+ /*
+        if (operation == INSERT) {
             extras.keySet();
             final Bundle syncExtras = new Bundle();
             syncExtras.putLong(SyncAdapter.KEY_STORAGE_ID, extras.getLong(KEY_LAST_ID, -1));

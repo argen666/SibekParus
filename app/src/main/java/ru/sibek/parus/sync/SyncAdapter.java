@@ -146,10 +146,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 n.getData(null, "FULL_INSERT_STORAGE", "listStorages");
                 Log.d("STORAGE_FIRST>>>", "FULL_INSERT_STORAGE");
             } else {
-/*
+
                 n.getData(storageID, "UPDATE_STORAGE", "storageByNRN", NRN);
                 Log.d("STORAGE_UPDATE>>>", storageID + "___" + NRN);
-                n.getData(storageID, "UPDATE_RACKS", "racksByNRN", NRN);
+               /* n.getData(storageID, "UPDATE_RACKS", "racksByNRN", NRN);
                 Log.d("STORAGE_UPDATE_SPEC>>>", storageID + "___" + NRN);*/
             }
 
