@@ -1,11 +1,12 @@
 package ru.sibek.parus.rest;
 
-        import retrofit.client.Response;
-        import retrofit.http.GET;
-        import retrofit.http.Path;
-        import ru.sibek.parus.mappers.Companies;
-        import ru.sibek.parus.mappers.Invoices;
-        import ru.sibek.parus.mappers.InvoicesSpec;
+import retrofit.http.GET;
+import retrofit.http.Path;
+import ru.sibek.parus.mappers.Companies;
+import ru.sibek.parus.mappers.Invoices;
+import ru.sibek.parus.mappers.InvoicesSpec;
+import ru.sibek.parus.mappers.Racks;
+import ru.sibek.parus.mappers.Storages;
 
 /**
  * Created by Developer on 06.10.2014.
@@ -29,4 +30,12 @@ public interface Parus {
     @GET("/parus/ru/companies/")
     Companies listCompanies();
 
+    @GET("/parus/ru/storages/")
+    Storages listStorages();
+
+    @GET("/parus/ru/storage/{NRN}")
+    Storages storageByNRN(@Path("NRN") String nrn);
+
+    @GET("/parus/ru/racks/{NRN}")
+    Racks racksByNRN(@Path("NRN") String nrn);
 }

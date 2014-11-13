@@ -52,6 +52,9 @@ public class SQLiteContentProvider extends ContentProvider {
     static {
         SCHEMA.put(InvoiceProvider.TABLE_NAME, new InvoiceProvider());
         SCHEMA.put(InvoiceSpecProvider.TABLE_NAME, new InvoiceSpecProvider());
+        SCHEMA.put(StorageProvider.TABLE_NAME, new StorageProvider());
+        SCHEMA.put(RacksProvider.TABLE_NAME, new RacksProvider());
+        SCHEMA.put(CellsProvider.TABLE_NAME, new CellsProvider());
     }
 
     private final SQLiteUriMatcher mUriMatcher = new SQLiteUriMatcher();

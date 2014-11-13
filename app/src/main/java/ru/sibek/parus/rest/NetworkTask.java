@@ -9,8 +9,12 @@ import java.lang.reflect.Method;
 
 import ru.sibek.parus.mappers.Invoices;
 import ru.sibek.parus.mappers.InvoicesSpec;
+import ru.sibek.parus.mappers.Racks;
+import ru.sibek.parus.mappers.Storages;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.sqlite.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.RacksProvider;
+import ru.sibek.parus.sqlite.StorageProvider;
 
 /**
  * Created by Developer on 31.10.2014.
@@ -26,7 +30,7 @@ public class NetworkTask {
     }
 
 
-    public Object getData(String invoiceID, String tag, Object... params) throws RemoteException {
+    public Object getData(String entityID, String tag, Object... params) throws RemoteException {
         Parus service = ParusService.getService();
         Method m = null;
         Object ret = null;
@@ -66,14 +70,14 @@ public class NetworkTask {
 
 
         switch (tag) {
-            case "FULL_INSERT": {
+            case "FULL_INSERT_INVOICE": {
                 syncResult.stats.numUpdates += provider
                         .bulkInsert(InvoiceProvider.URI, ((Invoices) ret).toContentValues());
                 break;
             }
             case "UPDATE_INVOICE": {
                 syncResult.stats.numUpdates += provider
-                        .update(InvoiceProvider.URI, ((Invoices) ret).toContentValues()[0], InvoiceProvider.Columns._ID + "=?", new String[]{invoiceID});
+                        .update(InvoiceProvider.URI, ((Invoices) ret).toContentValues()[0], InvoiceProvider.Columns._ID + "=?", new String[]{entityID});
                 Log.d("UPDATE_INVOICE_SIZE>>>>>>>>>>>>>", ((Invoices) ret).toString());
 
                 break;
@@ -82,14 +86,40 @@ public class NetworkTask {
             case "UPDATE_SPEC": {
                 Log.d("UPDATE_SPEC_SIZE>>>>>>>>>>>>>", ((InvoicesSpec) ret).toString());
                 syncResult.stats.numDeletes += provider
-                        .delete(InvoiceSpecProvider.URI, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{invoiceID});
+                        .delete(InvoiceSpecProvider.URI, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{entityID});
 
                 syncResult.stats.numUpdates += provider
-                        .bulkInsert(InvoiceSpecProvider.URI, ((InvoicesSpec) ret).toContentValues(invoiceID));
+                        .bulkInsert(InvoiceSpecProvider.URI, ((InvoicesSpec) ret).toContentValues(entityID));
 
 /*
                 syncResult.stats.numUpdates += provider
                         .update(InvoiceSpecProvider.URI, ((InvoicesSpec) ret).toContentValues(invoiceID)[0], InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{invoiceID});*/
+                break;
+            }
+
+            case "FULL_INSERT_STORAGE": {
+                syncResult.stats.numUpdates += provider
+                        .bulkInsert(StorageProvider.URI, ((Storages) ret).toContentValues());
+
+                break;
+            }
+
+            case "UPDATE_STORAGE": {
+                syncResult.stats.numUpdates += provider
+                        .update(StorageProvider.URI, ((Storages) ret).toContentValues()[0], StorageProvider.Columns._ID + "=?", new String[]{entityID});
+                Log.d("UPDATE_STORAGE_SIZE>>>>>>>>>>>>>", ((Storages) ret).toString());
+
+                break;
+            }
+
+
+            case "UPDATE_RACKS": {
+                Log.d("UPDATE_RACKS_SIZE>>>>>>>>>>>>>", ((Racks) ret).toString());
+                syncResult.stats.numDeletes += provider
+                        .delete(RacksProvider.URI, RacksProvider.Columns.STORAGE_ID + "=?", new String[]{entityID});
+
+                syncResult.stats.numUpdates += provider
+                        .bulkInsert(RacksProvider.URI, ((Racks) ret).toContentValues(entityID));
                 break;
             }
         }

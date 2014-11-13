@@ -21,9 +21,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-/**
- * @author Daniel Serdyukov
- */
+
 public class InvoiceSpecProvider extends SQLiteTableProvider {
 
     public static final String TABLE_NAME = "invoicesspec";
