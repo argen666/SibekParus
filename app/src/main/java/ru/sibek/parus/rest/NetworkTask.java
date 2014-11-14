@@ -7,10 +7,12 @@ import android.util.Log;
 
 import java.lang.reflect.Method;
 
+import ru.sibek.parus.mappers.Cells;
 import ru.sibek.parus.mappers.Invoices;
 import ru.sibek.parus.mappers.InvoicesSpec;
 import ru.sibek.parus.mappers.Racks;
 import ru.sibek.parus.mappers.Storages;
+import ru.sibek.parus.sqlite.CellsProvider;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.sqlite.InvoiceSpecProvider;
 import ru.sibek.parus.sqlite.RacksProvider;
@@ -65,66 +67,76 @@ public class NetworkTask {
             syncResult.stats.numDeletes += provider
                     .delete(InvoiceProvider.URI, InvoiceProvider.Columns._ID + "=?", new String[]{invoiceID});
         }*/
-        if (ret!=null)
-        {
+        if (ret != null) {
 
 
-        switch (tag) {
-            case "FULL_INSERT_INVOICE": {
-                syncResult.stats.numUpdates += provider
-                        .bulkInsert(InvoiceProvider.URI, ((Invoices) ret).toContentValues());
-                break;
-            }
-            case "UPDATE_INVOICE": {
-                syncResult.stats.numUpdates += provider
-                        .update(InvoiceProvider.URI, ((Invoices) ret).toContentValues()[0], InvoiceProvider.Columns._ID + "=?", new String[]{entityID});
-                Log.d("UPDATE_INVOICE_SIZE>>>>>>>>>>>>>", ((Invoices) ret).toString());
+            switch (tag) {
+                case "FULL_INSERT_INVOICE": {
+                    syncResult.stats.numUpdates += provider
+                            .bulkInsert(InvoiceProvider.URI, ((Invoices) ret).toContentValues());
+                    break;
+                }
+                case "UPDATE_INVOICE": {
+                    syncResult.stats.numUpdates += provider
+                            .update(InvoiceProvider.URI, ((Invoices) ret).toContentValues()[0], InvoiceProvider.Columns._ID + "=?", new String[]{entityID});
+                    Log.d("UPDATE_INVOICE_SIZE>>>>>>>>>>>>>", ((Invoices) ret).toString());
 
-                break;
-            }
+                    break;
+                }
 
-            case "UPDATE_SPEC": {
-                Log.d("UPDATE_SPEC_SIZE>>>>>>>>>>>>>", ((InvoicesSpec) ret).toString());
-                syncResult.stats.numDeletes += provider
-                        .delete(InvoiceSpecProvider.URI, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{entityID});
+                case "UPDATE_SPEC": {
+                    Log.d("UPDATE_SPEC_SIZE>>>>>>>>>>>>>", ((InvoicesSpec) ret).toString());
+                    syncResult.stats.numDeletes += provider
+                            .delete(InvoiceSpecProvider.URI, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{entityID});
 
-                syncResult.stats.numUpdates += provider
-                        .bulkInsert(InvoiceSpecProvider.URI, ((InvoicesSpec) ret).toContentValues(entityID));
+                    syncResult.stats.numUpdates += provider
+                            .bulkInsert(InvoiceSpecProvider.URI, ((InvoicesSpec) ret).toContentValues(entityID));
 
 /*
                 syncResult.stats.numUpdates += provider
                         .update(InvoiceSpecProvider.URI, ((InvoicesSpec) ret).toContentValues(invoiceID)[0], InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{invoiceID});*/
-                break;
+                    break;
+                }
+
+                case "FULL_INSERT_STORAGE": {
+                    syncResult.stats.numUpdates += provider
+                            .bulkInsert(StorageProvider.URI, ((Storages) ret).toContentValues());
+
+                    break;
+                }
+
+                case "UPDATE_STORAGE": {
+                    syncResult.stats.numUpdates += provider
+                            .update(StorageProvider.URI, ((Storages) ret).toContentValues()[0], StorageProvider.Columns._ID + "=?", new String[]{entityID});
+                    Log.d("UPDATE_STORAGE_SIZE>>>>>>>>>>>>>", ((Storages) ret).toString());
+
+                    break;
+                }
+
+
+                case "UPDATE_RACKS": {
+                    Log.d("UPDATE_RACKS_SIZE>>>>>>>>>>>>>", ((Racks) ret).toString());
+                    syncResult.stats.numDeletes += provider
+                            .delete(RacksProvider.URI, RacksProvider.Columns.STORAGE_ID + "=?", new String[]{entityID});
+
+                    syncResult.stats.numUpdates += provider
+                            .bulkInsert(RacksProvider.URI, ((Racks) ret).toContentValues(entityID));
+                    break;
+                }
+
+                case "UPDATE_CELLS": {
+                    Log.d("UPDATE_CELLS_SIZE>>>>>>>>>>>>>", ((Cells) ret).toString());
+                    syncResult.stats.numDeletes += provider
+                            .delete(CellsProvider.URI, CellsProvider.Columns.RACK_ID + "=?", new String[]{entityID});
+
+                    syncResult.stats.numUpdates += provider
+                            .bulkInsert(CellsProvider.URI, ((Cells) ret).toContentValues(entityID));
+                    break;
+                }
+
             }
 
-            case "FULL_INSERT_STORAGE": {
-                syncResult.stats.numUpdates += provider
-                        .bulkInsert(StorageProvider.URI, ((Storages) ret).toContentValues());
-
-                break;
-            }
-
-            case "UPDATE_STORAGE": {
-                syncResult.stats.numUpdates += provider
-                        .update(StorageProvider.URI, ((Storages) ret).toContentValues()[0], StorageProvider.Columns._ID + "=?", new String[]{entityID});
-                Log.d("UPDATE_STORAGE_SIZE>>>>>>>>>>>>>", ((Storages) ret).toString());
-
-                break;
-            }
-
-
-            case "UPDATE_RACKS": {
-                Log.d("UPDATE_RACKS_SIZE>>>>>>>>>>>>>", ((Racks) ret).toString());
-                syncResult.stats.numDeletes += provider
-                        .delete(RacksProvider.URI, RacksProvider.Columns.STORAGE_ID + "=?", new String[]{entityID});
-
-                syncResult.stats.numUpdates += provider
-                        .bulkInsert(RacksProvider.URI, ((Racks) ret).toContentValues(entityID));
-                break;
-            }
         }
-
-    }
 
 
         return ret;

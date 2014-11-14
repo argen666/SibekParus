@@ -6,7 +6,8 @@
         android:title="@string/sync">
 
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
+            android:checked="true"
             android:key="ru.sibek.parus.KEY_AUTO_SYNC"
             android:summary="@string/auto_sync_summary"
             android:title="@string/auto_sync" />

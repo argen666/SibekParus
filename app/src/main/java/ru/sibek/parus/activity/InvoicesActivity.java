@@ -38,10 +38,12 @@ public class InvoicesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_single_frame);
+        //final long interval = 5;
+        //ContentResolver.addPeriodicSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, Bundle.EMPTY, interval);
         showTabs();
 
         if (savedInstanceState == null) {
-           getFragmentManager()
+            getFragmentManager()
                     .beginTransaction()
                     .add(R.id.frame1, new LogoFragment())
                     .commit();
@@ -60,7 +62,7 @@ public class InvoicesActivity extends Activity {
                 .setText("Приход")
                 .setTabListener(new TabListener<InvoicesListFragment>(
                         this, Types.ININVOICES, InvoicesListFragment.class));
-        actionBar.addTab(tab,false);
+        actionBar.addTab(tab, false);
 
         tab = actionBar.newTab()
                 .setText("Расход")
@@ -84,12 +86,12 @@ public class InvoicesActivity extends Activity {
                 .setText("Склады")
                 .setTabListener(new TabListener<DummyFragment>(
                         this, "stores", DummyFragment.class));
-        actionBar.addTab(tab,false);
+        actionBar.addTab(tab, false);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-       // getMenuInflater().inflate(R.menu.feeds, menu);
+        // getMenuInflater().inflate(R.menu.feeds, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

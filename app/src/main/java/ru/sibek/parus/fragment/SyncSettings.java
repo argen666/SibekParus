@@ -41,6 +41,7 @@ public class SyncSettings extends PreferenceFragment implements SharedPreference
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.sync_prefs);
+
         final ListPreference interval = (ListPreference) getPreferenceManager()
                 .findPreference(KEY_AUTO_SYNC_INTERVAL);
         interval.setSummary(interval.getEntry());

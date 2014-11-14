@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.app.Application;
 import android.content.ContentResolver;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import ru.sibek.parus.account.ParusAccount;
 
@@ -17,12 +18,12 @@ public class ParusApplication extends Application {
 
     public static final String CLIENT_SECRET = "9158c03e1972864a44f9b88b9e7efbe03b909a7e";
 
-    public static Account sAccount=null;
+    public static Account sAccount = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        PreferenceManager.setDefaultValues(this, R.xml.sync_prefs, false);
         final AccountManager am = AccountManager.get(this);
         if (sAccount == null) {
             sAccount = new Account(getString(R.string.app_name), ParusAccount.TYPE);

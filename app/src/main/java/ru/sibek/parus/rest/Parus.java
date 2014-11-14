@@ -2,6 +2,7 @@ package ru.sibek.parus.rest;
 
 import retrofit.http.GET;
 import retrofit.http.Path;
+import ru.sibek.parus.mappers.Cells;
 import ru.sibek.parus.mappers.Companies;
 import ru.sibek.parus.mappers.Invoices;
 import ru.sibek.parus.mappers.InvoicesSpec;
@@ -38,4 +39,7 @@ public interface Parus {
 
     @GET("/parus/ru/racks/{NRN}")
     Racks racksByNRN(@Path("NRN") String nrn);
+
+    @GET("/parus/ru/cells/{NRN}")
+    Cells cellsByNRN(@Path("NRN") String nrn);
 }

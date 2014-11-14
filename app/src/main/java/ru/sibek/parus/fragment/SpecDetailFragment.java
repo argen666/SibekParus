@@ -7,20 +7,21 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.NumberPicker;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.sqlite.InvoiceSpecProvider;
-import ru.sibek.parus.widget.CursorBinderAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SpecDetailFragment extends Fragment {
+public class SpecDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String KEY_SPEC_ID = "ru.sibek.parus.KEY_SPEC_ID";
     private long mSpecId;
@@ -43,20 +44,14 @@ public class SpecDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mSpecId = getArguments().getLong(KEY_SPEC_ID, -1);
 
-         cur = getActivity().getContentResolver().query(
-                InvoiceSpecProvider.URI,
-                null,
-                InvoiceSpecProvider.Columns._ID+"=?",
-                new String[]{String.valueOf(mSpecId)},
-                null);
-        cur.moveToFirst();
-        Log.d("!!!>>>>>>>",cur.getString(cur.getColumnIndex(InvoiceSpecProvider.Columns.SNOMENNAME)));
-        //getLoaderManager().initLoader(R.id.spec_detail_loader, null, this);
+        getLoaderManager().initLoader(R.id.spec_detail_loader, null, this);
+
 
         NumberPicker np = (NumberPicker) getActivity().findViewById(R.id.numberPicker1);
         np.setMaxValue(2);
         np.setMinValue(0);
-        np.setDisplayedValues( new String[] { "Belgium", "France", "United Kingdom" } );
+        np.setDisplayedValues(new String[]{
+                "QQQQQQ", "DDDDDD", "United Kingdom"});
     }
 
     @Override
@@ -65,14 +60,14 @@ public class SpecDetailFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_spec_detail, container, false);
     }
 
-   /* @Override
+    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (id == R.id.invoices_spec_loader) {
+        if (id == R.id.spec_detail_loader) {
             return new CursorLoader(
                     getActivity().getApplicationContext(),
                     InvoiceSpecProvider.URI, null,
-                    InvoiceSpecProvider.Columns.INVOICE_ID + "=?",
-                    new String[]{String.valueOf(mInvoiceId)},
+                    InvoiceSpecProvider.Columns._ID + "=?",
+                    new String[]{String.valueOf(mSpecId)},
                     InvoiceSpecProvider.Columns.SNOMEN + " DESC"
             );
         }
@@ -81,17 +76,43 @@ public class SpecDetailFragment extends Fragment {
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (loader.getId() == R.id.invoices_spec_loader) {
-            mListAdapter.swapCursor(data);
-
+        if (loader.getId() == R.id.spec_detail_loader) {
+            // mListAdapter.swapCursor(data);
+            //cur=data;
+            data.moveToFirst();
+            showButtons(InvoiceSpecProvider.getNDISTRIBUTION_SIGN(data));
+            /*NumberPicker np = (NumberPicker) getActivity().findViewById(R.id.numberPicker1);
+            np.setDisplayedValues( new String[] {
+                    InvoiceSpecProvider.getSSTORE(data),"DDDDDD", "United Kingdom" } );*/
         }
+    }
+
+    private void showButtons(long nDistSign) {
+        final Button button = (Button) getActivity().findViewById(R.id.storage);
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                getActivity().openContextMenu(button);
+            }
+        });
+
+        registerForContextMenu(button);
+
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(Menu.NONE, 0, Menu.NONE, "Menu A");
+        menu.add(Menu.NONE, 1, Menu.NONE, "Menu B");
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        if (loader.getId() == R.id.invoices_spec_loader) {
-            mListAdapter.swapCursor(null);
+        if (loader.getId() == R.id.spec_detail_loader) {
+            // mListAdapter.swapCursor(null);
         }
     }
-    */
+
 }

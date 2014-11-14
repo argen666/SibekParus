@@ -6,4 +6,5 @@ package ru.sibek.parus.sync;
 public interface SyncActions {
     final String SYNC_INVOICES = "SYNC_INVOICES";
     final String SYNC_STORAGES = "SYNC_STORAGES";
+    final String SYNC_RACKS = "SYNC_RACKS";
 }

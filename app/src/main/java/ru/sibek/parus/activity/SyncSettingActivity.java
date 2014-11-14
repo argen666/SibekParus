@@ -16,6 +16,7 @@ public class SyncSettingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_single_frame);
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
         if (savedInstanceState == null) {
             getFragmentManager()

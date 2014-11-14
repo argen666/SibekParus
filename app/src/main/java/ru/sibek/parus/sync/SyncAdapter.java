@@ -28,6 +28,7 @@ import android.util.Log;
 
 import ru.sibek.parus.rest.NetworkTask;
 import ru.sibek.parus.sqlite.InvoiceProvider;
+import ru.sibek.parus.sqlite.RacksProvider;
 import ru.sibek.parus.sqlite.StorageProvider;
 
 
@@ -35,6 +36,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final String KEY_INVOICE_ID = "ru.sibek.parus.sync.KEY_INVOICE_ID";
     public static final String KEY_STORAGE_ID = "ru.sibek.parus.sync.KEY_STORAGE_ID";
+    public static final String KEY_RACK_ID = "ru.sibek.parus.sync.KEY_RACK_ID";
 
     public SyncAdapter(Context context) {
         super(context, true);
@@ -45,26 +47,27 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                               SyncResult syncResult) {
         final long feedId = extras.getLong(KEY_INVOICE_ID, -1);
         final long storageId = extras.getLong(KEY_STORAGE_ID, -1);
-        Log.d(Log.INFO+">>>>","feed>>"+feedId+" store>>"+storageId);
-        if (feedId == -1 && storageId ==-1)
-        {
+        final long rackId = extras.getLong(KEY_RACK_ID, -1);
+        Log.d(Log.INFO + ">>>>", "feed>>" + feedId + " store>>" + storageId + " rackId>>" + rackId);
+        if (feedId == -1 && storageId == -1 && rackId == -1) {
             startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
+
         }
 
         if (feedId > 0) {
             startSync(provider, syncResult, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(feedId)}, SyncActions.SYNC_INVOICES);
             //return;
-        } else {
-
-
         }
 
         if (storageId > 0) {
             startSync(provider, syncResult, StorageProvider.Columns._ID + "=?", new String[]{String.valueOf(storageId)}, SyncActions.SYNC_STORAGES);
-            //return;
-        } else {
+            return;
+        }
 
+        if (rackId > 0) {
+            startSync(provider, syncResult, RacksProvider.Columns._ID + "=?", new String[]{String.valueOf(rackId)}, SyncActions.SYNC_RACKS);
+            return;
         }
 
         Log.d("PARUS_Sync", "Start" + feedId);
@@ -83,8 +86,57 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 syncStorages(provider, syncResult, where, whereArgs);
                 break;
             }
+
+            case SyncActions.SYNC_RACKS: {
+                syncRacks(provider, syncResult, where, whereArgs);
+                break;
+            }
+
         }
 
+
+    }
+
+    private void syncRacks(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
+
+        try {
+            final Cursor racks = provider.query(
+                    RacksProvider.URI, new String[]{
+                            RacksProvider.Columns._ID,
+                            RacksProvider.Columns.NRN
+                    }, where, whereArgs, null
+            );
+
+            try {
+                if (racks.moveToFirst()) {
+                    do {
+                        getRacks(racks.getString(0), racks.getString(1), provider, syncResult);
+                    } while (racks.moveToNext());
+                }
+            } finally {
+                racks.close();
+            }
+        } catch (RemoteException e) {
+            Log.e(SyncAdapter.class.getName(), e.getMessage(), e);
+            ++syncResult.stats.numIoExceptions;
+        }
+
+    }
+
+
+    private void getRacks(String rackID, String NRN, ContentProviderClient provider, SyncResult syncResult) {
+
+        NetworkTask n = new NetworkTask(provider, syncResult);
+        try {
+                /*n.getData(rackID, "UPDATE_STORAGE", "racksByNRN", NRN);
+                Log.d("STORAGE_RACK_UPDATE>>>", rackID + "___" + NRN);*/
+            n.getData(rackID, "UPDATE_CELLS", "cellsByNRN", NRN);
+            Log.d("STORAGE_UPDATE_CELLS>>>", rackID + "___" + NRN);
+
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -144,6 +196,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             ++syncResult.stats.numIoExceptions;
         }
     }
+
 
     private void getStorages(String storageID, String NRN, ContentProviderClient provider, SyncResult syncResult) {
 

@@ -104,6 +104,7 @@ public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.O
         mRefresher.post(new Runnable() {
             @Override
             public void run() {
+
                 onSyncStatusChanged(ParusApplication.sAccount, ContentResolver
                         .isSyncActive(ParusApplication.sAccount, ParusAccount.AUTHORITY));
             }
