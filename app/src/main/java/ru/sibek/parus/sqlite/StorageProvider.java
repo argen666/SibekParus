@@ -16,12 +16,18 @@
 
 package ru.sibek.parus.sqlite;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.util.Log;
+
+import ru.sibek.parus.ParusApplication;
+import ru.sibek.parus.account.ParusAccount;
+import ru.sibek.parus.sync.SyncAdapter;
 
 
 public class StorageProvider extends SQLiteTableProvider {
@@ -57,7 +63,7 @@ public class StorageProvider extends SQLiteTableProvider {
 
     @Override
     public void onContentChanged(Context context, int operation, Bundle extras) {
- /*
+
         if (operation == INSERT) {
             extras.keySet();
             final Bundle syncExtras = new Bundle();
@@ -65,7 +71,7 @@ public class StorageProvider extends SQLiteTableProvider {
             ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
             Log.d("QQcontentChanged", "insert");
 
-        }*/
+        }
     }
 
 

@@ -45,19 +45,26 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                               SyncResult syncResult) {
         final long feedId = extras.getLong(KEY_INVOICE_ID, -1);
         final long storageId = extras.getLong(KEY_STORAGE_ID, -1);
+        Log.d(Log.INFO+">>>>","feed>>"+feedId+" store>>"+storageId);
+        if (feedId == -1 && storageId ==-1)
+        {
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
+        }
+
         if (feedId > 0) {
             startSync(provider, syncResult, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(feedId)}, SyncActions.SYNC_INVOICES);
-            return;
+            //return;
         } else {
-            startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
+
 
         }
 
         if (storageId > 0) {
-            startSync(provider, syncResult, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(storageId)}, SyncActions.SYNC_STORAGES);
-            return;
+            startSync(provider, syncResult, StorageProvider.Columns._ID + "=?", new String[]{String.valueOf(storageId)}, SyncActions.SYNC_STORAGES);
+            //return;
         } else {
-            startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
+
         }
 
         Log.d("PARUS_Sync", "Start" + feedId);
@@ -149,8 +156,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
                 n.getData(storageID, "UPDATE_STORAGE", "storageByNRN", NRN);
                 Log.d("STORAGE_UPDATE>>>", storageID + "___" + NRN);
-               /* n.getData(storageID, "UPDATE_RACKS", "racksByNRN", NRN);
-                Log.d("STORAGE_UPDATE_SPEC>>>", storageID + "___" + NRN);*/
+                n.getData(storageID, "UPDATE_RACKS", "racksByNRN", NRN);
+                Log.d("STORAGE_UPDATE_RACK>>>", storageID + "___" + NRN);
             }
 
         } catch (RemoteException e) {
