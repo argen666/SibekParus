@@ -47,11 +47,11 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
         getLoaderManager().initLoader(R.id.spec_detail_loader, null, this);
 
 
-        NumberPicker np = (NumberPicker) getActivity().findViewById(R.id.numberPicker1);
+       /* NumberPicker np = (NumberPicker) getActivity().findViewById(R.id.numberPicker1);
         np.setMaxValue(2);
         np.setMinValue(0);
         np.setDisplayedValues(new String[]{
-                "QQQQQQ", "DDDDDD", "United Kingdom"});
+                "QQQQQQ", "DDDDDD", "United Kingdom"});*/
     }
 
     @Override
@@ -88,7 +88,7 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
     }
 
     private void showButtons(long nDistSign) {
-        final Button button = (Button) getActivity().findViewById(R.id.storage);
+        final Button button = (Button) getActivity().findViewById(R.id.button_storage);
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -104,8 +104,11 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Select Storage!");
         menu.add(Menu.NONE, 0, Menu.NONE, "Menu A");
         menu.add(Menu.NONE, 1, Menu.NONE, "Menu B");
+
+
     }
 
     @Override
