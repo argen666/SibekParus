@@ -100,6 +100,21 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         return c.getLong(c.getColumnIndex(Columns.LOCAL_ICON));
     }
 
+    public static String getLOCAL_STORE(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.LOCAL_SSTORE));
+    }
+
+    public static String getLOCAL_SRACK(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.LOCAL_SRACK));
+    }
+
+    public static String getLOCAL_SCELL(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.LOCAL_SCELL));
+    }
+
+    public static double getLOCAL_NQUANT(Cursor c) {
+        return c.getDouble(c.getColumnIndex(Columns.LOCAL_NQUANT));
+    }
 
     @Override
     public Uri getBaseUri() {
