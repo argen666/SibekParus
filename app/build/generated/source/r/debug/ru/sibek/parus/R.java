@@ -61,7 +61,7 @@ public final class R {
     }
     public static final class id {
         public static final int action_settings=0x7f070026;
-        public static final int agent=0x7f07001d;
+        public static final int agent=0x7f07001b;
         public static final int button=0x7f070013;
         public static final int button_2cell=0x7f070018;
         public static final int button_2rack=0x7f070017;
@@ -92,10 +92,10 @@ public final class R {
         public static final int spec_quant=0x7f070022;
         public static final int spec_store=0x7f070023;
         public static final int status=0x7f07001e;
-        public static final int status_image=0x7f07001a;
+        public static final int status_image=0x7f07001d;
         public static final int text=0x7f07000d;
         public static final int textView=0x7f070012;
-        public static final int title=0x7f07001b;
+        public static final int title=0x7f07001a;
         public static final int title_spec=0x7f070020;
         public static final int title_spec_number=0x7f070021;
         public static final int tvName=0x7f070025;
@@ -109,9 +109,10 @@ public final class R {
         public static final int fragment_logo=0x7f030005;
         public static final int fragment_spec_detail=0x7f030006;
         public static final int in_invoices=0x7f030007;
-        public static final int li_invoice=0x7f030008;
-        public static final int li_invoice_spec=0x7f030009;
-        public static final int list_item=0x7f03000a;
+        public static final int li_feed=0x7f030008;
+        public static final int li_invoice=0x7f030009;
+        public static final int li_invoice_spec=0x7f03000a;
+        public static final int list_item=0x7f03000b;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;

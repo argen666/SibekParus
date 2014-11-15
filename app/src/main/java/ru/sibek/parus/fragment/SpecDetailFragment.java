@@ -9,11 +9,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.NumberPicker;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.sqlite.InvoiceSpecProvider;
@@ -93,6 +91,7 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
 
             @Override
             public void onClick(View v) {
+
                 getActivity().openContextMenu(button);
             }
         });
@@ -101,12 +100,10 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
 
     }
 
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Select Storage!");
-        menu.add(Menu.NONE, 0, Menu.NONE, "Menu A");
-        menu.add(Menu.NONE, 1, Menu.NONE, "Menu B");
 
 
     }
