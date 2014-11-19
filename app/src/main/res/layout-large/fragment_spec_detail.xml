@@ -48,7 +48,8 @@
                 android:id="@+id/text_quant"
                 android:layout_width="130dp"
                 android:layout_height="80dp"
-                android:inputType="numberDecimal"
+                android:inputType="phone"
+                android:digits="0123456789."
                 android:gravity="center"
                 android:background="@drawable/rect_text_edit" />
 
