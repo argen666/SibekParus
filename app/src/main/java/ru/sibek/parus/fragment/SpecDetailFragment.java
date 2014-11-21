@@ -1,9 +1,11 @@
 package ru.sibek.parus.fragment;
 
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -43,6 +45,9 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
     private long rackId;
     private long cellId;
 
+    private Button mSaveButton;
+    private Button mCancelButton;
+    private boolean isChanged = false;
     public SpecDetailFragment() {
         // Required empty public constructor
     }
@@ -90,6 +95,7 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
         return null;
     }
 
+
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == R.id.spec_detail_loader) {
@@ -97,6 +103,38 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
             //cur=data;
             data.moveToFirst();
             showButtons(data);
+            isChanged = false;
+            mSaveButton = (Button) getView().findViewById(R.id.button_detail_spec_save);
+            mCancelButton = (Button) getView().findViewById(R.id.button_detail_spec_cancel);
+
+            mCancelButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    if (isChanged) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                        builder
+                                .setMessage("Отменить все изменения?")
+                                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        getFragmentManager().popBackStack();
+                                    }
+                                })
+                                .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                        dialog.cancel();
+                                    }
+                                })
+                                .show();
+                    } else getFragmentManager().popBackStack();
+
+                }
+            });
             /*NumberPicker np = (NumberPicker) getActivity().findViewById(R.id.numberPicker1);
             np.setDisplayedValues( new String[] {
                     InvoiceSpecProvider.getSSTORE(data),"DDDDDD", "United Kingdom" } );*/
@@ -151,6 +189,7 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
 
             @Override
             public void onClick(View v) {
+                isChanged = true;
                 registerForContextMenu(mRackButton);
                 getActivity().openContextMenu(mRackButton);
 
@@ -161,6 +200,7 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
 
             @Override
             public void onClick(View v) {
+                isChanged = true;
                 registerForContextMenu(mCellButton);
                 getActivity().openContextMenu(mCellButton);
 
@@ -174,7 +214,7 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
 
             @Override
             public void onClick(View v) {
-
+                isChanged = true;
                 registerForContextMenu(mStorageButton);
                 getActivity().openContextMenu(mStorageButton);
 
@@ -295,6 +335,7 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
     public void onLoaderReset(Loader<Cursor> loader) {
         if (loader.getId() == R.id.spec_detail_loader) {
             // mListAdapter.swapCursor(null);
+            //
         }
     }
 
