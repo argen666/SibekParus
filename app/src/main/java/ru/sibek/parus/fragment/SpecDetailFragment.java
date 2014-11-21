@@ -7,6 +7,7 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ru.sibek.parus.R;
+import ru.sibek.parus.sqlite.CellsProvider;
 import ru.sibek.parus.sqlite.InvoiceSpecProvider;
 import ru.sibek.parus.sqlite.RacksProvider;
 import ru.sibek.parus.sqlite.StorageProvider;
@@ -37,6 +39,9 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
     private EditText mQuantText;
     private TextView mTitle;
     private TextView mMeas;
+    private long storageId;
+    private long rackId;
+    private long cellId;
 
     public SpecDetailFragment() {
         // Required empty public constructor
@@ -122,18 +127,27 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
         mStorageButton = (Button) getView().findViewById(R.id.button_storage);
 
         final String localStorage = InvoiceSpecProvider.getLOCAL_STORE(c);
+        storageId = StorageHelper.getStorageIdByNstore(getActivity(), InvoiceSpecProvider.getNSTORE(c));
         mStorageButton.setText(localStorage == null ? InvoiceSpecProvider.getSSTORE(c) == null ? "Cклад: - " : "Cклад: " + InvoiceSpecProvider.getSSTORE(c) : "Cклад: " + localStorage);
-        if (InvoiceSpecProvider.getNDISTRIBUTION_SIGN(c) != 0) {
-            mRackButton = (Button) getView().findViewById(R.id.button_rack);
+
+        mRackButton = (Button) getView().findViewById(R.id.button_rack);
+        mCellButton = (Button) getView().findViewById(R.id.button_cell);
+        //  if (InvoiceSpecProvider.getNDISTRIBUTION_SIGN(c) != 0) {
+        if (InvoiceSpecProvider.getNRACK(c) != 0) {
+            rackId = StorageHelper.getRackIdByNrack(getActivity(), InvoiceSpecProvider.getNRACK(c));
             mRackButton.setVisibility(View.VISIBLE);
-            final String localRack = InvoiceSpecProvider.getLOCAL_SRACK(c);
-            mRackButton.setText(localRack == null ? InvoiceSpecProvider.getSRACK(c) == null ? "Стеллаж: - " : "Стеллаж: " + InvoiceSpecProvider.getSRACK(c) : "Стеллаж: " + localRack);
-            mCellButton = (Button) getView().findViewById(R.id.button_cell);
             mCellButton.setVisibility(View.VISIBLE);
-            final String localCell = InvoiceSpecProvider.getLOCAL_SCELL(c);
-            mCellButton.setText(localCell == null ? InvoiceSpecProvider.getSCELL(c) == null ? "Место: - " : "Место: " + InvoiceSpecProvider.getSCELL(c) : "Место: " + localCell);
         }
-       /* mRackButton.setOnClickListener(new View.OnClickListener() {
+
+
+        final String localRack = InvoiceSpecProvider.getLOCAL_SRACK(c);
+        mRackButton.setText(localRack == null ? InvoiceSpecProvider.getSRACK(c) == null ? "Стеллаж: - " : "Стеллаж: " + InvoiceSpecProvider.getSRACK(c) : "Стеллаж: " + localRack);
+
+
+        final String localCell = InvoiceSpecProvider.getLOCAL_SCELL(c);
+        mCellButton.setText(localCell == null ? InvoiceSpecProvider.getSCELL(c) == null ? "Место: - " : "Место: " + InvoiceSpecProvider.getSCELL(c) : "Место: " + localCell);
+
+        mRackButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -141,7 +155,21 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
                 getActivity().openContextMenu(mRackButton);
 
             }
-        });*/
+        });
+
+        mCellButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                registerForContextMenu(mCellButton);
+                getActivity().openContextMenu(mCellButton);
+
+            }
+        });
+
+
+        //  }
+        /**/
         mStorageButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -172,9 +200,10 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
             try {
                 if (cur.moveToFirst()) {
                     do {
-                        menu.add(Menu.NONE, (int) StorageProvider.getId(cur), Menu.NONE, StorageProvider.getSNUMB(cur));
+                        menu.add(R.id.button_storage, (int) StorageProvider.getId(cur), Menu.NONE, StorageProvider.getSNUMB(cur));
                     } while (cur.moveToNext());
                 } else {
+
                     Toast.makeText(getActivity(), "Нет складов", Toast.LENGTH_LONG).show();
                 }
             } finally {
@@ -186,17 +215,12 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
 
         if (v.getId() == R.id.button_rack) {
             menu.setHeaderTitle("Выберите стеллаж!");
-            Cursor cur = getActivity().getContentResolver().query(
-                    RacksProvider.URI, new String[]{
-                            RacksProvider.Columns._ID,
-                            RacksProvider.Columns.SFULLNAME
-                    }, null, null, RacksProvider.Columns.SFULLNAME + " ASC"
-            );
+            Cursor cur = StorageHelper.getRacksByStorageId(getActivity(), storageId);
 
             try {
                 if (cur.moveToFirst()) {
                     do {
-                        menu.add(Menu.NONE, (int) RacksProvider.getId(cur), Menu.NONE, RacksProvider.getSFULLNAME(cur));
+                        menu.add(R.id.button_rack, (int) RacksProvider.getId(cur), Menu.NONE, RacksProvider.getSFULLNAME(cur));
                     } while (cur.moveToNext());
                 } else {
                     Toast.makeText(getActivity(), "Нет стеллажей", Toast.LENGTH_LONG).show();
@@ -207,9 +231,20 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
         }
 
         if (v.getId() == R.id.button_cell) {
-            menu.setHeaderTitle("Select Storage!");
-            menu.add(Menu.NONE, 0, Menu.NONE, "Menu A");
-            menu.add(Menu.NONE, 1, Menu.NONE, "Menu B");
+            menu.setHeaderTitle("Выберите место!");
+            Cursor cur = StorageHelper.getCellsByRackId(getActivity(), rackId);
+
+            try {
+                if (cur.moveToFirst()) {
+                    do {
+                        menu.add(R.id.button_cell, (int) CellsProvider.getId(cur), Menu.NONE, CellsProvider.getSFULLNAME(cur));
+                    } while (cur.moveToNext());
+                } else {
+                    Toast.makeText(getActivity(), "Нет мест", Toast.LENGTH_LONG).show();
+                }
+            } finally {
+                cur.close();
+            }
         }
 
 
@@ -217,8 +252,43 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getGroupId()) {
+            case R.id.button_storage: {
+                storageId = item.getItemId();
+                mStorageButton.setText("Cклад: " + item.toString());
+                mRackButton.setText("Стеллаж: -");
+/*                if (mRackButton==null) {mRackButton=(Button) getView().findViewById(R.id.button_rack);}
+                if (mCellButton==null) {mCellButton=(Button) getView().findViewById(R.id.button_cell);}*/
+                if (!StorageHelper.getRacksByStorageId(getActivity(), storageId).moveToFirst()) {
+                    mRackButton.setVisibility(View.GONE);
+                    mCellButton.setVisibility(View.GONE);
+
+                } else {
+                    mRackButton.setVisibility(View.VISIBLE);
+                    if (mCellButton.getVisibility() == View.VISIBLE)
+                        mCellButton.setVisibility(View.GONE);
+                }
+                //if (mRackButton!=null){mRackButton.setEnabled(false);}
+                Log.d("CKICK STORAGE>>>>", item.toString() + ">>" + item.getItemId());
+                break;
+            }
+            case R.id.button_rack: {
+                rackId = item.getItemId();
+                mRackButton.setText("Стеллаж: " + item.toString());
+                mCellButton.setText("Место: -");
+                mCellButton.setVisibility(View.VISIBLE);
+                Log.d("CKICK RACK>>>>", item.toString() + ">>" + item.getItemId());
+                break;
+            }
+            case R.id.button_cell: {
+                cellId = item.getItemId();
+                mCellButton.setText("Место: " + item.toString());
+                break;
+            }
+        }
+
         return super.onContextItemSelected(item);
-        // item.
+
     }
 
     @Override

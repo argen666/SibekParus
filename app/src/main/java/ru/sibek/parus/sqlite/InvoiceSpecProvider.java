@@ -72,6 +72,10 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         return c.getDouble(c.getColumnIndex(Columns.NQUANT));
     }
 
+    public static long getNSTORE(Cursor c) {
+        return c.getInt(c.getColumnIndex(Columns.NSTORE));
+    }
+
     public static long getNPRICE(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.NPRICE));
     }
@@ -94,6 +98,10 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
 
     public static long getINVOICE_ID(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.INVOICE_ID));
+    }
+
+    public static long getNRACK(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.NRACK));
     }
 
     public static long getLOCAL_ICON(Cursor c) {
@@ -128,12 +136,14 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
                 + Columns.SNOMEN + " text, "
                 + Columns.SNOMENNAME + " text, "
                 + Columns.SSERNUMB + " text, "
+                + Columns.NSTORE + " integer, "
                 + Columns.SSTORE + " text, "
                 + Columns.SNOTE + " text, "
                 + Columns.SMEAS_MAIN + " text, "
                 + Columns.NQUANT + " integer, "
                 + Columns.NPRICE + " integer, "
                 + Columns.NSUMMTAX + " integer, "
+                + Columns.NRACK + " integer, "
                 + Columns.SRACK + " text, "
                 + Columns.SCELL + " text, "
                 + Columns.NDISTRIBUTION_SIGN + " integer, "
@@ -159,6 +169,7 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         String SNOMENNAME = "SNOMENNAME";
         String SSERNUMB = "SSERNUMB";
         String SSTORE = "SSTORE";
+        String NSTORE = "NSTORE";
         String SMEAS_MAIN = "SMEAS_MAIN";
         String SNOTE = "SNOTE";
         String NQUANT = "NQUANT";
@@ -168,6 +179,7 @@ public class InvoiceSpecProvider extends SQLiteTableProvider {
         String NRN = "NRN";
         String NPRN = "NPRN";
 
+        String NRACK = "NRACK";
         String SRACK = "SRACK";
         String SCELL = "SCELL";
         String NDISTRIBUTION_SIGN = "NDISTRIBUTION_SIGN";

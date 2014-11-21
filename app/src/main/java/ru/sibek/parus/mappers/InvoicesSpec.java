@@ -41,8 +41,10 @@ public class InvoicesSpec /*implements IContentValues*/ {
             contentValues.put(InvoiceSpecProvider.Columns.NQUANT, item.getNquant());
             contentValues.put(InvoiceSpecProvider.Columns.NPRICE, item.getNprice());
             contentValues.put(InvoiceSpecProvider.Columns.SSTORE, item.getSstore());
+            contentValues.put(InvoiceSpecProvider.Columns.NSTORE, item.getNstore());
             contentValues.put(InvoiceSpecProvider.Columns.SMEAS_MAIN, item.getSmeasMain());
             contentValues.put(InvoiceSpecProvider.Columns.SNOTE, item.getSnote());
+            contentValues.put(InvoiceSpecProvider.Columns.NRACK, item.getNrack());
             contentValues.put(InvoiceSpecProvider.Columns.SRACK, item.getSrack());
             contentValues.put(InvoiceSpecProvider.Columns.SCELL, item.getScell());
             contentValues.put(InvoiceSpecProvider.Columns.NDISTRIBUTION_SIGN, item.getNdistribution_sign());
@@ -93,6 +95,8 @@ public class InvoicesSpec /*implements IContentValues*/ {
         @Expose
         private String staxgr;
 
+        @Expose
+        private Integer nrack;
         @Expose
         private String srack;
         @Expose
@@ -148,6 +152,14 @@ public class InvoicesSpec /*implements IContentValues*/ {
         private Integer nmuSize;
         @Expose
         private Integer ndiscount;
+
+        public Integer getNrack() {
+            return nrack;
+        }
+
+        public void setNrack(Integer nrack) {
+            this.nrack = nrack;
+        }
 
         public Integer getNdistribution_sign() {
             return ndistribution_sign;
