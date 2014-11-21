@@ -63,20 +63,20 @@
 
             <Button
                 android:id="@+id/button_storage"
-                android:layout_width="130dp"
+                android:layout_width="135dp"
                 android:layout_height="80dp"
                 android:text="New Button" />
 
             <Button
                 android:id="@+id/button_rack"
-                android:layout_width="130dp"
+                android:layout_width="135dp"
                 android:layout_height="80dp"
                 android:text="New Button"
                 android:visibility="invisible" />
 
             <Button
                 android:id="@+id/button_cell"
-                android:layout_width="130dp"
+                android:layout_width="135dp"
                 android:layout_height="80dp"
                 android:text="New Button"
                 android:visibility="invisible" />
