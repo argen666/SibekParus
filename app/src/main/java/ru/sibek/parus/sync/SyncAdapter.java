@@ -34,6 +34,7 @@ import ru.sibek.parus.sqlite.StorageProvider;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
+    public static final String KEY_POST_INVOICE_ID = "ru.sibek.parus.sync.KEY_POST_INVOICE_ID";
     public static final String KEY_INVOICE_ID = "ru.sibek.parus.sync.KEY_INVOICE_ID";
     public static final String KEY_STORAGE_ID = "ru.sibek.parus.sync.KEY_STORAGE_ID";
     public static final String KEY_RACK_ID = "ru.sibek.parus.sync.KEY_RACK_ID";
@@ -45,19 +46,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider,
                               SyncResult syncResult) {
+        final long postId = extras.getLong(KEY_POST_INVOICE_ID, -1);
         final long feedId = extras.getLong(KEY_INVOICE_ID, -1);
         final long storageId = extras.getLong(KEY_STORAGE_ID, -1);
         final long rackId = extras.getLong(KEY_RACK_ID, -1);
         Log.d(Log.INFO + ">>>>", "feed>>" + feedId + " store>>" + storageId + " rackId>>" + rackId);
-        if (feedId == -1 && storageId == -1 && rackId == -1) {
+        if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1) {
             startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
 
         }
 
+        if (postId > 0) {
+
+            return;
+        }
+
         if (feedId > 0) {
             startSync(provider, syncResult, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(feedId)}, SyncActions.SYNC_INVOICES);
-            //return;
+            return;
         }
 
         if (storageId > 0) {

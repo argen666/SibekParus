@@ -41,6 +41,7 @@ public class Invoices/* implements IContentValues*/ {
             contentValues.put(InvoiceProvider.Columns.SAGENT,item.getSagent());
             contentValues.put(InvoiceProvider.Columns.NSUMMTAX,item.getNsummtax());
             contentValues.put(InvoiceProvider.Columns.NSTATUS,item.getNstatus());
+            contentValues.put(InvoiceProvider.Columns.LOCAL_NSTATUS, item.getNstatus());
             contentValues.put(InvoiceProvider.Columns.SSTATUS,item.getSstatus());
             contentValues.put(InvoiceProvider.Columns.NRN,item.getNrn());
             contentValues.put(InvoiceProvider.Columns.NCOMPANY,item.getNcompany());

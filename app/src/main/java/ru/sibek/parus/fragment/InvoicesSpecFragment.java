@@ -2,23 +2,17 @@ package ru.sibek.parus.fragment;
 
 import android.accounts.Account;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -103,13 +97,13 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
             mListAdapter.swapCursor(null);
         }
     }
-
-    @Override
+//TODO:uncomment this
+   /* @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-       /* final Cursor news = mListAdapter.getCursor();
+       *//* final Cursor news = mListAdapter.getCursor();
         if (news.moveToPosition(position)) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(InvoiceSpecProvider.getLink(news))));
-        }*/
+        }*//*
         iconState = (ImageView) ((LinearLayout) view).findViewById(R.id.spec_image);
         if ((int) iconState.getTag() == R.drawable.invoice_spec_non_accepted) {
 
@@ -132,7 +126,7 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
             Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Снимите галочку", Toast.LENGTH_LONG);
             toast.show();
         }
-    }
+    }*/
 
     @Override
     protected void onRefresh(Account account) {
