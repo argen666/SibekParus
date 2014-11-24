@@ -2,9 +2,11 @@ package ru.sibek.parus.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ContentResolver;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -17,11 +19,12 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import retrofit.client.Response;
+import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
-import ru.sibek.parus.rest.ParusService;
+import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.sqlite.InvoiceSpecProvider;
+import ru.sibek.parus.sync.SyncAdapter;
 
 public class ControlPanelFragment extends Fragment {
     private static final String TYPE = "type";
@@ -117,7 +120,18 @@ public class ControlPanelFragment extends Fragment {
                                 cNRN.moveToFirst();
                                 long nrn = InvoiceProvider.getNRN(cNRN);
 
-                                class MyThread implements Runnable {
+                                final Bundle syncExtras = new Bundle();
+                                syncExtras.putLong(SyncAdapter.KEY_POST_INVOICE_ID, invoiceId);
+                                ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
+
+                                new Handler().postDelayed(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getActivity(), "Отработано", Toast.LENGTH_LONG).show();
+                                    }
+                                }, 1500);
+                                /*class MyThread implements Runnable {
                                     long nrn;
 
                                     public MyThread(long nrn) {
@@ -130,7 +144,7 @@ public class ControlPanelFragment extends Fragment {
                                     }
                                 }
                                 Runnable r = new MyThread(nrn);
-                                new Thread(r).start();
+                                new Thread(r).start();*/
 
 
                             }
