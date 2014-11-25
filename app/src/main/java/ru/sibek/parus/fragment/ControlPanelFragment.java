@@ -93,19 +93,31 @@ public class ControlPanelFragment extends Fragment {
                     Log.d("CP_CLICK>>>", invoiceId + "");
                     Cursor cur = getActivity().getContentResolver().query(
                             InvoiceSpecProvider.URI, new String[]{
+                                    InvoiceSpecProvider.Columns.SRACK,
                                     InvoiceSpecProvider.Columns.LOCAL_ICON
                             }, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{String.valueOf(invoiceId)}, null
                     );
                     boolean isChecked = true;
+                    boolean isSrack = true;
                     try {
                         if (cur.moveToFirst()) {
                             do {
+                                if (InvoiceSpecProvider.getSRACK(cur) == null) {
+                                    isSrack = false;
+                                    break;
+                                }
+
                                 if (InvoiceSpecProvider.getLOCAL_ICON(cur) == 0 || InvoiceSpecProvider.getLOCAL_ICON(cur) == R.drawable.invoice_spec_non_accepted) {
                                     isChecked = false;
                                     break;
                                 }
                             }
                             while (cur.moveToNext());
+
+                            if (!isSrack) {
+                                Toast.makeText(getActivity(), "Не определено место хранения!", Toast.LENGTH_LONG).show();
+                                return;
+                            }
 
                             if (!isChecked) {
                                 Toast.makeText(getActivity(), "Выберите все позиции!", Toast.LENGTH_LONG).show();
