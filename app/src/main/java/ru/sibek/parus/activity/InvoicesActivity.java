@@ -20,6 +20,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+
+import com.crashlytics.android.Crashlytics;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.InvoicesListFragment;
@@ -37,6 +40,7 @@ public class InvoicesActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
         setContentView(R.layout.ac_single_frame);
         //final long interval = 5;
         //ContentResolver.addPeriodicSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, Bundle.EMPTY, interval);
@@ -49,7 +53,8 @@ public class InvoicesActivity extends Activity {
                     .commit();
         }
 
-       /* final ContentValues values = new ContentValues();
+       /*
+       final ContentValues values = new ContentValues();
         values.put(InvoiceProvider.Columns.SAGENT, "OOLOLO");
         getContentResolver().insert(InvoiceProvider.URI, values);*/
 
@@ -91,22 +96,18 @@ public class InvoicesActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // getMenuInflater().inflate(R.menu.feeds, menu);
+        getMenuInflater().inflate(R.menu.main_activity_actions, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
 
-
-   /* @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_add) {
-            new AddFeedPopup().show(getFragmentManager(), AddFeedPopup.class.getName());
-            return true;
-        } else if (item.getItemId() == R.id.action_prefs) {
-            startActivity(new Intent(this, SyncSettingsActivity.class));
-            return true;
+        if (item.getItemId() == R.id.action_exit) {
+            finish();
+            System.exit(0);
         }
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
 }

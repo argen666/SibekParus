@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.sibek.parus" >
+    package="ru.sibek.parus">
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
@@ -15,12 +15,12 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/ParusTheme" >
+        android:theme="@style/ParusTheme">
         <activity
             android:name=".activity.InvoicesActivity"
             android:configChanges="orientation"
             android:screenOrientation="landscape"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -67,6 +67,10 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/sync_adapter" />
         </service>
+
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="f80df30ac80e4c02dd267f07aa1e83b3dc24877f" />
 
 
     </application>

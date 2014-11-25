@@ -93,6 +93,7 @@ public class ControlPanelFragment extends Fragment {
                     Log.d("CP_CLICK>>>", invoiceId + "");
                     Cursor cur = getActivity().getContentResolver().query(
                             InvoiceSpecProvider.URI, new String[]{
+                                    InvoiceSpecProvider.Columns.NDISTRIBUTION_SIGN,
                                     InvoiceSpecProvider.Columns.SRACK,
                                     InvoiceSpecProvider.Columns.LOCAL_ICON
                             }, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{String.valueOf(invoiceId)}, null
@@ -102,7 +103,7 @@ public class ControlPanelFragment extends Fragment {
                     try {
                         if (cur.moveToFirst()) {
                             do {
-                                if (InvoiceSpecProvider.getSRACK(cur) == null) {
+                                if (InvoiceSpecProvider.getSRACK(cur) == null && InvoiceSpecProvider.getNDISTRIBUTION_SIGN(cur) == 1) {
                                     isSrack = false;
                                     break;
                                 }
@@ -135,7 +136,9 @@ public class ControlPanelFragment extends Fragment {
                                 final Bundle syncExtras = new Bundle();
                                 syncExtras.putLong(SyncAdapter.KEY_POST_INVOICE_ID, invoiceId);
                                 ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
-
+                                Fragment f = getActivity().getFragmentManager().findFragmentById(R.id.detail_frame);
+                                if (f != null)
+                                    getActivity().getFragmentManager().beginTransaction().remove(f).commit();
                                 new Handler().postDelayed(new Runnable() {
 
                                     @Override
@@ -143,6 +146,8 @@ public class ControlPanelFragment extends Fragment {
                                         Toast.makeText(getActivity(), "Отработано", Toast.LENGTH_LONG).show();
                                     }
                                 }, 1500);
+
+
                                 /*class MyThread implements Runnable {
                                     long nrn;
 

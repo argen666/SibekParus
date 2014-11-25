@@ -31,38 +31,40 @@ public final class R {
         public static final int btn_cab_done_pressed_example=0x7f020009;
         public static final int cab_background_bottom_example=0x7f02000a;
         public static final int cab_background_top_example=0x7f02000b;
-        public static final int ic_launcher=0x7f02000c;
-        public static final int invoice_accepted=0x7f02000d;
-        public static final int invoice_listitem_selector=0x7f02000e;
-        public static final int invoice_non_accepted=0x7f02000f;
-        public static final int invoice_spec_accepted=0x7f020010;
-        public static final int invoice_spec_non_accepted=0x7f020011;
-        public static final int list_focused_example=0x7f020012;
-        public static final int list_pressed_example=0x7f020013;
-        public static final int menu_dropdown_panel_example=0x7f020014;
-        public static final int progress_bg_example=0x7f020015;
-        public static final int progress_horizontal_example=0x7f020016;
-        public static final int progress_primary_example=0x7f020017;
-        public static final int progress_secondary_example=0x7f020018;
-        public static final int rect_text_edit=0x7f020019;
-        public static final int selectable_background_example=0x7f02001a;
-        public static final int sibek_logo=0x7f02001b;
-        public static final int spinner_ab_default_example=0x7f02001c;
-        public static final int spinner_ab_disabled_example=0x7f02001d;
-        public static final int spinner_ab_focused_example=0x7f02001e;
-        public static final int spinner_ab_pressed_example=0x7f02001f;
-        public static final int spinner_background_ab_example=0x7f020020;
-        public static final int tab_indicator_ab_example=0x7f020021;
-        public static final int tab_selected_example=0x7f020022;
-        public static final int tab_selected_focused_example=0x7f020023;
-        public static final int tab_selected_pressed_example=0x7f020024;
-        public static final int tab_unselected_example=0x7f020025;
-        public static final int tab_unselected_focused_example=0x7f020026;
-        public static final int tab_unselected_pressed_example=0x7f020027;
+        public static final int exit=0x7f02000c;
+        public static final int ic_launcher=0x7f02000d;
+        public static final int invoice_accepted=0x7f02000e;
+        public static final int invoice_listitem_selector=0x7f02000f;
+        public static final int invoice_non_accepted=0x7f020010;
+        public static final int invoice_spec_accepted=0x7f020011;
+        public static final int invoice_spec_non_accepted=0x7f020012;
+        public static final int list_focused_example=0x7f020013;
+        public static final int list_pressed_example=0x7f020014;
+        public static final int menu_dropdown_panel_example=0x7f020015;
+        public static final int progress_bg_example=0x7f020016;
+        public static final int progress_horizontal_example=0x7f020017;
+        public static final int progress_primary_example=0x7f020018;
+        public static final int progress_secondary_example=0x7f020019;
+        public static final int rect_text_edit=0x7f02001a;
+        public static final int selectable_background_example=0x7f02001b;
+        public static final int sibek_logo=0x7f02001c;
+        public static final int spinner_ab_default_example=0x7f02001d;
+        public static final int spinner_ab_disabled_example=0x7f02001e;
+        public static final int spinner_ab_focused_example=0x7f02001f;
+        public static final int spinner_ab_pressed_example=0x7f020020;
+        public static final int spinner_background_ab_example=0x7f020021;
+        public static final int tab_indicator_ab_example=0x7f020022;
+        public static final int tab_selected_example=0x7f020023;
+        public static final int tab_selected_focused_example=0x7f020024;
+        public static final int tab_selected_pressed_example=0x7f020025;
+        public static final int tab_unselected_example=0x7f020026;
+        public static final int tab_unselected_focused_example=0x7f020027;
+        public static final int tab_unselected_pressed_example=0x7f020028;
     }
     public static final class id {
+        public static final int action_exit=0x7f070028;
         public static final int action_settings=0x7f070027;
-        public static final int agent=0x7f07001c;
+        public static final int agent=0x7f07001e;
         public static final int button_cell=0x7f070017;
         public static final int button_detail_spec_cancel=0x7f070019;
         public static final int button_detail_spec_save=0x7f070018;
@@ -92,11 +94,11 @@ public final class R {
         public static final int spec_quant=0x7f070023;
         public static final int spec_store=0x7f070024;
         public static final int status=0x7f07001f;
-        public static final int status_image=0x7f07001e;
+        public static final int status_image=0x7f07001b;
         public static final int text=0x7f07000d;
         public static final int text_meas_spec=0x7f070014;
         public static final int text_quant=0x7f070013;
-        public static final int title=0x7f07001b;
+        public static final int title=0x7f07001c;
         public static final int title_detail_spec=0x7f070012;
         public static final int title_spec=0x7f070021;
         public static final int title_spec_number=0x7f070022;
@@ -111,13 +113,13 @@ public final class R {
         public static final int fragment_logo=0x7f030005;
         public static final int fragment_spec_detail=0x7f030006;
         public static final int in_invoices=0x7f030007;
-        public static final int li_feed=0x7f030008;
-        public static final int li_invoice=0x7f030009;
-        public static final int li_invoice_spec=0x7f03000a;
-        public static final int list_item=0x7f03000b;
+        public static final int li_invoice=0x7f030008;
+        public static final int li_invoice_spec=0x7f030009;
+        public static final int list_item=0x7f03000a;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;
+        public static final int main_activity_actions=0x7f0a0001;
     }
     public static final class string {
         public static final int action_settings=0x7f080000;
@@ -127,14 +129,15 @@ public final class R {
         public static final int auto_sync_interval_default=0x7f080004;
         public static final int auto_sync_interval_summary=0x7f080005;
         public static final int auto_sync_summary=0x7f080006;
-        public static final int general_settings=0x7f080007;
-        public static final int hello_blank_fragment=0x7f080008;
-        public static final int hello_world=0x7f080009;
-        public static final int ininvoice=0x7f08000a;
-        public static final int settings=0x7f08000b;
-        public static final int sync=0x7f08000c;
-        public static final int sync_settings_summary=0x7f08000d;
-        public static final int title_activity_my=0x7f08000e;
+        public static final int com_crashlytics_android_build_id=0x7f080007;
+        public static final int general_settings=0x7f080008;
+        public static final int hello_blank_fragment=0x7f080009;
+        public static final int hello_world=0x7f08000a;
+        public static final int ininvoice=0x7f08000b;
+        public static final int settings=0x7f08000c;
+        public static final int sync=0x7f08000d;
+        public static final int sync_settings_summary=0x7f08000e;
+        public static final int title_activity_my=0x7f08000f;
     }
     public static final class style {
         public static final int ActionBar_Solid_Parus=0x7f090000;
