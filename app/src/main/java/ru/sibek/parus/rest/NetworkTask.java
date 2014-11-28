@@ -72,6 +72,9 @@ public class NetworkTask {
 
             switch (tag) {
                 case "FULL_INSERT_INVOICE": {
+                    syncResult.stats.numDeletes += provider
+                            .delete(InvoiceProvider.URI, null, null);
+
                     syncResult.stats.numUpdates += provider
                             .bulkInsert(InvoiceProvider.URI, ((Invoices) ret).toContentValues());
                     break;

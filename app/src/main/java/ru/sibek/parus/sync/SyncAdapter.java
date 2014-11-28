@@ -157,7 +157,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
-
     private void syncRacks(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
 
         try {
@@ -243,9 +242,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             try {
                 if (feeds.moveToFirst()) {
-                    do {
-                        getInvoices(feeds.getString(0), feeds.getString(1), provider, syncResult);
-                    } while (feeds.moveToNext());
+
+                    if (where != null) {
+
+                        do {
+                            getInvoices(feeds.getString(0), feeds.getString(1), provider, syncResult);
+                        } while (feeds.moveToNext());
+                    } else {
+                        //дернул шторку
+                        getInvoices(null, null, provider, syncResult);
+                    }
                 } else {
                     getInvoices(null, null, provider, syncResult);
                 }
