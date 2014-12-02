@@ -38,6 +38,7 @@ public class Invoices/* implements IContentValues*/ {
             contentValues.put(InvoiceProvider.Columns.SDOCTYPE,item.getSdoctype());
             contentValues.put(InvoiceProvider.Columns.SPREF,item.getSpref());
             contentValues.put(InvoiceProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
+            contentValues.put(InvoiceProvider.Columns.HASH, ParusDate.parse(item.getHash()).getTime());
             contentValues.put(InvoiceProvider.Columns.SAGENT,item.getSagent());
             contentValues.put(InvoiceProvider.Columns.NSUMMTAX,item.getNsummtax());
             contentValues.put(InvoiceProvider.Columns.NSTATUS,item.getNstatus());
@@ -76,6 +77,8 @@ public class Invoices/* implements IContentValues*/ {
     @SerializedName("ddoc_date")
     @Expose
     private String ddocDate;
+        @Expose
+        private String hash;
     @Expose
     private Long nstatus;
     @Expose
@@ -170,7 +173,15 @@ public class Invoices/* implements IContentValues*/ {
     @Expose
     private String doutdocDate;
 
-    public Long getNrn() {
+        public String getHash() {
+            return hash;
+        }
+
+        public void setHash(String hash) {
+            this.hash = hash;
+        }
+
+        public Long getNrn() {
         return nrn;
     }
 

@@ -118,6 +118,7 @@ public class InvoiceProvider extends SQLiteTableProvider {
                 + Columns.SPREF + " text, "
                 + Columns.SNUMB + " text, "
                 + Columns.DDOC_DATE + " integer, "
+                + Columns.HASH + " integer, "
                 + Columns.NSTATUS + " integer, "
                 + Columns.LOCAL_NSTATUS + " integer, "
                 + Columns.SSTATUS + " text, "
@@ -151,7 +152,7 @@ public class InvoiceProvider extends SQLiteTableProvider {
         String NSUMMTAX = "NSUMMTAX";
         String NRN = "NRN";
         String LOCAL_NSTATUS = "LOCAL_NSTATUS";
-
+        String HASH = "HASH";
     }
 
 }

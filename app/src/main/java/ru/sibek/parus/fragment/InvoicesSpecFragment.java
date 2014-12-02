@@ -98,12 +98,9 @@ public class InvoicesSpecFragment extends SwipeToRefreshList implements LoaderMa
         }
     }
 //TODO:uncomment this
-   /* @Override
+  /* @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-       *//* final Cursor news = mListAdapter.getCursor();
-        if (news.moveToPosition(position)) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(InvoiceSpecProvider.getLink(news))));
-        }*//*
+
         iconState = (ImageView) ((LinearLayout) view).findViewById(R.id.spec_image);
         if ((int) iconState.getTag() == R.drawable.invoice_spec_non_accepted) {
 
