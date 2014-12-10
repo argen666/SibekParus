@@ -145,7 +145,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             //Response r = (Response) n.getData(null, "", "applyInvoiceAsFact", NRN);
             Response r = (Response) ParusService.getService().applyInvoiceAsFact(Long.valueOf(NRN));
             if (r != null) {
-                getInvoices(invoiceId, NRN, provider, syncResult);
+                getInvoices(invoiceId, NRN, null, provider, syncResult);
             } else {
                 Log.d("OOPS!", "Network is down");
             }
@@ -240,20 +240,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     }, where, whereArgs, null
             );
 
+
             try {
                 if (feeds.moveToFirst()) {
 
                     if (where != null) {
 
                         do {
-                            getInvoices(feeds.getString(0), feeds.getString(1), provider, syncResult);
+                            getInvoices(feeds.getString(0), feeds.getString(1), null, provider, syncResult);
                         } while (feeds.moveToNext());
                     } else {
                         //дернул шторку
-                        getInvoices(null, null, provider, syncResult);
+
+                        final Cursor maxTms = provider.query(
+                                InvoiceProvider.URI, new String[]{
+                                        "MAX(" + InvoiceProvider.Columns.HASH + ") as" + InvoiceProvider.Columns.HASH,
+                                }, null, null, null
+                        );
+                        maxTms.moveToFirst();
+                        String tms = String.valueOf(maxTms.getLong(0));
+                        Log.d("MAXTMS>>>", tms);
+                        getInvoices(null, null, tms, provider, syncResult);
                     }
                 } else {
-                    getInvoices(null, null, provider, syncResult);
+                    getInvoices(null, null, "0", provider, syncResult);
                 }
             } finally {
                 feeds.close();
@@ -286,13 +296,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     }
 
-    private void getInvoices(String invoiceID, String NRN, ContentProviderClient provider, SyncResult syncResult) {
+    private void getInvoices(String invoiceID, String NRN, String tms, ContentProviderClient provider, SyncResult syncResult) {
 
         NetworkTask n = new NetworkTask(provider, syncResult);
         try {
             if (invoiceID == null) {
-                n.getData(null, "FULL_INSERT_INVOICE", "listInvoices", "59945");
-                Log.d("INVOICE_FIRST>>>", "FIRST INSERT");
+                if (tms == "0") {
+                    n.getData(null, "FULL_INSERT_INVOICE", "listInvoices", tms);
+                    Log.d("INVOICE_FIRST>>>", "FIRST INSERT");
+                } else {
+                    n.getData(null, "UPDATE_INVOICE_BY_TMS", "listInvoices", tms);
+                    Log.d("UPDATE_INVOICE_BY_TMS>>>", "UPDATE_INVOICE_BY_TMS");
+                }
             } else {
 
                 n.getData(invoiceID, "UPDATE_INVOICE", "invoiceByNRN", NRN);

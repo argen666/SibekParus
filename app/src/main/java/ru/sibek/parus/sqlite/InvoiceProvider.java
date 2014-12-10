@@ -81,6 +81,10 @@ public class InvoiceProvider extends SQLiteTableProvider {
         return c.getInt(c.getColumnIndex(Columns.NRN));
     }
 
+    public static long getHASH(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.HASH));
+    }
+
     public static long getSnumb(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.SNUMB));
     }

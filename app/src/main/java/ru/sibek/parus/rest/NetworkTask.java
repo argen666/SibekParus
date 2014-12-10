@@ -71,12 +71,31 @@ public class NetworkTask {
 
 
             switch (tag) {
+                case "UPDATE_INVOICE_BY_TMS": {
+
+                    String[] nrn = ((Invoices) ret).getAllNrnStringArray();
+
+                    for (int i = 0; i < nrn.length; i++) {
+                        syncResult.stats.numUpdates += provider
+                                .update(InvoiceProvider.URI, ((Invoices) ret).toContentValues()[i], InvoiceProvider.Columns.NRN + "=?", new String[]{nrn[i]});
+                    }
+
+                    Log.d("UPDATE_INVOICE_BY_TMS>>>>>>>>>>>>>", ((Invoices) ret).toString());
+                    /*syncResult.stats.numDeletes += provider
+                            .delete(InvoiceProvider.URI, InvoiceProvider.Columns.NRN, new String[]{" IN ("+((Invoices) ret).getAllNrnString()+")"});*/
+
+                  /*  syncResult.stats.numUpdates += provider
+                            .bulkInsert(InvoiceProvider.URI, ((Invoices) ret).toContentValues());*/
+                    break;
+                }
                 case "FULL_INSERT_INVOICE": {
+
                     syncResult.stats.numDeletes += provider
                             .delete(InvoiceProvider.URI, null, null);
 
                     syncResult.stats.numUpdates += provider
                             .bulkInsert(InvoiceProvider.URI, ((Invoices) ret).toContentValues());
+                    Log.d("FULL_INSERT_INVOICE>>>>>>>>>>>>>", ((Invoices) ret).toString());
                     break;
                 }
                 case "UPDATE_INVOICE": {

@@ -1,6 +1,7 @@
 package ru.sibek.parus.mappers;
 
 import android.content.ContentValues;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -38,7 +39,7 @@ public class Invoices/* implements IContentValues*/ {
             contentValues.put(InvoiceProvider.Columns.SDOCTYPE,item.getSdoctype());
             contentValues.put(InvoiceProvider.Columns.SPREF,item.getSpref());
             contentValues.put(InvoiceProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
-            contentValues.put(InvoiceProvider.Columns.HASH, ParusDate.parse(item.getHash()).getTime());
+            contentValues.put(InvoiceProvider.Columns.HASH, ParusDate.parse(item.getDmodifdate()).getTime());
             contentValues.put(InvoiceProvider.Columns.SAGENT,item.getSagent());
             contentValues.put(InvoiceProvider.Columns.NSUMMTAX,item.getNsummtax());
             contentValues.put(InvoiceProvider.Columns.NSTATUS,item.getNstatus());
@@ -47,6 +48,7 @@ public class Invoices/* implements IContentValues*/ {
             contentValues.put(InvoiceProvider.Columns.NRN,item.getNrn());
             contentValues.put(InvoiceProvider.Columns.NCOMPANY,item.getNcompany());
             contentValuesList.add(contentValues);
+            Log.d("DMODIF>>", ParusDate.parse(item.getDdocDate()).getTime() + "!!!!" + ParusDate.parse(item.getDmodifdate()).getTime());
         }
 
         return contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
@@ -78,7 +80,7 @@ public class Invoices/* implements IContentValues*/ {
     @Expose
     private String ddocDate;
         @Expose
-        private String hash;
+        private String dmodifdate;
     @Expose
     private Long nstatus;
     @Expose
@@ -173,12 +175,12 @@ public class Invoices/* implements IContentValues*/ {
     @Expose
     private String doutdocDate;
 
-        public String getHash() {
-            return hash;
+        public String getDmodifdate() {
+            return dmodifdate;
         }
 
-        public void setHash(String hash) {
-            this.hash = hash;
+        public void setDmodifdate(String dmodifdate) {
+            this.dmodifdate = dmodifdate;
         }
 
         public Long getNrn() {
@@ -714,12 +716,81 @@ public class Invoices/* implements IContentValues*/ {
             result = 31 * result + (doutdocDate != null ? doutdocDate.hashCode() : 0);
             return result;
         }
+
+        @Override
+        public String toString() {
+            return "ItemInvoice{" +
+                    "nrn=" + nrn +
+                    ", ncompany=" + ncompany +
+                    ", ncrn=" + ncrn +
+                    ", njurPers=" + njurPers +
+                    ", sjurPers='" + sjurPers + '\'' +
+                    ", ndoctype=" + ndoctype +
+                    ", sdoctype='" + sdoctype + '\'' +
+                    ", spref='" + spref + '\'' +
+                    ", snumb='" + snumb + '\'' +
+                    ", ddocDate='" + ddocDate + '\'' +
+                    ", dmodifdate='" + dmodifdate + '\'' +
+                    ", nstatus=" + nstatus +
+                    ", sstatus='" + sstatus + '\'' +
+                    ", dworkDate='" + dworkDate + '\'' +
+                    ", nservactSign=" + nservactSign +
+                    ", nvalidDoctype=" + nvalidDoctype +
+                    ", svalidDoctype='" + svalidDoctype + '\'' +
+                    ", svalidDocnumb='" + svalidDocnumb + '\'' +
+                    ", dvalidDocdate='" + dvalidDocdate + '\'' +
+                    ", nstore=" + nstore +
+                    ", sstore='" + sstore + '\'' +
+                    ", nfaceacc=" + nfaceacc +
+                    ", sfaceacc='" + sfaceacc + '\'' +
+                    ", nfaceaccCat=" + nfaceaccCat +
+                    ", nfaCurrency=" + nfaCurrency +
+                    ", sfaCurrency='" + sfaCurrency + '\'' +
+                    ", nagent=" + nagent +
+                    ", sagent='" + sagent + '\'' +
+                    ", sagentName='" + sagentName + '\'' +
+                    ", nagentCat=" + nagentCat +
+                    ", ncurrency=" + ncurrency +
+                    ", scurrency='" + scurrency + '\'' +
+                    ", ncurcours=" + ncurcours +
+                    ", ncurbasecours=" + ncurbasecours +
+                    ", nfaCours=" + nfaCours +
+                    ", nfaBasecours=" + nfaBasecours +
+                    ", nsumm=" + nsumm +
+                    ", nsummtax=" + nsummtax +
+                    ", nplanpaysumm=" + nplanpaysumm +
+                    ", nfactpaysumm=" + nfactpaysumm +
+                    ", nsummOrders=" + nsummOrders +
+                    ", nstoreoper=" + nstoreoper +
+                    ", sstoreoper='" + sstoreoper + '\'' +
+                    ", nsigntax=" + nsigntax +
+                    ", dindocDate='" + dindocDate + '\'' +
+                    ", ndiscount=" + ndiscount +
+                    ", nisSigned=" + nisSigned +
+                    ", sparty='" + sparty + '\'' +
+                    ", doutdocDate='" + doutdocDate + '\'' +
+                    '}';
+        }
     }
 
     @Override
     public String toString() {
+        String listString = "";
+        for (ItemInvoice s : items) {
+            listString += s.getDmodifdate() + "\n";
+        }
         return "Invoices{" +
-                "items=" + items.size() +
+                "items=" + items.size() + ">>>" + listString +
                 '}';
+    }
+
+    public String[] getAllNrnStringArray() {
+        String[] nrn = new String[items.size()];
+        int i = 0;
+        for (ItemInvoice s : items) {
+            nrn[i] = s.getNrn() + "";
+            i++;
+        }
+        return nrn;
     }
 }
