@@ -1,3 +1,4 @@
+/*
 package ru.sibek.parus.activity;
 
 import android.accounts.Account;
@@ -30,9 +31,11 @@ public class MainActivity extends FragmentActivity implements InvoicesFragment.O
         setContentView(R.layout.in_invoices);
 
         final AccountManager am = AccountManager.get(this);
-       /* if (am.getAccountsByType(ParusAccount.TYPE).length == 0) {
+       */
+/* if (am.getAccountsByType(ParusAccount.TYPE).length == 0) {
             addNewAccount(am);
-        }*/
+        }*//*
+
 
         InvoicesFragment masterFragment = new InvoicesFragment();
         masterFragment.setArguments(getIntent().getExtras());
@@ -81,3 +84,4 @@ public class MainActivity extends FragmentActivity implements InvoicesFragment.O
 
     }
 }
+*/

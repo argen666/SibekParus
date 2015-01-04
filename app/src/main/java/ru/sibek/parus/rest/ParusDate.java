@@ -57,7 +57,7 @@ public final class ParusDate {
             "EEE, dd-MM-yyyy HH:mm:ss z",
             "EEE MMM d yyyy HH:mm:ss z",
             "dd MMM yyyy HH:mm:ss zzz",
-            "dd MMM yyyy HH:mm:ss z",
+            "dd MMM yyyy HH:mm:ss z"
     };
 
     private ParusDate() {

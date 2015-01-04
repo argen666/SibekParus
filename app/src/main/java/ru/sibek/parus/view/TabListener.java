@@ -57,7 +57,9 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
 
         } else {
 
-
+            Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
+            if (f != null) ft.remove(f);
+            return;
             /*if (cPanel == null) {
                 cPanel=ControlPanelFragment.newInstance("other");
                 ft.add(R.id.control_panel_frame, cPanel);

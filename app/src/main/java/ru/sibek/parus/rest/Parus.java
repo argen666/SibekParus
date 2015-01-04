@@ -1,6 +1,10 @@
 package ru.sibek.parus.rest;
 
+import retrofit.client.Response;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 import ru.sibek.parus.mappers.Cells;
 import ru.sibek.parus.mappers.Companies;
@@ -42,4 +46,8 @@ public interface Parus {
 
     @GET("/parus/ru/cells/{NRN}")
     Cells cellsByNRN(@Path("NRN") String nrn);
+
+    @FormUrlEncoded
+    @POST("/parus/ru/invoice/status")
+    Response applyInvoiceAsFact(@Field("NRN") long nrn/*, @Field("last_name") String last*/);
 }

@@ -1,3 +1,4 @@
+/*
 package ru.sibek.parus.fragment;
 
 import android.app.Activity;
@@ -9,7 +10,7 @@ import android.widget.ListView;
 import java.util.concurrent.ExecutionException;
 
 import ru.sibek.parus.ItemListAdapter;
-import ru.sibek.parus.NetworkTask;
+import ru.sibek.parus.rest.NetworkTask;
 import ru.sibek.parus.mappers.Companies;
 import ru.sibek.parus.mappers.Invoices;
 
@@ -18,7 +19,9 @@ public class InvoicesFragment extends ListFragment {
     Object data=null;
     // The container Activity must implement this interface so the frag can deliver messages
     public interface OnHeadlineSelectedListener {
-        /** Called by HeadlinesFragment when a list item is selected */
+        */
+/** Called by HeadlinesFragment when a list item is selected *//*
+
         public void onMasterItemSelected(Invoices.ItemInvoice position);
     }
 
@@ -28,12 +31,15 @@ public class InvoicesFragment extends ListFragment {
 
         // Create an array adapter for the list view, using the Ipsum headlines array
 
-        NetworkTask n = NetworkTask.getInstance();
-        n.execute("listInvoices","59945");
-        //n.execute("listCompanies");
+        */
+/*NetworkTask n = NetworkTask.getInstance();
+        n.execute("listInvoices","59945");*//*
 
+        //n.execute("listCompanies");
+*/
+/*
         try {
-            data = n.get();
+           // data = n.get();
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -49,7 +55,8 @@ public class InvoicesFragment extends ListFragment {
         setListAdapter(adapter);
 
 
-    }
+    }*//*
+
 
     @Override
     public void onStart() {
@@ -57,9 +64,11 @@ public class InvoicesFragment extends ListFragment {
 
         // When in two-pane layout, set the listview to highlight the selected list item
         // (We do this during onStart because at the point the listview is available.)
-       /* if (getFragmentManager().findFragmentById(R.id.invoices_fragment) != null) {
+       */
+/* if (getFragmentManager().findFragmentById(R.id.invoices_fragment) != null) {
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        }*/
+        }*//*
+
     }
 
     @Override
@@ -85,4 +94,4 @@ public class InvoicesFragment extends ListFragment {
         // Set the item as checked to be highlighted when in two-pane layout
         getListView().setItemChecked(position, true);
     }
-}
+}*/

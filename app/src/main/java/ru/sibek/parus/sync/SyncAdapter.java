@@ -26,7 +26,9 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
 
+import retrofit.client.Response;
 import ru.sibek.parus.rest.NetworkTask;
+import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.sqlite.RacksProvider;
 import ru.sibek.parus.sqlite.StorageProvider;
@@ -34,6 +36,7 @@ import ru.sibek.parus.sqlite.StorageProvider;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
+    public static final String KEY_POST_INVOICE_ID = "ru.sibek.parus.sync.KEY_POST_INVOICE_ID";
     public static final String KEY_INVOICE_ID = "ru.sibek.parus.sync.KEY_INVOICE_ID";
     public static final String KEY_STORAGE_ID = "ru.sibek.parus.sync.KEY_STORAGE_ID";
     public static final String KEY_RACK_ID = "ru.sibek.parus.sync.KEY_RACK_ID";
@@ -45,19 +48,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider,
                               SyncResult syncResult) {
+        final long postId = extras.getLong(KEY_POST_INVOICE_ID, -1);
         final long feedId = extras.getLong(KEY_INVOICE_ID, -1);
         final long storageId = extras.getLong(KEY_STORAGE_ID, -1);
         final long rackId = extras.getLong(KEY_RACK_ID, -1);
         Log.d(Log.INFO + ">>>>", "feed>>" + feedId + " store>>" + storageId + " rackId>>" + rackId);
-        if (feedId == -1 && storageId == -1 && rackId == -1) {
+        if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1) {
             startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
+            // startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
+        }
 
+        if (postId > 0) {
+            startSync(provider, syncResult, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(postId)}, SyncActions.SYNC_POST_INVOICES);
+            return;
         }
 
         if (feedId > 0) {
             startSync(provider, syncResult, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(feedId)}, SyncActions.SYNC_INVOICES);
-            //return;
+            return;
         }
 
         if (storageId > 0) {
@@ -92,10 +101,61 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 break;
             }
 
+            case SyncActions.SYNC_POST_INVOICES: {
+                syncPostInvoices(provider, syncResult, where, whereArgs);
+                break;
+            }
+
         }
 
 
     }
+
+    private void syncPostInvoices(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
+        try {
+            final Cursor feeds = provider.query(
+                    InvoiceProvider.URI, new String[]{
+                            InvoiceProvider.Columns._ID,
+                            InvoiceProvider.Columns.NRN
+                    }, where, whereArgs, null
+            );
+
+            try {
+                if (feeds.moveToFirst()) {
+                    do {
+                        postInvoices(feeds.getString(0), feeds.getString(1), provider, syncResult);
+                    } while (feeds.moveToNext());
+                } else {
+                    // getInvoices(null, null, provider, syncResult);
+                }
+            } finally {
+                feeds.close();
+            }
+        } catch (RemoteException e) {
+            Log.e(SyncAdapter.class.getName(), e.getMessage(), e);
+            ++syncResult.stats.numIoExceptions;
+        }
+
+    }
+
+    private void postInvoices(String invoiceId, String NRN, ContentProviderClient provider, SyncResult syncResult) {
+
+        NetworkTask n = new NetworkTask(provider, syncResult);
+        try {
+            //Response r = (Response) n.getData(null, "", "applyInvoiceAsFact", NRN);
+            Response r = (Response) ParusService.getService().applyInvoiceAsFact(Long.valueOf(NRN));
+            if (r != null) {
+                getInvoices(invoiceId, NRN, null, provider, syncResult);
+            } else {
+                Log.d("OOPS!", "Network is down");
+            }
+            Log.d("CP_CLICK>>>", r.toString());
+
+        } catch (/*Remote*/Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void syncRacks(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
 
@@ -180,13 +240,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     }, where, whereArgs, null
             );
 
+
             try {
                 if (feeds.moveToFirst()) {
-                    do {
-                        getInvoices(feeds.getString(0), feeds.getString(1), provider, syncResult);
-                    } while (feeds.moveToNext());
+
+                    if (where != null) {
+
+                        do {
+                            getInvoices(feeds.getString(0), feeds.getString(1), null, provider, syncResult);
+                        } while (feeds.moveToNext());
+                    } else {
+                        //дернул шторку
+
+                        final Cursor maxTms = provider.query(
+                                InvoiceProvider.URI, new String[]{
+                                        "MAX(" + InvoiceProvider.Columns.HASH + ") as" + InvoiceProvider.Columns.HASH,
+                                }, null, null, null
+                        );
+                        maxTms.moveToFirst();
+                        String tms = String.valueOf(maxTms.getLong(0));
+                        Log.d("MAXTMS>>>", tms);
+                        getInvoices(null, null, tms, provider, syncResult);
+                    }
                 } else {
-                    getInvoices(null, null, provider, syncResult);
+                    getInvoices(null, null, "0", provider, syncResult);
                 }
             } finally {
                 feeds.close();
@@ -219,13 +296,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     }
 
-    private void getInvoices(String invoiceID, String NRN, ContentProviderClient provider, SyncResult syncResult) {
+    private void getInvoices(String invoiceID, String NRN, String tms, ContentProviderClient provider, SyncResult syncResult) {
 
         NetworkTask n = new NetworkTask(provider, syncResult);
         try {
             if (invoiceID == null) {
-                n.getData(null, "FULL_INSERT_INVOICE", "listInvoices", "59945");
-                Log.d("INVOICE_FIRST>>>", "FIRST INSERT");
+                if (tms == "0") {
+                    n.getData(null, "FULL_INSERT_INVOICE", "listInvoices", tms);
+                    Log.d("INVOICE_FIRST>>>", "FIRST INSERT");
+                } else {
+                    n.getData(null, "UPDATE_INVOICE_BY_TMS", "listInvoices", tms);
+                    Log.d("UPDATE_INVOICE_BY_TMS>>>", "UPDATE_INVOICE_BY_TMS");
+                }
             } else {
 
                 n.getData(invoiceID, "UPDATE_INVOICE", "invoiceByNRN", NRN);

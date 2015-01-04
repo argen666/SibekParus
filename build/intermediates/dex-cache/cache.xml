@@ -2,46 +2,10 @@
 <pre-dex-items>
 
     <item
-        dex="/Users/argen666/Android/AndroidStudioProjects/SibekParus/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-2.0.0-4b50778669ce890f17df159a953306a28c4df6ae.jar"
-        jar="/Users/argen666/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp-urlconnection/2.0.0/afe8399d352713b66e597e9670c741d1e60ae923/okhttp-urlconnection-2.0.0.jar"
+        dex="/Users/argen666/Android/AndroidStudioProjects/SibekParus/app/build/intermediates/pre-dexed/debug/crashlytics-1.1.13-68038b2155dd20a5b1aab49e53655de78e4526f7.jar"
+        jar="/Users/argen666/.gradle/caches/modules-2/files-2.1/com.crashlytics.android/crashlytics/1.1.13/e821eafa1bf489a26bdb71f95078c26785b37a1/crashlytics-1.1.13.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="afe8399d352713b66e597e9670c741d1e60ae923"/>
-    <item
-        dex="/Users/argen666/Android/AndroidStudioProjects/SibekParus/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-07ae52e2e600e772162d2dda9d335ba53af38169.jar"
-        jar="/Users/argen666/Android/adt-bundle-mac-x86_64-20140702/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
-    <item
-        dex="/Users/argen666/Android/AndroidStudioProjects/SibekParus/app/build/intermediates/pre-dexed/debug/okhttp-2.0.0-b2fb5a550dfed60fe5979bf8e7ccc40e811ffc54.jar"
-        jar="/Users/argen666/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp/2.0.0/4c8d1536dba3812cc1592090dc20c47a4ed3c35e/okhttp-2.0.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="4c8d1536dba3812cc1592090dc20c47a4ed3c35e"/>
-    <item
-        dex="/Users/argen666/Android/AndroidStudioProjects/SibekParus/app/build/intermediates/pre-dexed/debug/gson-2.2.4-4604cf46576cd238c9756e3f349f65f08dc2043e.jar"
-        jar="/Users/argen666/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="a60a5e993c98c864010053cb901b7eab25306568"/>
-    <item
-        dex="/Users/argen666/Android/AndroidStudioProjects/SibekParus/app/build/intermediates/pre-dexed/debug/support-v13-19.1.0-48062be95068547af15479b9e7e20fe49d8b1b19.jar"
-        jar="/Users/argen666/Android/adt-bundle-mac-x86_64-20140702/sdk/extras/android/m2repository/com/android/support/support-v13/19.1.0/support-v13-19.1.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="6b852a232f642c75a7fdfc7212b841b8c8f8959c"/>
-    <item
-        dex="/Users/argen666/Android/AndroidStudioProjects/SibekParus/app/build/intermediates/pre-dexed/debug/retrofit-1.6.1-b12ce5bb1b069d1c838ae5e6ea263d71830e6014.jar"
-        jar="/Users/argen666/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.6.1/efb0a36546aa8857ab8df358b106c1817e03cbee/retrofit-1.6.1.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="efb0a36546aa8857ab8df358b106c1817e03cbee"/>
-    <item
-        dex="/Users/argen666/Android/AndroidStudioProjects/SibekParus/app/build/intermediates/pre-dexed/debug/okio-1.0.0-8d9762287e00b35f3c00652754cf80d079cd9ae0.jar"
-        jar="/Users/argen666/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.0.0/2534c458682c73f5b9871131ab3098d3f987ca3/okio-1.0.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="02534c458682c73f5b9871131ab3098d3f987ca3"/>
+        sha1="0e821eafa1bf489a26bdb71f95078c26785b37a1"/>
 
 </pre-dex-items>

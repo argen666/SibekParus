@@ -73,8 +73,16 @@ public class InvoiceProvider extends SQLiteTableProvider {
         return c.getInt(c.getColumnIndex(Columns.NSTATUS));
     }
 
+    public static int getLOCAL_NStatus(Cursor c) {
+        return c.getInt(c.getColumnIndex(Columns.LOCAL_NSTATUS));
+    }
+
     public static int getNRN(Cursor c) {
         return c.getInt(c.getColumnIndex(Columns.NRN));
+    }
+
+    public static long getHASH(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.HASH));
     }
 
     public static long getSnumb(Cursor c) {
@@ -114,7 +122,9 @@ public class InvoiceProvider extends SQLiteTableProvider {
                 + Columns.SPREF + " text, "
                 + Columns.SNUMB + " text, "
                 + Columns.DDOC_DATE + " integer, "
+                + Columns.HASH + " integer, "
                 + Columns.NSTATUS + " integer, "
+                + Columns.LOCAL_NSTATUS + " integer, "
                 + Columns.SSTATUS + " text, "
                 + Columns.NRN + " integer, "
                 + Columns.DWORK_DATE + " integer, "
@@ -145,7 +155,8 @@ public class InvoiceProvider extends SQLiteTableProvider {
         String NSUMM = "NSUMM";
         String NSUMMTAX = "NSUMMTAX";
         String NRN = "NRN";
-
+        String LOCAL_NSTATUS = "LOCAL_NSTATUS";
+        String HASH = "HASH";
     }
 
 }

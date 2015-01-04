@@ -19,15 +19,11 @@ package ru.sibek.parus.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -61,7 +57,7 @@ public class InvoiceListItem extends LinearLayout implements CursorBinder {
        // mIcon.loadIcon(Provider.getIconUrl(c));
         final String agent = InvoiceProvider.getSagent(c);
         if (!TextUtils.isEmpty(agent)) {
-            mAgent.setText("Поставщик: "+agent);
+            mAgent.setText(/*"Поставщик: "*/agent/*DateFormat.getDateTimeInstance().format(new Date(InvoiceProvider.getHASH(c)))*/);
         } else {
             mAgent.setText("Поставщик: "+getResources().getString(R.string.hello_world, InvoiceProvider.getId(c)));
         }
