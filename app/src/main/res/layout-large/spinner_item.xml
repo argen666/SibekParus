@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/spinnerTarget"
+    android:layout_width="420dp"
+    android:layout_height="match_parent"
+    android:textColor="#000000"
+    android:typeface="normal"
+    android:textStyle="bold"
+    android:textSize="26sp" />

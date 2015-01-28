@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <item name="ininvoice_spinner" type="id" />
     <item name="ininvoice_button" type="id"/>
     <item name="ininvoice_module_name" type="id"/>
     <item name="ininvoice_item_name" type="id"/>

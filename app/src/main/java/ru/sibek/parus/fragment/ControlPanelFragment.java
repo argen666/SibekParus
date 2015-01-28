@@ -13,9 +13,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ import ru.sibek.parus.sync.SyncAdapter;
 
 public class ControlPanelFragment extends Fragment {
     private static final String TYPE = "type";
+    public static final String ACTION = "defaultAction";
     private static final String ENTITY_ID = "ENTITY_ID";
     //private static final String ARG_PARAM2 = "param2";
 
@@ -40,6 +44,7 @@ public class ControlPanelFragment extends Fragment {
     TextView itemName;
     TextView itemDate;
     Button actionBtn;
+    Spinner spinner;
 
     public static ControlPanelFragment newInstance(String type) {
         ControlPanelFragment fragment = new ControlPanelFragment();
@@ -174,6 +179,26 @@ public class ControlPanelFragment extends Fragment {
                     }
                 }
             });
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> arg0, View v,
+                                           int id, long arg3) {
+                    //todo аттачить фрагмент тут
+                    //Fragment mFragment = Fragment.instantiate(getActivity(), InvoicesListFragment.class.getName());
+                    //getArguments().putInt(ACTION,id);
+                    //System.out.println(arg2+">>>>>"+arg3);
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> arg0) {
+
+
+                }
+
+            });
         }
         return view;
     }
@@ -200,18 +225,36 @@ public class ControlPanelFragment extends Fragment {
     }
 
     private View getIninvoicesView(View view, LinearLayout layout) {
-        TextView moduleName = new TextView(getActivity());
+        spinner = new Spinner(getActivity());
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.invoice_array, R.layout.spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        spinner.setAdapter(adapter);
+        //spinner.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        //spinner.setTextSize(26);
+        spinner.setId(R.id.ininvoice_spinner);
+        spinner.setGravity(Gravity.CENTER_VERTICAL);
+        /*spinner.setLayoutParams(new LayoutParams(
+                LayoutParams.WRAP_CONTENT,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 430, getResources().getDisplayMetrics()),
+                LayoutParams.MATCH_PARENT,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics())
+        ));*/
+        spinner.setPadding(20, 0, 0, 0);
+        layout.addView(spinner);
+        getArguments().putInt(ACTION, spinner.getSelectedItemPosition());
+
+        /*TextView moduleName = new TextView(getActivity());
         moduleName.setText(R.string.ininvoice);
         moduleName.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         moduleName.setTextSize(26);
         moduleName.setId(R.id.ininvoice_module_name);
         moduleName.setGravity(Gravity.CENTER_VERTICAL);
         moduleName.setLayoutParams(new LayoutParams(
-                /*LayoutParams.WRAP_CONTENT,*/(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 430, getResources().getDisplayMetrics()),
-                LayoutParams.MATCH_PARENT/*,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics())*/
+                LayoutParams.WRAP_CONTENT,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 430, getResources().getDisplayMetrics()),
+                LayoutParams.MATCH_PARENT,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics())
         ));
         moduleName.setPadding(20, 0, 0, 0);
-        layout.addView(moduleName);
+        layout.addView(moduleName);*/
+
        /*LinearLayout linLayout = new LinearLayout(getActivity());
         linLayout.setOrientation(LinearLayout.VERTICAL);
         LayoutParams linLayoutParam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

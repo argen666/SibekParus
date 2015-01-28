@@ -55,6 +55,36 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
             //       emptyDetailView.setText("Выберите накладную");
 
 
+            Fragment logo = mActivity.getFragmentManager().findFragmentById(R.id.frame1);
+            if (logo != null && logo instanceof LogoFragment) {
+                ft.detach(logo);
+            }
+
+            if (mFragment == null) {
+
+              /*  switch (cPanel.getArguments().getInt(cPanel.ACTION)) {
+                    case 0: {//spinner Nakladnye
+                        mFragment = Fragment.instantiate(mActivity, mClass.getName());
+                        break;
+                    }
+                    case 1: {//spinner Ordera
+                        mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
+                        break;
+                    }
+                    case 2: {//spinner Pizp
+                        mFragment = Fragment.instantiate(mActivity, mClass.getName());
+                        break;
+                    }
+                }*/
+
+                ft.add(R.id.master_frame, mFragment, mTag);
+                // If not, instantiate and add it to the activity
+            } else {
+                // If it exists, simply attach it in order to show it
+                ft.attach(mFragment);
+            }
+
+
         } else {
 
             Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
@@ -71,29 +101,6 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
 
             //       emptyDetailView.setVisibility(View.VISIBLE);
             //       emptyDetailView.setText("Выберите empty");
-        }
-
-        Fragment logo = mActivity.getFragmentManager().findFragmentById(R.id.frame1);
-        if (mFragment == null) {
-            mFragment = Fragment.instantiate(mActivity, mClass.getName());
-            if (logo != null && logo instanceof LogoFragment) {
-                ft.detach(logo);
-                ft.add(R.id.master_frame, mFragment, mTag);
-
-            } else {
-                ft.add(R.id.master_frame, mFragment, mTag);
-            }
-            // If not, instantiate and add it to the activity
-
-        } else {
-            // If it exists, simply attach it in order to show it
-            if (logo != null && logo instanceof LogoFragment) {
-                ft.detach(logo);
-                ft.attach(mFragment);
-
-            } else {
-                ft.attach(mFragment);
-            }
         }
 
 

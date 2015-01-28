@@ -21,4 +21,10 @@
 
     <string name="auto_sync_interval_default">1200</string>
 
+    <string-array name="invoice_array">
+        <item>Накладные</item>
+        <item>Ордера</item>
+        <item>Приход из подразделений</item>
+    </string-array>
+
 </resources>
