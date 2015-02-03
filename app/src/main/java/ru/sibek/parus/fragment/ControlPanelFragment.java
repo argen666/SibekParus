@@ -26,8 +26,8 @@ import android.widget.Toast;
 import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
-import ru.sibek.parus.sqlite.InvoiceProvider;
-import ru.sibek.parus.sqlite.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
 import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.view.DummyFragment;
 
@@ -75,11 +75,11 @@ public class ControlPanelFragment extends Fragment {
                     break;
                 }
                 case 1: {
-                    mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
+                    mFragment = Fragment.instantiate(mActivity, Types.INORDERS);
                     break;
                 }
                 case 2: {
-                    mFragment = Fragment.instantiate(mActivity, Types.ININVOICES);
+                    mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
                     break;
                 }
             }

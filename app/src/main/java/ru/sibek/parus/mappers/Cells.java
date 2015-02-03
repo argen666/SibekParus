@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.sibek.parus.sqlite.CellsProvider;
+import ru.sibek.parus.sqlite.storages.CellsProvider;
 
 public class Cells {
 

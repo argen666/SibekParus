@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.sibek.parus.sqlite.StorageProvider;
+import ru.sibek.parus.sqlite.storages.StorageProvider;
 
 public class Storages {
 

@@ -30,8 +30,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ru.sibek.parus.R;
-import ru.sibek.parus.sqlite.InvoiceProvider;
-import ru.sibek.parus.sqlite.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
 import ru.sibek.parus.widget.CursorBinder;
 
 /**

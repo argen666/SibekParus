@@ -36,7 +36,7 @@
             android:background="#eeeeee"
             android:layout_height="match_parent">
             <!--<fragment
-                class="ru.sibek.parus.fragment.InvoicesSpecFragment"
+                class="ru.sibek.parus.fragment.ininvoice.InvoicesSpecFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:layout="@layout/li_invoice_spec">

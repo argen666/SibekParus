@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.sibek.parus.sqlite;
+package ru.sibek.parus.sqlite.ininvoices;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -27,6 +27,7 @@ import android.util.Log;
 
 import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.account.ParusAccount;
+import ru.sibek.parus.sqlite.SQLiteTableProvider;
 import ru.sibek.parus.sync.SyncAdapter;
 
 /*import com.elegion.newsfeed.AppDelegate;

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.sibek.parus.sqlite.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
 
 public class InvoicesSpec /*implements IContentValues*/ {
 

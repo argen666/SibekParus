@@ -26,8 +26,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import ru.sibek.parus.R;
-import ru.sibek.parus.fragment.InvoicesSpecFragment;
-import ru.sibek.parus.sqlite.InvoiceProvider;
+import ru.sibek.parus.fragment.ininvoice.InvoicesSpecFragment;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 
 
 /**

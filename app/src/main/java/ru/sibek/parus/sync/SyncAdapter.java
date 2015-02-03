@@ -29,9 +29,9 @@ import android.util.Log;
 import retrofit.client.Response;
 import ru.sibek.parus.rest.NetworkTask;
 import ru.sibek.parus.rest.ParusService;
-import ru.sibek.parus.sqlite.InvoiceProvider;
-import ru.sibek.parus.sqlite.RacksProvider;
-import ru.sibek.parus.sqlite.StorageProvider;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
+import ru.sibek.parus.sqlite.storages.RacksProvider;
+import ru.sibek.parus.sqlite.storages.StorageProvider;
 
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {

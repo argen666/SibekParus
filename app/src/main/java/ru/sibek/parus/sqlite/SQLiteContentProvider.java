@@ -34,6 +34,12 @@ import android.text.TextUtils;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.storages.CellsProvider;
+import ru.sibek.parus.sqlite.storages.RacksProvider;
+import ru.sibek.parus.sqlite.storages.StorageProvider;
+
 /**
  * @author Daniel Serdyukov
  */

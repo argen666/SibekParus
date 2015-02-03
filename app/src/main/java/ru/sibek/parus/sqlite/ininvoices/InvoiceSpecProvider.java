@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package ru.sibek.parus.sqlite;
+package ru.sibek.parus.sqlite.ininvoices;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.BaseColumns;
+
+import ru.sibek.parus.sqlite.SQLiteTableProvider;
 
 
 public class InvoiceSpecProvider extends SQLiteTableProvider {

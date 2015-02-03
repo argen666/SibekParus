@@ -1,4 +1,4 @@
-package ru.sibek.parus.fragment;
+package ru.sibek.parus.fragment.ininvoice;
 
 import android.accounts.Account;
 import android.app.Fragment;
@@ -19,7 +19,8 @@ import java.util.Map;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
-import ru.sibek.parus.sqlite.InvoiceSpecProvider;
+import ru.sibek.parus.fragment.SwipeToRefreshList;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
 import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 

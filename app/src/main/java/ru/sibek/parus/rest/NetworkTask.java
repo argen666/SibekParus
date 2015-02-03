@@ -12,11 +12,11 @@ import ru.sibek.parus.mappers.Invoices;
 import ru.sibek.parus.mappers.InvoicesSpec;
 import ru.sibek.parus.mappers.Racks;
 import ru.sibek.parus.mappers.Storages;
-import ru.sibek.parus.sqlite.CellsProvider;
-import ru.sibek.parus.sqlite.InvoiceProvider;
-import ru.sibek.parus.sqlite.InvoiceSpecProvider;
-import ru.sibek.parus.sqlite.RacksProvider;
-import ru.sibek.parus.sqlite.StorageProvider;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.storages.CellsProvider;
+import ru.sibek.parus.sqlite.storages.RacksProvider;
+import ru.sibek.parus.sqlite.storages.StorageProvider;
 
 /**
  * Created by Developer on 31.10.2014.

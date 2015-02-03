@@ -3,9 +3,9 @@ package ru.sibek.parus.fragment;
 import android.content.Context;
 import android.database.Cursor;
 
-import ru.sibek.parus.sqlite.CellsProvider;
-import ru.sibek.parus.sqlite.RacksProvider;
-import ru.sibek.parus.sqlite.StorageProvider;
+import ru.sibek.parus.sqlite.storages.CellsProvider;
+import ru.sibek.parus.sqlite.storages.RacksProvider;
+import ru.sibek.parus.sqlite.storages.StorageProvider;
 
 /**
  * Created by Developer on 21.11.2014.

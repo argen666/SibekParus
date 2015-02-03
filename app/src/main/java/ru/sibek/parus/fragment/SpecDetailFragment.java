@@ -22,10 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ru.sibek.parus.R;
-import ru.sibek.parus.sqlite.CellsProvider;
-import ru.sibek.parus.sqlite.InvoiceSpecProvider;
-import ru.sibek.parus.sqlite.RacksProvider;
-import ru.sibek.parus.sqlite.StorageProvider;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.storages.CellsProvider;
+import ru.sibek.parus.sqlite.storages.RacksProvider;
+import ru.sibek.parus.sqlite.storages.StorageProvider;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +48,7 @@ public class SpecDetailFragment extends Fragment implements LoaderManager.Loader
     private Button mSaveButton;
     private Button mCancelButton;
     private boolean isChanged = false;
+
     public SpecDetailFragment() {
         // Required empty public constructor
     }

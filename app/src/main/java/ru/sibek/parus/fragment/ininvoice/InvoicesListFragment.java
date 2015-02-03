@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.sibek.parus.fragment;
+package ru.sibek.parus.fragment.ininvoice;
 
 import android.accounts.Account;
 import android.app.Fragment;
@@ -35,7 +35,9 @@ import java.util.Map;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
-import ru.sibek.parus.sqlite.InvoiceProvider;
+import ru.sibek.parus.fragment.ControlPanelFragment;
+import ru.sibek.parus.fragment.SwipeToRefreshList;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
 //import com.elegion.newsfeed.activity.NewsActivity;
@@ -71,7 +73,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
        /* ControlPanel.cDate=(TextView) getActivity().findViewById(R.id.ininvoice_date);
         ControlPanel.cItemName=(TextView) getActivity().findViewById(R.id.ininvoice_item_name);
         ControlPanel.cButton=(Button) getActivity().findViewById(R.id.ininvoice_button);*/
-        ControlPanel.controlFragment= (ControlPanelFragment) getFragmentManager().findFragmentById(R.id.control_panel_frame);
+        ControlPanel.controlFragment = (ControlPanelFragment) getFragmentManager().findFragmentById(R.id.control_panel_frame);
 
         specFragment = (InvoicesSpecFragment) getFragmentManager().findFragmentById(R.id.detail_frame);
         //Log.d("KKKK",cf.toString());
@@ -80,10 +82,10 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         if (id == R.id.invoices_loader) {
-           // String[] projection = {InvoiceProvider.Columns._ID, InvoiceProvider.Columns.SNUMB,InvoiceProvider.Columns.SPREF + " * " + InvoiceProvider.Columns.DDOC_DATE + " as data"};
+            // String[] projection = {InvoiceProvider.Columns._ID, InvoiceProvider.Columns.SNUMB,InvoiceProvider.Columns.SPREF + " * " + InvoiceProvider.Columns.DDOC_DATE + " as data"};
             return new CursorLoader(
                     getActivity().getApplicationContext(),
-                    InvoiceProvider.URI, null, null, null, InvoiceProvider.Columns.NSTATUS+" ASC, "+ InvoiceProvider.Columns.DDOC_DATE+" DESC"
+                    InvoiceProvider.URI, null, null, null, InvoiceProvider.Columns.NSTATUS + " ASC, " + InvoiceProvider.Columns.DDOC_DATE + " DESC"
 
 
             );
@@ -97,7 +99,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
 
 
         //TextView emptyDetailView = ((TextView) getActivity().findViewById(R.id.detail_empty_textView));
-       // emptyDetailView.setVisibility(View.VISIBLE);
+        // emptyDetailView.setVisibility(View.VISIBLE);
         if (loader.getId() == R.id.invoices_loader) {
             mListAdapter.swapCursor(data);
             //emptyDetailView.setText("Выберите накладную");
@@ -117,13 +119,13 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
        /* final Intent intent = new Intent(getActivity(), NewsActivity.class);
         intent.putExtra(NewsActivity.EXTRA_FEED_ID, id);
         startActivity(intent);*/
-    Log.d("ITEM_CLICK: ","pos: "+position+"; id= "+id);
+        Log.d("ITEM_CLICK: ", "pos: " + position + "; id= " + id);
         Cursor curInv = mListAdapter.getCursor();
-       // feed = getActivity().getContentResolver().query(InvoiceProvider.URI, new String[]{InvoiceProvider.Columns.SSTATUS} ,InvoiceProvider.Columns._ID+ "=?",new String[]{String.valueOf(id)},null);
-        Log.d("ITEM_CLICK: ",InvoiceProvider.getNStatus(curInv)+"");
-        String btnText=null;
-        if (InvoiceProvider.getNStatus(curInv)!=0){
-            btnText="Отработано";
+        // feed = getActivity().getContentResolver().query(InvoiceProvider.URI, new String[]{InvoiceProvider.Columns.SSTATUS} ,InvoiceProvider.Columns._ID+ "=?",new String[]{String.valueOf(id)},null);
+        Log.d("ITEM_CLICK: ", InvoiceProvider.getNStatus(curInv) + "");
+        String btnText = null;
+        if (InvoiceProvider.getNStatus(curInv) != 0) {
+            btnText = "Отработано";
         }
         ControlPanel.controlFragment.addInfoToPanel(
                 ((TextView) view.findViewById(R.id.title)).getText().toString(),
@@ -187,13 +189,13 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
     protected void onSyncStatusChanged(Account account, boolean isSyncActive) {
         setRefreshing(isSyncActive);
     }
-        static class ControlPanel
-        {
-            static ControlPanelFragment controlFragment;
+
+    static class ControlPanel {
+        static ControlPanelFragment controlFragment;
         /*static TextView cDate;
         static TextView cItemName;
         static Button cButton;*/
-        }
+    }
 
 
 }

@@ -29,7 +29,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import ru.sibek.parus.R;
-import ru.sibek.parus.sqlite.InvoiceProvider;
+import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.widget.CursorBinder;
 
 

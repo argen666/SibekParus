@@ -25,9 +25,9 @@ import android.view.MenuItem;
 import com.crashlytics.android.Crashlytics;
 
 import ru.sibek.parus.R;
-import ru.sibek.parus.fragment.InvoicesListFragment;
 import ru.sibek.parus.fragment.LogoFragment;
 import ru.sibek.parus.fragment.Types;
+import ru.sibek.parus.fragment.ininvoice.InvoicesListFragment;
 import ru.sibek.parus.view.DummyFragment;
 import ru.sibek.parus.view.TabListener;
 
