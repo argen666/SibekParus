@@ -42,7 +42,7 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
         //  Fragment detail = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
         if (mTag == Types.ININVOICES) {
             if (cPanel == null) {
-                cPanel = ControlPanelFragment.newInstance(Types.ININVOICES);
+                cPanel = ControlPanelFragment.newInstance(mClass.getName(), ft);
                 ft.add(R.id.control_panel_frame, cPanel);
                 Log.d("IN_NULL", cPanel.getId() + "");
             } else {
@@ -60,35 +60,26 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                 ft.detach(logo);
             }
 
-            if (mFragment == null) {
+            //cPanel.addMasterFragment(ft,mActivity,mTag,0);
 
-              /*  switch (cPanel.getArguments().getInt(cPanel.ACTION)) {
-                    case 0: {//spinner Nakladnye
-                        mFragment = Fragment.instantiate(mActivity, mClass.getName());
-                        break;
-                    }
-                    case 1: {//spinner Ordera
-                        mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
-                        break;
-                    }
-                    case 2: {//spinner Pizp
-                        mFragment = Fragment.instantiate(mActivity, mClass.getName());
-                        break;
-                    }
-                }*/
 
+            /*if (mFragment == null) {
+
+                mFragment = Fragment.instantiate(mActivity, mClass.getName());
                 ft.add(R.id.master_frame, mFragment, mTag);
                 // If not, instantiate and add it to the activity
             } else {
                 // If it exists, simply attach it in order to show it
                 ft.attach(mFragment);
-            }
+            }*/
 
 
         } else {
 
             Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
             if (f != null) ft.remove(f);
+            Fragment f1 = mActivity.getFragmentManager().findFragmentById(R.id.master_frame);
+            if (f1 != null) ft.remove(f1);
             return;
             /*if (cPanel == null) {
                 cPanel=ControlPanelFragment.newInstance("other");
@@ -110,6 +101,7 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
         if (mFragment != null) {
             // Detach the fragment, because another one is being attached
             ft.detach(mFragment);
+
 
         }
         if (cPanel != null) {

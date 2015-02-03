@@ -2,6 +2,7 @@ package ru.sibek.parus.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -28,6 +29,7 @@ import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.sqlite.InvoiceProvider;
 import ru.sibek.parus.sqlite.InvoiceSpecProvider;
 import ru.sibek.parus.sync.SyncAdapter;
+import ru.sibek.parus.view.DummyFragment;
 
 public class ControlPanelFragment extends Fragment {
     private static final String TYPE = "type";
@@ -35,6 +37,7 @@ public class ControlPanelFragment extends Fragment {
     private static final String ENTITY_ID = "ENTITY_ID";
     //private static final String ARG_PARAM2 = "param2";
 
+    private static FragmentTransaction fragmentTransaction;
     private String type;
     private String itemTitle = "";
     private String strDate = "";
@@ -45,8 +48,10 @@ public class ControlPanelFragment extends Fragment {
     TextView itemDate;
     Button actionBtn;
     Spinner spinner;
+    private Fragment mFragment;
 
-    public static ControlPanelFragment newInstance(String type) {
+    public static ControlPanelFragment newInstance(String type, FragmentTransaction ft) {
+        fragmentTransaction = ft;
         ControlPanelFragment fragment = new ControlPanelFragment();
         Bundle args = new Bundle();
         args.putString(TYPE, type);
@@ -56,6 +61,40 @@ public class ControlPanelFragment extends Fragment {
 
     public ControlPanelFragment() {
         // Required empty public constructor
+    }
+
+    public void addMasterFragment(FragmentTransaction ft, Activity mActivity, String mTag, int position) {
+        type = getArguments().getString(TYPE);
+        Log.d("addMasterFragment", (spinner == null) ? "NULL" : "!!!NULL");
+        if (type.equals(Types.ININVOICES)) {
+            //if (mFragment == null) {
+
+            switch (position) {
+                case 0: {
+                    mFragment = Fragment.instantiate(mActivity, Types.ININVOICES);
+                    break;
+                }
+                case 1: {
+                    mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
+                    break;
+                }
+                case 2: {
+                    mFragment = Fragment.instantiate(mActivity, Types.ININVOICES);
+                    break;
+                }
+            }
+            getFragmentManager().beginTransaction().replace(R.id.master_frame, mFragment).commit();
+            Log.d("addMasterFragment", mFragment + "");
+            //ft.add(R.id.master_frame, mFragment, mTag);
+            //ft.attach(mFragment);
+            // If not, instantiate and add it to the activity
+            /*} else {
+                // If it exists, simply attach it in order to show it
+                Log.d("addMasterFragment",mFragment+" RESTORE");
+                ft.attach(mFragment);
+            }*/
+        }
+
     }
 
     public long getEntityId() {
@@ -185,7 +224,9 @@ public class ControlPanelFragment extends Fragment {
                 @Override
                 public void onItemSelected(AdapterView<?> arg0, View v,
                                            int id, long arg3) {
+                    Log.d("Spinner_OnItemSelected", id + "");
                     //todo аттачить фрагмент тут
+                    addMasterFragment(fragmentTransaction, getActivity(), Types.ININVOICES, id);
                     //Fragment mFragment = Fragment.instantiate(getActivity(), InvoicesListFragment.class.getName());
                     //getArguments().putInt(ACTION,id);
                     //System.out.println(arg2+">>>>>"+arg3);
@@ -225,6 +266,7 @@ public class ControlPanelFragment extends Fragment {
     }
 
     private View getIninvoicesView(View view, LinearLayout layout) {
+        Log.d("getIninvoicesView", "getIninvoicesView");
         spinner = new Spinner(getActivity());
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.invoice_array, R.layout.spinner_item);

@@ -21,10 +21,12 @@ public class _TabListener<T extends Fragment> implements ActionBar.TabListener {
     private final String mTag;
     private final Class<T> mClass;
 
-    /** Constructor used each time a new tab is created.
-     * @param activity  The host Activity, used to instantiate the fragment
-     * @param tag  The identifier tag for the fragment
-     * @param clz  The fragment's Class, used to instantiate the fragment
+    /**
+     * Constructor used each time a new tab is created.
+     *
+     * @param activity The host Activity, used to instantiate the fragment
+     * @param tag      The identifier tag for the fragment
+     * @param clz      The fragment's Class, used to instantiate the fragment
      */
     public _TabListener(Activity activity, String tag, Class<T> clz) {
         mActivity = activity;
@@ -37,16 +39,15 @@ public class _TabListener<T extends Fragment> implements ActionBar.TabListener {
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         // Check if the fragment is already initialized
         if (mTag == Types.ININVOICES) {
-           if (cPanel == null){
-            cPanel = ControlPanelFragment.newInstance(Types.ININVOICES);
-           ft.add(R.id.control_panel_frame, cPanel);
-               Log.d("IN_NULL", cPanel.getId()+"");
-            }
-            else {
-               Log.d("IN_!NULL", cPanel.getId()+"");
-               ft.attach(cPanel);
-               //ft.attach(cPanel);
-               // запихать ControlPanelFr которф    предварительно сохранить
+            if (cPanel == null) {
+                cPanel = ControlPanelFragment.newInstance(Types.ININVOICES, ft);
+                ft.add(R.id.control_panel_frame, cPanel);
+                Log.d("IN_NULL", cPanel.getId() + "");
+            } else {
+                Log.d("IN_!NULL", cPanel.getId() + "");
+                ft.attach(cPanel);
+                //ft.attach(cPanel);
+                // запихать ControlPanelFr которф    предварительно сохранить
             }
         } /*else {
             if (cPanel == null) {
@@ -59,20 +60,20 @@ public class _TabListener<T extends Fragment> implements ActionBar.TabListener {
             }
         }*/
         Fragment logo = mActivity.getFragmentManager().findFragmentById(R.id.frame1);
-        if (mFragment == null){
+        if (mFragment == null) {
             mFragment = Fragment.instantiate(mActivity, mClass.getName());
-        if (logo!=null && logo instanceof LogoFragment) {
-            ft.replace(R.id.frame1,mFragment,mTag);
+            if (logo != null && logo instanceof LogoFragment) {
+                ft.replace(R.id.frame1, mFragment, mTag);
 
-        } else {
-            ft.add(R.id.frame1, mFragment, mTag);
-        }
+            } else {
+                ft.add(R.id.frame1, mFragment, mTag);
+            }
             // If not, instantiate and add it to the activity
 
         } else {
             // If it exists, simply attach it in order to show it
-            if (logo!=null && logo instanceof LogoFragment) {
-                ft.replace(R.id.frame1,mFragment);
+            if (logo != null && logo instanceof LogoFragment) {
+                ft.replace(R.id.frame1, mFragment);
 
             } else {
                 ft.attach(mFragment);
@@ -87,7 +88,7 @@ public class _TabListener<T extends Fragment> implements ActionBar.TabListener {
             ft.detach(mFragment);
 
         }
-        if (cPanel!=null){
+        if (cPanel != null) {
             ft.detach(cPanel);
         }
     }
