@@ -83,21 +83,46 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
-    private void startSync(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs, String action) {
+    private void startSync(final ContentProviderClient provider, final SyncResult syncResult, final String where, final String[] whereArgs, String action) {
         //TODO: Если синхронизация не закончена не давать вызывать еще раз или вообще писать подождите...
         switch (action) {
             case SyncActions.SYNC_INVOICES: {
-                syncInvoices(provider, syncResult, where, whereArgs);
+
+                Thread myThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        InvoicesSync.syncInvoices(provider, syncResult, where, whereArgs);
+                    }
+                });
+
+                myThread.start();
+
                 break;
             }
 
             case SyncActions.SYNC_STORAGES: {
-                syncStorages(provider, syncResult, where, whereArgs);
+
+                Thread myThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        StoragesSync.syncStorages(provider, syncResult, where, whereArgs);
+                    }
+                });
+
+                myThread.start();
                 break;
             }
 
             case SyncActions.SYNC_RACKS: {
-                syncRacks(provider, syncResult, where, whereArgs);
+
+                Thread myThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        StoragesSync.syncRacks(provider, syncResult, where, whereArgs);
+                    }
+                });
+
+                myThread.start();
                 break;
             }
 
@@ -110,6 +135,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
 
     }
+
 
     private void syncPostInvoices(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
         try {
@@ -145,7 +171,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             //Response r = (Response) n.getData(null, "", "applyInvoiceAsFact", NRN);
             Response r = (Response) ParusService.getService().applyInvoiceAsFact(Long.valueOf(NRN));
             if (r != null) {
-                getInvoices(invoiceId, NRN, null, provider, syncResult);
+                InvoicesSync.getInvoices(invoiceId, NRN, null, provider, syncResult);
             } else {
                 Log.d("OOPS!", "Network is down");
             }
@@ -157,169 +183,5 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
-    private void syncRacks(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
-
-        try {
-            final Cursor racks = provider.query(
-                    RacksProvider.URI, new String[]{
-                            RacksProvider.Columns._ID,
-                            RacksProvider.Columns.NRN
-                    }, where, whereArgs, null
-            );
-
-            try {
-                if (racks.moveToFirst()) {
-                    do {
-                        getRacks(racks.getString(0), racks.getString(1), provider, syncResult);
-                    } while (racks.moveToNext());
-                }
-            } finally {
-                racks.close();
-            }
-        } catch (RemoteException e) {
-            Log.e(SyncAdapter.class.getName(), e.getMessage(), e);
-            ++syncResult.stats.numIoExceptions;
-        }
-
-    }
-
-
-    private void getRacks(String rackID, String NRN, ContentProviderClient provider, SyncResult syncResult) {
-
-        NetworkTask n = new NetworkTask(provider, syncResult);
-        try {
-                /*n.getData(rackID, "UPDATE_STORAGE", "racksByNRN", NRN);
-                Log.d("STORAGE_RACK_UPDATE>>>", rackID + "___" + NRN);*/
-            n.getData(rackID, "UPDATE_CELLS", "cellsByNRN", NRN);
-            Log.d("STORAGE_UPDATE_CELLS>>>", rackID + "___" + NRN);
-
-
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void syncStorages(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
-
-        try {
-            final Cursor stores = provider.query(
-                    StorageProvider.URI, new String[]{
-                            StorageProvider.Columns._ID,
-                            StorageProvider.Columns.NRN
-                    }, where, whereArgs, null
-            );
-
-            try {
-                if (stores.moveToFirst()) {
-                    do {
-                        getStorages(stores.getString(0), stores.getString(1), provider, syncResult);
-                    } while (stores.moveToNext());
-                } else {
-                    getStorages(null, null, provider, syncResult);
-                }
-            } finally {
-                stores.close();
-            }
-        } catch (RemoteException e) {
-            Log.e(SyncAdapter.class.getName(), e.getMessage(), e);
-            ++syncResult.stats.numIoExceptions;
-        }
-
-    }
-
-
-    private void syncInvoices(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
-        //Альтернативный Алгоритм: Качать все накладные, после чего!  все спецификации. В спецификации ид накладной=нулл. При вставке в таблицу
-        // спепификаций срабатывает триггер который делает апдейт своего поля ИД_НАКЛАДНОЙ полученного where inv.NRN=spec.NRPN
-        try {
-            final Cursor feeds = provider.query(
-                    InvoiceProvider.URI, new String[]{
-                            InvoiceProvider.Columns._ID,
-                            InvoiceProvider.Columns.NRN
-                    }, where, whereArgs, null
-            );
-
-
-            try {
-                if (feeds.moveToFirst()) {
-
-                    if (where != null) {
-
-                        do {
-                            getInvoices(feeds.getString(0), feeds.getString(1), null, provider, syncResult);
-                        } while (feeds.moveToNext());
-                    } else {
-                        //дернул шторку
-
-                        final Cursor maxTms = provider.query(
-                                InvoiceProvider.URI, new String[]{
-                                        "MAX(" + InvoiceProvider.Columns.HASH + ") as" + InvoiceProvider.Columns.HASH,
-                                }, null, null, null
-                        );
-                        maxTms.moveToFirst();
-                        String tms = String.valueOf(maxTms.getLong(0));
-                        Log.d("MAXTMS>>>", tms);
-                        getInvoices(null, null, tms, provider, syncResult);
-                    }
-                } else {
-                    getInvoices(null, null, "0", provider, syncResult);
-                }
-            } finally {
-                feeds.close();
-            }
-        } catch (RemoteException e) {
-            Log.e(SyncAdapter.class.getName(), e.getMessage(), e);
-            ++syncResult.stats.numIoExceptions;
-        }
-    }
-
-
-    private void getStorages(String storageID, String NRN, ContentProviderClient provider, SyncResult syncResult) {
-
-        NetworkTask n = new NetworkTask(provider, syncResult);
-        try {
-            if (storageID == null) {
-                n.getData(null, "FULL_INSERT_STORAGE", "listStorages");
-                Log.d("STORAGE_FIRST>>>", "FULL_INSERT_STORAGE");
-            } else {
-
-                n.getData(storageID, "UPDATE_STORAGE", "storageByNRN", NRN);
-                Log.d("STORAGE_UPDATE>>>", storageID + "___" + NRN);
-                n.getData(storageID, "UPDATE_RACKS", "racksByNRN", NRN);
-                Log.d("STORAGE_UPDATE_RACK>>>", storageID + "___" + NRN);
-            }
-
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void getInvoices(String invoiceID, String NRN, String tms, ContentProviderClient provider, SyncResult syncResult) {
-
-        NetworkTask n = new NetworkTask(provider, syncResult);
-        try {
-            if (invoiceID == null) {
-                if (tms == "0") {
-                    n.getData(null, "FULL_INSERT_INVOICE", "listInvoices", tms);
-                    Log.d("INVOICE_FIRST>>>", "FIRST INSERT");
-                } else {
-                    n.getData(null, "UPDATE_INVOICE_BY_TMS", "listInvoices", tms);
-                    Log.d("UPDATE_INVOICE_BY_TMS>>>", "UPDATE_INVOICE_BY_TMS");
-                }
-            } else {
-
-                n.getData(invoiceID, "UPDATE_INVOICE", "invoiceByNRN", NRN);
-                Log.d("INVOICE_UPDATE>>>", invoiceID + "___" + NRN);
-                n.getData(invoiceID, "UPDATE_SPEC", "invoiceSpecByNRN", NRN);
-                Log.d("INVOICE_UPDATE_SPEC>>>", invoiceID + "___" + NRN);
-
-            }
-
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
