@@ -17,7 +17,7 @@ import java.io.IOException;
 import ru.sibek.parus.fragment.InvoicesFragment;
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
-import ru.sibek.parus.mappers.Invoices;
+import ru.sibek.parus.mappers.ininvoices.Invoices;
 
 
 public class MainActivity extends FragmentActivity implements InvoicesFragment.OnHeadlineSelectedListener {

@@ -1,4 +1,4 @@
-package ru.sibek.parus.mappers;
+package ru.sibek.parus.mappers.ininvoices;
 
 import android.content.ContentValues;
 import android.util.Log;
@@ -10,19 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.sibek.parus.rest.ParusDate;
-import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 
-public class Invoices/* implements IContentValues*/ {
+public class Orders/* implements IContentValues*/ {
 
 
     @Expose
-    private List<ItemInvoice> items = new ArrayList<ItemInvoice>();
+    private List<ItemOrder> items = new ArrayList<ItemOrder>();
 
-    public List<ItemInvoice> getItems() {
+    public List<ItemOrder> getItems() {
         return items;
     }
 
-    public void setItems(List<ItemInvoice> items) {
+    public void setItems(List<ItemOrder> items) {
         this.items = items;
     }
 
@@ -31,21 +31,21 @@ public class Invoices/* implements IContentValues*/ {
     public ContentValues[] toContentValues() {
 
         final List<ContentValues> contentValuesList = new ArrayList<>();
-        List<ItemInvoice> items = this.getItems();
-        for (ItemInvoice item : items) {
+        List<ItemOrder> items = this.getItems();
+        for (ItemOrder item : items) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(InvoiceProvider.Columns.SNUMB, item.getSnumb());
-            contentValues.put(InvoiceProvider.Columns.SDOCTYPE, item.getSdoctype());
-            contentValues.put(InvoiceProvider.Columns.SPREF, item.getSpref());
-            contentValues.put(InvoiceProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
-            contentValues.put(InvoiceProvider.Columns.HASH, ParusDate.parse(item.getDmodifdate()).getTime());
-            contentValues.put(InvoiceProvider.Columns.SAGENT, item.getSagent());
-            contentValues.put(InvoiceProvider.Columns.NSUMMTAX, item.getNsummtax());
-            contentValues.put(InvoiceProvider.Columns.NSTATUS, item.getNstatus());
-            contentValues.put(InvoiceProvider.Columns.LOCAL_NSTATUS, item.getNstatus());
-            contentValues.put(InvoiceProvider.Columns.SSTATUS, item.getSstatus());
-            contentValues.put(InvoiceProvider.Columns.NRN, item.getNrn());
-            contentValues.put(InvoiceProvider.Columns.NCOMPANY, item.getNcompany());
+            contentValues.put(OrderProvider.Columns.SNUMB, item.getSnumb());
+            contentValues.put(OrderProvider.Columns.SDOCTYPE, item.getSdoctype());
+            contentValues.put(OrderProvider.Columns.SPREF, item.getSpref());
+            contentValues.put(OrderProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
+            contentValues.put(OrderProvider.Columns.HASH, ParusDate.parse(item.getDmodifdate()).getTime());
+            contentValues.put(OrderProvider.Columns.SAGENT, item.getSagent());
+            contentValues.put(OrderProvider.Columns.NSUMMTAX, item.getNsummtax());
+            contentValues.put(OrderProvider.Columns.NSTATUS, item.getNstatus());
+            contentValues.put(OrderProvider.Columns.LOCAL_NSTATUS, item.getNstatus());
+            contentValues.put(OrderProvider.Columns.SSTATUS, item.getSstatus());
+            contentValues.put(OrderProvider.Columns.NRN, item.getNrn());
+            contentValues.put(OrderProvider.Columns.NCOMPANY, item.getNcompany());
             contentValuesList.add(contentValues);
             Log.d("DMODIF>>", ParusDate.parse(item.getDdocDate()).getTime() + "!!!!" + ParusDate.parse(item.getDmodifdate()).getTime());
         }
@@ -53,7 +53,7 @@ public class Invoices/* implements IContentValues*/ {
         return contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
     }
 
-    public class ItemInvoice {
+    public class ItemOrder {
 
         @Expose
         private Long nrn;
@@ -571,7 +571,7 @@ public class Invoices/* implements IContentValues*/ {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
-            ItemInvoice that = (ItemInvoice) o;
+            ItemOrder that = (ItemOrder) o;
 
             if (ddocDate != null ? !ddocDate.equals(that.ddocDate) : that.ddocDate != null)
                 return false;
@@ -718,7 +718,7 @@ public class Invoices/* implements IContentValues*/ {
 
         @Override
         public String toString() {
-            return "ItemInvoice{" +
+            return "ItemOrder{" +
                     "nrn=" + nrn +
                     ", ncompany=" + ncompany +
                     ", ncrn=" + ncrn +
@@ -775,10 +775,10 @@ public class Invoices/* implements IContentValues*/ {
     @Override
     public String toString() {
         String listString = "";
-        for (ItemInvoice s : items) {
+        for (ItemOrder s : items) {
             listString += s.getDmodifdate() + "\n";
         }
-        return "Invoices{" +
+        return "Orders{" +
                 "items=" + items.size() + ">>>" + listString +
                 '}';
     }
@@ -786,7 +786,7 @@ public class Invoices/* implements IContentValues*/ {
     public String[] getAllNrnStringArray() {
         String[] nrn = new String[items.size()];
         int i = 0;
-        for (ItemInvoice s : items) {
+        for (ItemOrder s : items) {
             nrn[i] = s.getNrn() + "";
             i++;
         }

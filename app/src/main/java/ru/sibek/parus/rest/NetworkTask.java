@@ -8,12 +8,14 @@ import android.util.Log;
 import java.lang.reflect.Method;
 
 import ru.sibek.parus.mappers.Cells;
-import ru.sibek.parus.mappers.Invoices;
-import ru.sibek.parus.mappers.InvoicesSpec;
+import ru.sibek.parus.mappers.ininvoices.Invoices;
+import ru.sibek.parus.mappers.ininvoices.InvoicesSpec;
 import ru.sibek.parus.mappers.Racks;
 import ru.sibek.parus.mappers.Storages;
+import ru.sibek.parus.mappers.ininvoices.Orders;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.sqlite.storages.CellsProvider;
 import ru.sibek.parus.sqlite.storages.RacksProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
@@ -71,6 +73,18 @@ public class NetworkTask {
 
 
             switch (tag) {
+
+                case "FULL_INSERT_ORDERS": {
+
+                    syncResult.stats.numDeletes += provider
+                            .delete(OrderProvider.URI, null, null);
+
+                    syncResult.stats.numUpdates += provider
+                            .bulkInsert(OrderProvider.URI, ((Orders) ret).toContentValues());
+                    Log.d("FULL_INSERT_ORDER>>>>>>>>>>>>>", ((Orders) ret).toString());
+                    break;
+                }
+
                 case "UPDATE_INVOICE_BY_TMS": {
 
                     String[] nrn = ((Invoices) ret).getAllNrnStringArray();

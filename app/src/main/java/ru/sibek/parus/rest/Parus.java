@@ -8,10 +8,11 @@ import retrofit.http.POST;
 import retrofit.http.Path;
 import ru.sibek.parus.mappers.Cells;
 import ru.sibek.parus.mappers.Companies;
-import ru.sibek.parus.mappers.Invoices;
-import ru.sibek.parus.mappers.InvoicesSpec;
+import ru.sibek.parus.mappers.ininvoices.Invoices;
+import ru.sibek.parus.mappers.ininvoices.InvoicesSpec;
 import ru.sibek.parus.mappers.Racks;
 import ru.sibek.parus.mappers.Storages;
+import ru.sibek.parus.mappers.ininvoices.Orders;
 
 /**
  * Created by Developer on 06.10.2014.
@@ -50,4 +51,7 @@ public interface Parus {
     @FormUrlEncoded
     @POST("/parus/ru/invoice/status")
     Response applyInvoiceAsFact(@Field("NRN") long nrn/*, @Field("last_name") String last*/);
+
+    @GET("/parus/ru/inorders/{date}")
+    Orders listOrders(@Path("date") String date);
 }

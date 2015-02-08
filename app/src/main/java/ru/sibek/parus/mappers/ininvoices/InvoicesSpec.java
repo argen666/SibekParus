@@ -1,4 +1,4 @@
-package ru.sibek.parus.mappers;
+package ru.sibek.parus.mappers.ininvoices;
 
 import android.content.ContentValues;
 

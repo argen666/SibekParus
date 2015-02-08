@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import ru.sibek.parus.mappers.Companies;
-import ru.sibek.parus.mappers.Invoices;
+import ru.sibek.parus.mappers.ininvoices.Invoices;
 
 import java.util.ArrayList;
 import java.util.List;
