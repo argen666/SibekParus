@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ru.sibek.parus.view.InvoiceSpecListItem xmlns:android="http://schemas.android.com/apk/res/android"
+<ru.sibek.parus.view.OrderSpecListItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
@@ -101,4 +101,4 @@
 
     </LinearLayout>
 
-</ru.sibek.parus.view.InvoiceSpecListItem>
+</ru.sibek.parus.view.OrderSpecListItem>

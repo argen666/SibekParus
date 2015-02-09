@@ -97,11 +97,11 @@ public class OrderProvider extends SQLiteTableProvider {
     @Override
     public void onContentChanged(Context context, int operation, Bundle extras) {
         if (operation == INSERT) {
-            /*extras.keySet();
+            extras.keySet();
             final Bundle syncExtras = new Bundle();
-            syncExtras.putLong(SyncAdapter.KEY_INVOICE_ID, extras.getLong(KEY_LAST_ID, -1));
+            syncExtras.putLong(SyncAdapter.KEY_INORDER_ID, extras.getLong(KEY_LAST_ID, -1));
             ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
-            Log.d("QQcontentChanged", "insert");*/
+            Log.d("QQcontentChanged", "insert");
 
         }
     }
@@ -116,6 +116,8 @@ public class OrderProvider extends SQLiteTableProvider {
                 + Columns.SDOCTYPE + " text, "
                 + Columns.SPREF + " text, "
                 + Columns.SNUMB + " text, "
+                + Columns.NSTORE + " integer, "
+                + Columns.SSTORE + " text, "
                 + Columns.DDOC_DATE + " integer, "
                 + Columns.HASH + " integer, "
                 + Columns.NSTATUS + " integer, "
@@ -140,6 +142,8 @@ public class OrderProvider extends SQLiteTableProvider {
         String SDOCTYPE = "SDOCTYPE";
         String SPREF = "SPREF";
         String SNUMB = "SNUMB";
+        String SSTORE = "SSTORE";
+        String NSTORE = "NSTORE";
         String DDOC_DATE = "DDOC_DATE";
         String NSTATUS = "NSTATUS";
         String SSTATUS = "SSTATUS";

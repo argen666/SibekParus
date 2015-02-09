@@ -13,12 +13,10 @@ import java.lang.reflect.Type;
 /**
  * Created by Developer on 07.10.2014.
  */
-public class JSONDeserializer<T> implements JsonDeserializer<T>
-{
+public class JSONDeserializer<T> implements JsonDeserializer<T> {
     @Override
     public T deserialize(JsonElement je, Type type, JsonDeserializationContext jdc)
-            throws JsonParseException
-    {
+            throws JsonParseException {
 
        /* Invoices obj = new Gson().fromJson(je, type);
         for (Invoices.ItemInvoice item:obj.getItems())
@@ -31,7 +29,6 @@ public class JSONDeserializer<T> implements JsonDeserializer<T>
             }
         }*/
         Log.d("MyDes", "Start...");
-
 
 
         //return (T)obj;

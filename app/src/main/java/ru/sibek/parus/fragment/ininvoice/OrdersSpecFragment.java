@@ -21,6 +21,7 @@ import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderSpecProvider;
 import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
@@ -64,19 +65,19 @@ public class OrdersSpecFragment extends SwipeToRefreshList implements LoaderMana
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mInvoiceId = getArguments().getLong(KEY_INVOICE_ID, -1);
-        mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_invoice_spec);
+        mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_order_spec);
         setListAdapter(mListAdapter);
-        getLoaderManager().initLoader(R.id.invoices_spec_loader, null, this);
+        getLoaderManager().initLoader(R.id.orders_spec_loader, null, this);
 
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (id == R.id.invoices_spec_loader) {
+        if (id == R.id.orders_spec_loader) {
             return new CursorLoader(
                     getActivity().getApplicationContext(),
-                    InvoiceSpecProvider.URI, null,
-                    InvoiceSpecProvider.Columns.INVOICE_ID + "=?",
+                    OrderSpecProvider.URI, null,
+                    OrderSpecProvider.Columns.ORDER_ID + "=?",
                     new String[]{String.valueOf(mInvoiceId)},
                     InvoiceSpecProvider.Columns.SNOMEN + " DESC"
             );
@@ -86,7 +87,7 @@ public class OrdersSpecFragment extends SwipeToRefreshList implements LoaderMana
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (loader.getId() == R.id.invoices_spec_loader) {
+        if (loader.getId() == R.id.orders_spec_loader) {
             mListAdapter.swapCursor(data);
 
         }
@@ -94,7 +95,7 @@ public class OrdersSpecFragment extends SwipeToRefreshList implements LoaderMana
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        if (loader.getId() == R.id.invoices_spec_loader) {
+        if (loader.getId() == R.id.orders_spec_loader) {
             mListAdapter.swapCursor(null);
         }
     }
@@ -129,7 +130,7 @@ public class OrdersSpecFragment extends SwipeToRefreshList implements LoaderMana
     @Override
     protected void onRefresh(Account account) {
         final Bundle extras = new Bundle();
-        extras.putLong(SyncAdapter.KEY_INVOICE_ID, mInvoiceId);
+        extras.putLong(SyncAdapter.KEY_INORDER_ID, mInvoiceId);
         ContentResolver.requestSync(account, ParusAccount.AUTHORITY, extras);
     }
 

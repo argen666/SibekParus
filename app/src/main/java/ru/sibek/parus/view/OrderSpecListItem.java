@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
-import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderSpecProvider;
 import ru.sibek.parus.widget.CursorBinder;
 
 /**
@@ -62,29 +62,29 @@ public class OrderSpecListItem extends LinearLayout implements CursorBinder {
     @Override
     @SuppressLint("StringFormatMatches")
     public void bindCursor(Cursor c) {
-        specId = InvoiceSpecProvider.getId(c);
+        specId = OrderSpecProvider.getId(c);
 
-        mTitle.setText(InvoiceSpecProvider.getSNOMENNAME(c)/*+">>"+InvoiceSpecProvider.getLOCAL_ICON(c)*//*+">>"+InvoiceSpecProvider.getNRN(c)+"/"+InvoiceSpecProvider.getNPRN(c)*/);
-        mTitleNum.setText(InvoiceSpecProvider.getSNOMEN(c) + "    ");
+        mTitle.setText(OrderSpecProvider.getSNOMENNAME(c)/*+">>"+OrderSpecProvider.getLOCAL_ICON(c)*//*+">>"+OrderSpecProvider.getNRN(c)+"/"+OrderSpecProvider.getNPRN(c)*/);
+        mTitleNum.setText(OrderSpecProvider.getSNOMEN(c) + "    ");
 
-        double quant = InvoiceSpecProvider.getNQUANT(c);
+        double quant = OrderSpecProvider.getNPLANQUANT(c);
         if (quant == (long) quant) {
-            mSpecQuant.setText(String.format("%d", (long) quant) + InvoiceSpecProvider.getSMEAS_MAIN(c).toUpperCase());
+            mSpecQuant.setText(String.format("%d", (long) quant) + OrderSpecProvider.getSMEAS_MAIN(c).toUpperCase());
         } else {
-            mSpecQuant.setText(String.format("%s", quant) + InvoiceSpecProvider.getSMEAS_MAIN(c).toUpperCase());
+            mSpecQuant.setText(String.format("%s", quant) + OrderSpecProvider.getSMEAS_MAIN(c).toUpperCase());
         }
-        final String sstore = InvoiceSpecProvider.getSSTORE(c);
+        final String sstore = OrderSpecProvider.getSSTORE(c);
         if (sstore != null) {
-            mSpecStore.setText(" Cклад: " + InvoiceSpecProvider.getSSTORE(c));
+            mSpecStore.setText(" Cклад: " + OrderSpecProvider.getSSTORE(c));
             mSpecStore.setTextColor(Color.BLACK);
         } else {
             mSpecStore.setText("Cклад: - ");
             mSpecStore.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
         }
-        final long storageSign = InvoiceSpecProvider.getNDISTRIBUTION_SIGN(c);
+        final long storageSign = OrderSpecProvider.getNDISTRIBUTION_SIGN(c);
         if (storageSign == 1) {
-            final String rack = InvoiceSpecProvider.getSRACK(c);
-            final String cell = InvoiceSpecProvider.getSCELL(c);
+            final String rack = OrderSpecProvider.getSRACK(c);
+            final String cell = OrderSpecProvider.getSCELL(c);
             if (rack != null) {
                 mSpecPlace.setText(" Место: " + rack + "/" + cell);
                 mSpecPlace.setTextColor(Color.BLACK);
@@ -99,13 +99,13 @@ public class OrderSpecListItem extends LinearLayout implements CursorBinder {
 
 
        /* Cursor curIcn = getContext().getContentResolver().query(
-                InvoiceSpecProvider.URI,
-                new String[]{InvoiceSpecProvider.Columns.LOCAL_ICON},
-                InvoiceSpecProvider.Columns._ID+"=?",
+                OrderSpecProvider.URI,
+                new String[]{OrderSpecProvider.Columns.LOCAL_ICON},
+                OrderSpecProvider.Columns._ID+"=?",
                 new String[]{String.valueOf(specId)},
                 null
         );*/
-        final long iconId = InvoiceSpecProvider.getLOCAL_ICON(c);
+        final long iconId = OrderSpecProvider.getLOCAL_ICON(c);
         if (iconId != 0) {
             mSelect.setTag((int) iconId);
             mSelect.setImageResource((int) iconId);
@@ -126,9 +126,9 @@ public class OrderSpecListItem extends LinearLayout implements CursorBinder {
                    /* NetworkTask n = new NetworkTask(provider, null);
                     n.getData(null,null,...);*/
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put(InvoiceSpecProvider.Columns.LOCAL_ICON, R.drawable.invoice_spec_non_accepted);
+                    contentValues.put(OrderSpecProvider.Columns.LOCAL_ICON, R.drawable.invoice_spec_non_accepted);
 
-                    long id = getContext().getContentResolver().update(InvoiceSpecProvider.URI, contentValues, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(specId)});
+                    long id = getContext().getContentResolver().update(OrderSpecProvider.URI, contentValues, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(specId)});
                     Log.d("INSERTED>>>>", id + "");
 
 
@@ -138,8 +138,8 @@ public class OrderSpecListItem extends LinearLayout implements CursorBinder {
                     //  mSelect.setImageResource(R.drawable.invoice_spec_accepted);
 
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put(InvoiceSpecProvider.Columns.LOCAL_ICON, R.drawable.invoice_spec_accepted);
-                    long id = getContext().getContentResolver().update(InvoiceSpecProvider.URI, contentValues, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(specId)});
+                    contentValues.put(OrderSpecProvider.Columns.LOCAL_ICON, R.drawable.invoice_spec_accepted);
+                    long id = getContext().getContentResolver().update(OrderSpecProvider.URI, contentValues, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(specId)});
                     Log.d("INSERTED>>>>", id + "");
                 }
             }

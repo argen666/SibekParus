@@ -8,7 +8,6 @@ import android.util.Log;
 
 import ru.sibek.parus.rest.NetworkTask;
 import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
-import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 
 /**
  * Created by Developer on 04.02.2015.
@@ -59,24 +58,25 @@ public class OrdersSync {
 
     }
 
-    public static void getOrders(String invoiceID, String NRN, String tms, ContentProviderClient provider, SyncResult syncResult) {
+    public static void getOrders(String orderID, String NRN, String tms, ContentProviderClient provider, SyncResult syncResult) {
 
         NetworkTask n = new NetworkTask(provider, syncResult);
         try {
-            if (invoiceID == null) {
+            if (orderID == null) {
                 if (tms == "0") {
                     n.getData(null, "FULL_INSERT_ORDERS", "listOrders", tms);
                     Log.d("ORDERS_FIRST>>>", "FIRST INSERT");
                 } else {
-                    n.getData(null, "UPDATE_ORDER_BY_TMS", "listOrders", tms);
+                    //TODO: только обновляет существующие, если ордер был удален в парусе то из андроида не удалится!!!
+                    n.getData(null, "UPDATE_ORDERS_BY_TMS", "listOrders", tms);
                     Log.d("UPDATE_ORDER_BY_TMS>>>", "UPDATE_ORDER_BY_TMS");
                 }
             } else {
 
-                /*n.getData(invoiceID, "UPDATE_INVOICE", "invoiceByNRN", NRN);
-                Log.d("INVOICE_UPDATE>>>", invoiceID + "___" + NRN);
-                n.getData(invoiceID, "UPDATE_SPEC", "invoiceSpecByNRN", NRN);
-                Log.d("INVOICE_UPDATE_SPEC>>>", invoiceID + "___" + NRN);*/
+                n.getData(orderID, "UPDATE_ORDER", "orderByNRN", NRN);
+                Log.d("ORDER_UPDATE>>>", orderID + "___" + NRN);
+                n.getData(orderID, "UPDATE_ORDER_SPEC", "orderSpecByNRN", NRN);
+                Log.d("ORDER_UPDATE_SPEC>>>", orderID + "___" + NRN);
 
             }
 

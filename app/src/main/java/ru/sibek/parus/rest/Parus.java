@@ -8,11 +8,12 @@ import retrofit.http.POST;
 import retrofit.http.Path;
 import ru.sibek.parus.mappers.Cells;
 import ru.sibek.parus.mappers.Companies;
-import ru.sibek.parus.mappers.ininvoices.Invoices;
-import ru.sibek.parus.mappers.ininvoices.InvoicesSpec;
 import ru.sibek.parus.mappers.Racks;
 import ru.sibek.parus.mappers.Storages;
+import ru.sibek.parus.mappers.ininvoices.Invoices;
+import ru.sibek.parus.mappers.ininvoices.InvoicesSpec;
 import ru.sibek.parus.mappers.ininvoices.Orders;
+import ru.sibek.parus.mappers.ininvoices.OrdersSpec;
 
 /**
  * Created by Developer on 06.10.2014.
@@ -54,4 +55,10 @@ public interface Parus {
 
     @GET("/parus/ru/inorders/{date}")
     Orders listOrders(@Path("date") String date);
+
+    @GET("/parus/ru/ordersspec/{NPRN}")
+    OrdersSpec orderSpecByNRN(@Path("NPRN") String nprn);
+
+    @GET("/parus/ru/order/{NRN}")
+    Orders orderByNRN(@Path("NRN") String nrn);
 }

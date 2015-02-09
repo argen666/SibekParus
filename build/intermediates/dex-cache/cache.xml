@@ -1,61 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
+<items version="2">
 
     <item
         jar="C:\Users\Developer\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.0.0\2534c458682c73f5b9871131ab3098d3f987ca3\okio-1.0.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="02534c458682c73f5b9871131ab3098d3f987ca3">
-        <dex dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okio-1.0.0-444c27b4034d9aa38299ad76b44e2d67037d595e.jar" />
+        jumboMode="false" revision="20.0.0" sha1="02534c458682c73f5b9871131ab3098d3f987ca3">
+        <dex
+            dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okio-1.0.0-444c27b4034d9aa38299ad76b44e2d67037d595e.jar" />
     </item>
     <item
         jar="C:\Users\Developer\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="a60a5e993c98c864010053cb901b7eab25306568">
-        <dex dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\gson-2.2.4-f27f98524a6f3a502a24e4111f48f4bd16e35c71.jar" />
+        jumboMode="false" revision="20.0.0" sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex
+            dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\gson-2.2.4-f27f98524a6f3a502a24e4111f48f4bd16e35c71.jar" />
     </item>
     <item
         jar="C:\Users\Developer\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp\2.0.0\4c8d1536dba3812cc1592090dc20c47a4ed3c35e\okhttp-2.0.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="4c8d1536dba3812cc1592090dc20c47a4ed3c35e">
-        <dex dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okhttp-2.0.0-45436654978b2062aae87f33bea27c0cd10acc0a.jar" />
+        jumboMode="false" revision="20.0.0" sha1="4c8d1536dba3812cc1592090dc20c47a4ed3c35e">
+        <dex
+            dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okhttp-2.0.0-45436654978b2062aae87f33bea27c0cd10acc0a.jar" />
     </item>
     <item
         jar="E:\Android\adt-bundle-windows-x86-20130917\adt-bundle-windows-x86-20130917\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
-        <dex dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-4da9670b2bf0fec6c88dc9c48879c7c5b373aaa7.jar" />
+        jumboMode="false" revision="20.0.0" sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex
+            dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-4da9670b2bf0fec6c88dc9c48879c7c5b373aaa7.jar" />
     </item>
     <item
         jar="C:\Users\Developer\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.6.1\efb0a36546aa8857ab8df358b106c1817e03cbee\retrofit-1.6.1.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="efb0a36546aa8857ab8df358b106c1817e03cbee">
-        <dex dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\retrofit-1.6.1-3df69338b249ad1f6dd007c62a07d0f367a24f00.jar" />
+        jumboMode="false" revision="20.0.0" sha1="efb0a36546aa8857ab8df358b106c1817e03cbee">
+        <dex
+            dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\retrofit-1.6.1-3df69338b249ad1f6dd007c62a07d0f367a24f00.jar" />
     </item>
     <item
         jar="C:\Users\Developer\.gradle\caches\modules-2\files-2.1\com.crashlytics.android\crashlytics\1.1.13\e821eafa1bf489a26bdb71f95078c26785b37a1\crashlytics-1.1.13.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="0e821eafa1bf489a26bdb71f95078c26785b37a1">
-        <dex dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\crashlytics-1.1.13-361b06813c6078f3123d0b93305d3635460deaa8.jar" />
+        jumboMode="false" revision="20.0.0" sha1="0e821eafa1bf489a26bdb71f95078c26785b37a1">
+        <dex
+            dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\crashlytics-1.1.13-361b06813c6078f3123d0b93305d3635460deaa8.jar" />
     </item>
     <item
         jar="E:\Android\adt-bundle-windows-x86-20130917\adt-bundle-windows-x86-20130917\sdk\extras\android\m2repository\com\android\support\support-v13\19.1.0\support-v13-19.1.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="6b852a232f642c75a7fdfc7212b841b8c8f8959c">
-        <dex dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\support-v13-19.1.0-00f43c48775e6b5c03bd31cb34802a106b469d73.jar" />
+        jumboMode="false" revision="20.0.0" sha1="6b852a232f642c75a7fdfc7212b841b8c8f8959c">
+        <dex
+            dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\support-v13-19.1.0-00f43c48775e6b5c03bd31cb34802a106b469d73.jar" />
     </item>
     <item
         jar="C:\Users\Developer\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp-urlconnection\2.0.0\afe8399d352713b66e597e9670c741d1e60ae923\okhttp-urlconnection-2.0.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="afe8399d352713b66e597e9670c741d1e60ae923">
-        <dex dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-2.0.0-622749f4743e8528ca3142a1c529ea61eaca3148.jar" />
+        jumboMode="false" revision="20.0.0" sha1="afe8399d352713b66e597e9670c741d1e60ae923">
+        <dex
+            dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-2.0.0-622749f4743e8528ca3142a1c529ea61eaca3148.jar" />
     </item>
 
 </items>

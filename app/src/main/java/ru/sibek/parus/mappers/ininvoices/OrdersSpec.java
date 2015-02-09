@@ -8,46 +8,47 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderSpecProvider;
 
 public class OrdersSpec /*implements IContentValues*/ {
 
     @Expose
-    private List<ItemInvoiceSpec> items = new ArrayList<ItemInvoiceSpec>();
+    private List<ItemOrderSpec> items = new ArrayList<ItemOrderSpec>();
 
-    public List<ItemInvoiceSpec> getItems() {
+    public List<ItemOrderSpec> getItems() {
         return items;
     }
 
-    public void setItems(List<ItemInvoiceSpec> items) {
+    public void setItems(List<ItemOrderSpec> items) {
         this.items = items;
     }
 
     //@Override
-    public ContentValues[] toContentValues(String invoiceID) {
+    public ContentValues[] toContentValues(String orderID) {
         final List<ContentValues> contentValuesList = new ArrayList<>();
-        List<ItemInvoiceSpec> items = this.getItems();
-        for (ItemInvoiceSpec item : items) {
+        List<ItemOrderSpec> items = this.getItems();
+        for (ItemOrderSpec item : items) {
 
             ContentValues contentValues = new ContentValues();
-            contentValues.put(InvoiceSpecProvider.Columns.INVOICE_ID, invoiceID);
-            contentValues.put(InvoiceSpecProvider.Columns.NRN, item.getNrn());
-            contentValues.put(InvoiceSpecProvider.Columns.NPRN, item.getNprn());
-            contentValues.put(InvoiceSpecProvider.Columns.SNOMEN, item.getSnomen());
-            contentValues.put(InvoiceSpecProvider.Columns.SNOMENNAME, item.getSnomenname());
-            //contentValues.put(InvoiceSpecProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
-            contentValues.put(InvoiceSpecProvider.Columns.SSERNUMB, item.getSsernumb());
-            contentValues.put(InvoiceSpecProvider.Columns.NSUMMTAX, item.getNsummtax());
-            contentValues.put(InvoiceSpecProvider.Columns.NQUANT, item.getNquant());
-            contentValues.put(InvoiceSpecProvider.Columns.NPRICE, item.getNprice());
-            contentValues.put(InvoiceSpecProvider.Columns.SSTORE, item.getSstore());
-            contentValues.put(InvoiceSpecProvider.Columns.NSTORE, item.getNstore());
-            contentValues.put(InvoiceSpecProvider.Columns.SMEAS_MAIN, item.getSmeasMain());
-            contentValues.put(InvoiceSpecProvider.Columns.SNOTE, item.getSnote());
-            contentValues.put(InvoiceSpecProvider.Columns.NRACK, item.getNrack());
-            contentValues.put(InvoiceSpecProvider.Columns.SRACK, item.getSrack());
-            contentValues.put(InvoiceSpecProvider.Columns.SCELL, item.getScell());
-            contentValues.put(InvoiceSpecProvider.Columns.NDISTRIBUTION_SIGN, item.getNdistribution_sign());
+            contentValues.put(OrderSpecProvider.Columns.ORDER_ID, orderID);
+            contentValues.put(OrderSpecProvider.Columns.NRN, item.getNrn());
+            contentValues.put(OrderSpecProvider.Columns.NPRN, item.getNprn());
+            contentValues.put(OrderSpecProvider.Columns.SNOMEN, item.getSnomen());
+            contentValues.put(OrderSpecProvider.Columns.SNOMENNAME, item.getSnomenname());
+            //contentValues.put(OrderSpecProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
+            contentValues.put(OrderSpecProvider.Columns.SSERNUMB, item.getSsernumb());
+            contentValues.put(OrderSpecProvider.Columns.NSUMMTAX, item.getNsummtax());
+            contentValues.put(OrderSpecProvider.Columns.NFACTQUANT, item.getNfactquant());
+            contentValues.put(OrderSpecProvider.Columns.NPLANQUANT, item.getNplanquant());
+            contentValues.put(OrderSpecProvider.Columns.NPRICE, item.getNprice());
+            contentValues.put(OrderSpecProvider.Columns.SSTORE, item.getSstore());
+            contentValues.put(OrderSpecProvider.Columns.NSTORE, item.getNstore());
+            contentValues.put(OrderSpecProvider.Columns.SMEAS_MAIN, item.getSmeasMain());
+            contentValues.put(OrderSpecProvider.Columns.SNOTE, item.getSnote());
+            contentValues.put(OrderSpecProvider.Columns.NRACK, item.getNrack());
+            contentValues.put(OrderSpecProvider.Columns.SRACK, item.getSrack());
+            contentValues.put(OrderSpecProvider.Columns.SCELL, item.getScell());
+            contentValues.put(OrderSpecProvider.Columns.NDISTRIBUTION_SIGN, item.getNdistribution_sign());
             contentValuesList.add(contentValues);
         }
 
@@ -55,7 +56,7 @@ public class OrdersSpec /*implements IContentValues*/ {
     }
 
 
-    public class ItemInvoiceSpec {
+    public class ItemOrderSpec {
 
         @Expose
         private Integer nrn;
@@ -117,7 +118,9 @@ public class OrdersSpec /*implements IContentValues*/ {
         @Expose
         private Integer nmMeasCategory;
         @Expose
-        private double nquant;
+        private double nplanquant;
+        @Expose
+        private double nfactquant;
         @Expose
         private Integer nquantalt;
         @SerializedName("nquant_volume")
@@ -152,6 +155,14 @@ public class OrdersSpec /*implements IContentValues*/ {
         private Integer nmuSize;
         @Expose
         private Integer ndiscount;
+
+        public double getNplanquant() {
+            return nplanquant;
+        }
+
+        public double getNfactquant() {
+            return nfactquant;
+        }
 
         public Integer getNrack() {
             return nrack;
@@ -467,19 +478,6 @@ public class OrdersSpec /*implements IContentValues*/ {
             this.nmMeasCategory = nmMeasCategory;
         }
 
-        /**
-         * @return The nquant
-         */
-        public Double getNquant() {
-            return nquant;
-        }
-
-        /**
-         * @param nquant The nquant
-         */
-        public void setNquant(Double nquant) {
-            this.nquant = nquant;
-        }
 
         /**
          * @return The nquantalt

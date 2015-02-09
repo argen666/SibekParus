@@ -37,7 +37,6 @@ import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.ControlPanelFragment;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
-import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
@@ -48,7 +47,7 @@ import ru.sibek.parus.widget.CursorBinderAdapter;
 public class OrdersListFragment extends SwipeToRefreshList implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private CursorAdapter mListAdapter;
-    private InvoicesSpecFragment specFragment;
+    private OrdersSpecFragment specFragment;
 
     //TODO: Создавать тут бандл <ид инвойса,Фрагмент спеки> и при нажатии на инвойс проверять есть ли для него спека...также сделать для детальной спеки
     Map<Long, Fragment> specsInvoices = new HashMap<Long, Fragment>();
@@ -64,7 +63,7 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_invoice);
+        mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_order);
         setListAdapter(mListAdapter);
         getLoaderManager().initLoader(R.id.orders_loader, null, this);
 
@@ -76,7 +75,7 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
         ControlPanel.cButton=(Button) getActivity().findViewById(R.id.ininvoice_button);*/
         ControlPanel.controlFragment = (ControlPanelFragment) getFragmentManager().findFragmentById(R.id.control_panel_frame);
 
-        specFragment = (InvoicesSpecFragment) getFragmentManager().findFragmentById(R.id.detail_frame);
+        //specFragment = (OrdersSpecFragment) getFragmentManager().findFragmentById(R.id.detail_frame);
         //Log.d("KKKK",cf.toString());
     }
 
@@ -86,7 +85,7 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
             // String[] projection = {InvoiceProvider.Columns._ID, InvoiceProvider.Columns.SNUMB,InvoiceProvider.Columns.SPREF + " * " + InvoiceProvider.Columns.DDOC_DATE + " as data"};
             return new CursorLoader(
                     getActivity().getApplicationContext(),
-                    OrderProvider.URI, null, null, null, OrderProvider.Columns.NSTATUS + " ASC, " + InvoiceProvider.Columns.DDOC_DATE + " DESC"
+                    OrderProvider.URI, null, null, null, OrderProvider.Columns.NSTATUS + " ASC, " + OrderProvider.Columns.DDOC_DATE + " DESC"
 
 
             );
@@ -123,9 +122,9 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
         Log.d("ITEM_CLICK: ", "pos: " + position + "; id= " + id);
         Cursor curInv = mListAdapter.getCursor();
         // feed = getActivity().getContentResolver().query(InvoiceProvider.URI, new String[]{InvoiceProvider.Columns.SSTATUS} ,InvoiceProvider.Columns._ID+ "=?",new String[]{String.valueOf(id)},null);
-        Log.d("ITEM_CLICK: ", InvoiceProvider.getNStatus(curInv) + "");
+        Log.d("ITEM_CLICK: ", OrderProvider.getNStatus(curInv) + "");
         String btnText = null;
-        if (InvoiceProvider.getNStatus(curInv) != 0) {
+        if (OrderProvider.getNStatus(curInv) != 0) {
             btnText = "Отработано";
         }
         ControlPanel.controlFragment.addInfoToPanel(
@@ -146,13 +145,13 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
         ((TextView) getActivity().findViewById(R.id.detail_empty_textView)).setVisibility(View.GONE);
 
         if (getSpecInvoiceByID(id) == null) {
-            InvoicesSpecFragment invSpec = InvoicesSpecFragment.newInstance(id);
+            OrdersSpecFragment invSpec = OrdersSpecFragment.newInstance(id);
             specsInvoices.put(id, invSpec);
             getFragmentManager().beginTransaction().replace(R.id.detail_frame, invSpec).commit();
             Log.d("CREATE SPEC>>>>", invSpec.getId() + "");
         } else {
-            getFragmentManager().beginTransaction().replace(R.id.detail_frame, (InvoicesSpecFragment) getSpecInvoiceByID(id)).commit();
-            Log.d("RESTORE SPEC>>>>", ((InvoicesSpecFragment) getSpecInvoiceByID(id)).getId() + "");
+            getFragmentManager().beginTransaction().replace(R.id.detail_frame, (OrdersSpecFragment) getSpecInvoiceByID(id)).commit();
+            Log.d("RESTORE SPEC>>>>", ((OrdersSpecFragment) getSpecInvoiceByID(id)).getId() + "");
         }
        /* } else {
            // getFragmentManager().beginTransaction()
@@ -175,8 +174,8 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
         final Cursor feed = mListAdapter.getCursor();
         if (feed.moveToPosition(position)) {
             getActivity().getContentResolver().delete(
-                    InvoiceProvider.URI, InvoiceProvider.Columns._ID + "=?",
-                    new String[]{String.valueOf(InvoiceProvider.getId(feed))}
+                    OrderProvider.URI, OrderProvider.Columns._ID + "=?",
+                    new String[]{String.valueOf(OrderProvider.getId(feed))}
             );
         }
     }

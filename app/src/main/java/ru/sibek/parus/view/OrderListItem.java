@@ -29,7 +29,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import ru.sibek.parus.R;
-import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.widget.CursorBinder;
 
 
@@ -38,7 +38,7 @@ import ru.sibek.parus.widget.CursorBinder;
  */
 public class OrderListItem extends LinearLayout implements CursorBinder {
 
-   // private FeedIconView mIcon;
+    // private FeedIconView mIcon;
     Cursor mCur;
     private TextView mTitle;
     private TextView mAgent;
@@ -53,34 +53,34 @@ public class OrderListItem extends LinearLayout implements CursorBinder {
     @Override
     @SuppressLint("StringFormatMatches")
     public void bindCursor(Cursor c) {
-        mCur=c;
-       // mIcon.loadIcon(Provider.getIconUrl(c));
-        final String agent = InvoiceProvider.getSagent(c);
+        mCur = c;
+        // mIcon.loadIcon(Provider.getIconUrl(c));
+        final String agent = OrderProvider.getSagent(c);
         if (!TextUtils.isEmpty(agent)) {
-            mAgent.setText(/*"Поставщик: "*/agent/*DateFormat.getDateTimeInstance().format(new Date(InvoiceProvider.getHASH(c)))*/);
+            mAgent.setText(/*"Поставщик: "*/agent/*DateFormat.getDateTimeInstance().format(new Date(OrderProvider.getHASH(c)))*/);
         } else {
-            mAgent.setText("Поставщик: "+getResources().getString(R.string.hello_world, InvoiceProvider.getId(c)));
+            mAgent.setText("Поставщик: " + getResources().getString(R.string.hello_world, OrderProvider.getId(c)));
         }
-        final String title = InvoiceProvider.getSDoctype(c)+", "+InvoiceProvider.getSpref(c).trim()+"-"+(InvoiceProvider.getSnumb(c));
+        final String title = OrderProvider.getSDoctype(c) + ", " + OrderProvider.getSpref(c).trim() + "-" + (OrderProvider.getSnumb(c));
         if (!TextUtils.isEmpty(title)) {
 
             mTitle.setText(title);
         } else {
-            mTitle.setText(getResources().getString(R.string.hello_world, InvoiceProvider.getId(c)));
+            mTitle.setText(getResources().getString(R.string.hello_world, OrderProvider.getId(c)));
         }
-        final long docDate = InvoiceProvider.getDdocdate(c);
+        final long docDate = OrderProvider.getDdocdate(c);
         if (docDate > 0) {
             mDocDate.setText(DateFormat.getDateTimeInstance().format(new Date(docDate)));
         }
-        final String status = InvoiceProvider.getStatus(c);
+        final String status = OrderProvider.getStatus(c);
         if (!TextUtils.isEmpty(status)) {
             mStatus.setText(/*"Статус: "+*/status);
         } else {
-            mStatus.setText("Статус: "+getResources().getString(R.string.hello_world, InvoiceProvider.getId(c)));
+            mStatus.setText("Статус: " + getResources().getString(R.string.hello_world, OrderProvider.getId(c)));
         }
 
-        final int numStatus = InvoiceProvider.getNStatus(c);
-        if (numStatus==0) {
+        final int numStatus = OrderProvider.getNStatus(c);
+        if (numStatus == 0) {
             mInvoiceIcon.setImageResource(R.drawable.invoice_non_accepted);
         } else {
             mInvoiceIcon.setImageResource(R.drawable.invoice_accepted);
@@ -90,7 +90,7 @@ public class OrderListItem extends LinearLayout implements CursorBinder {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-       // mIcon = (FeedIconView) findViewById(R.id.feed_icon);
+        // mIcon = (FeedIconView) findViewById(R.id.feed_icon);
         mTitle = (TextView) findViewById(R.id.title);
         mAgent = (TextView) findViewById(R.id.agent);
         mDocDate = (TextView) findViewById(R.id.doc_date);

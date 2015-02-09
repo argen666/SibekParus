@@ -26,7 +26,7 @@ import ru.sibek.parus.sqlite.SQLiteTableProvider;
 
 public class OrderSpecProvider extends SQLiteTableProvider {
 
-    public static final String TABLE_NAME = "invoicesspec";
+    public static final String TABLE_NAME = "ordersspec";
 
     public static final Uri URI = Uri.parse("content://ru.sibek.parus/" + TABLE_NAME);
 
@@ -70,8 +70,12 @@ public class OrderSpecProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SMEAS_MAIN));
     }
 
-    public static double getNQUANT(Cursor c) {
-        return c.getDouble(c.getColumnIndex(Columns.NQUANT));
+    public static double getNFACTQUANT(Cursor c) {
+        return c.getDouble(c.getColumnIndex(Columns.NFACTQUANT));
+    }
+
+    public static double getNPLANQUANT(Cursor c) {
+        return c.getDouble(c.getColumnIndex(Columns.NPLANQUANT));
     }
 
     public static long getNSTORE(Cursor c) {
@@ -98,8 +102,8 @@ public class OrderSpecProvider extends SQLiteTableProvider {
         return c.getLong(c.getColumnIndex(Columns.NDISTRIBUTION_SIGN));
     }
 
-    public static long getINVOICE_ID(Cursor c) {
-        return c.getLong(c.getColumnIndex(Columns.INVOICE_ID));
+    public static long getORDER_ID(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.ORDER_ID));
     }
 
     public static long getNRACK(Cursor c) {
@@ -142,7 +146,8 @@ public class OrderSpecProvider extends SQLiteTableProvider {
                 + Columns.SSTORE + " text, "
                 + Columns.SNOTE + " text, "
                 + Columns.SMEAS_MAIN + " text, "
-                + Columns.NQUANT + " integer, "
+                + Columns.NPLANQUANT + " integer, "
+                + Columns.NFACTQUANT + " integer, "
                 + Columns.NPRICE + " integer, "
                 + Columns.NSUMMTAX + " integer, "
                 + Columns.NRACK + " integer, "
@@ -160,10 +165,10 @@ public class OrderSpecProvider extends SQLiteTableProvider {
                 + Columns.LOCAL_ICON + " integer, "
 
 
-                + Columns.INVOICE_ID + " integer);");
+                + Columns.ORDER_ID + " integer);");
         db.execSQL("create index if not exists " +
-                TABLE_NAME + "_" + Columns.INVOICE_ID + "_index" +
-                " on " + TABLE_NAME + "(" + Columns.INVOICE_ID + ");");
+                TABLE_NAME + "_" + Columns.ORDER_ID + "_index" +
+                " on " + TABLE_NAME + "(" + Columns.ORDER_ID + ");");
     }
 
     public interface Columns extends BaseColumns {
@@ -174,10 +179,11 @@ public class OrderSpecProvider extends SQLiteTableProvider {
         String NSTORE = "NSTORE";
         String SMEAS_MAIN = "SMEAS_MAIN";
         String SNOTE = "SNOTE";
-        String NQUANT = "NQUANT";
+        String NPLANQUANT = "NPLANQUANT";
+        String NFACTQUANT = "NFACTQUANT";
         String NPRICE = "NPRICE";
         String NSUMMTAX = "NSUMMTAX";
-        String INVOICE_ID = "INVOICE_ID";
+        String ORDER_ID = "ORDER_ID";
         String NRN = "NRN";
         String NPRN = "NPRN";
 

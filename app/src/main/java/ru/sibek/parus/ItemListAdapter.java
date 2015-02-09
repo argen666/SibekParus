@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import ru.sibek.parus.mappers.Companies;
-import ru.sibek.parus.mappers.ininvoices.Invoices;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.sibek.parus.mappers.Companies;
+import ru.sibek.parus.mappers.ininvoices.Invoices;
 
 /**
  * Created by Developer on 06.10.2014.
@@ -75,7 +75,7 @@ public class ItemListAdapter<T> extends BaseAdapter {
             Companies.ItemCompany item = (Companies.ItemCompany) listItems.get(position);
             holder.tvName.setText(item.getFullname());
         }
-      //  }
+        //  }
 
 
         //holder.language.setText(repo.language);

@@ -46,6 +46,8 @@ public class Orders/* implements IContentValues*/ {
             contentValues.put(OrderProvider.Columns.SSTATUS, item.getSstatus());
             contentValues.put(OrderProvider.Columns.NRN, item.getNrn());
             contentValues.put(OrderProvider.Columns.NCOMPANY, item.getNcompany());
+            contentValues.put(OrderProvider.Columns.SSTORE, item.getSstore());
+            contentValues.put(OrderProvider.Columns.NSTORE, item.getNstore());
             contentValuesList.add(contentValues);
             Log.d("DMODIF>>", ParusDate.parse(item.getDdocDate()).getTime() + "!!!!" + ParusDate.parse(item.getDmodifdate()).getTime());
         }

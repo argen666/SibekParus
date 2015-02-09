@@ -75,7 +75,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
         ControlPanel.cButton=(Button) getActivity().findViewById(R.id.ininvoice_button);*/
         ControlPanel.controlFragment = (ControlPanelFragment) getFragmentManager().findFragmentById(R.id.control_panel_frame);
 
-        specFragment = (InvoicesSpecFragment) getFragmentManager().findFragmentById(R.id.detail_frame);
+        //specFragment = (InvoicesSpecFragment) getFragmentManager().findFragmentById(R.id.detail_frame);
         //Log.d("KKKK",cf.toString());
     }
 

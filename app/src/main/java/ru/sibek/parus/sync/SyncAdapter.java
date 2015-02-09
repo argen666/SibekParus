@@ -30,6 +30,7 @@ import retrofit.client.Response;
 import ru.sibek.parus.rest.NetworkTask;
 import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.sqlite.storages.RacksProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
 
@@ -54,12 +55,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final long storageId = extras.getLong(KEY_STORAGE_ID, -1);
         final long rackId = extras.getLong(KEY_RACK_ID, -1);
         final long orderId = extras.getLong(KEY_INORDER_ID, -1);
-        Log.d(Log.INFO + ">>>>", "feed>>" + feedId + " store>>" + storageId + " rackId>>" + rackId);
+        Log.d(Log.INFO + ">>>>", "feed>>" + feedId + " store>>" + storageId + " rackId>>" + rackId + " orderId>>" + orderId);
         if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1 && orderId == -1) {
-            //startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
-            //startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
-               // startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
-            startSync(provider, syncResult, null,null, SyncActions.SYNC_INORDERS);
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
+            // startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_INORDERS);
         }
 
         if (postId > 0) {
@@ -79,6 +80,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         if (rackId > 0) {
             startSync(provider, syncResult, RacksProvider.Columns._ID + "=?", new String[]{String.valueOf(rackId)}, SyncActions.SYNC_RACKS);
+            return;
+        }
+
+        if (orderId > 0) {
+            startSync(provider, syncResult, OrderProvider.Columns._ID + "=?", new String[]{String.valueOf(orderId)}, SyncActions.SYNC_INORDERS);
             return;
         }
 

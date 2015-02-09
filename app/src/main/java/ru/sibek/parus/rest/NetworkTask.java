@@ -8,14 +8,16 @@ import android.util.Log;
 import java.lang.reflect.Method;
 
 import ru.sibek.parus.mappers.Cells;
-import ru.sibek.parus.mappers.ininvoices.Invoices;
-import ru.sibek.parus.mappers.ininvoices.InvoicesSpec;
 import ru.sibek.parus.mappers.Racks;
 import ru.sibek.parus.mappers.Storages;
+import ru.sibek.parus.mappers.ininvoices.Invoices;
+import ru.sibek.parus.mappers.ininvoices.InvoicesSpec;
 import ru.sibek.parus.mappers.ininvoices.Orders;
+import ru.sibek.parus.mappers.ininvoices.OrdersSpec;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
 import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderSpecProvider;
 import ru.sibek.parus.sqlite.storages.CellsProvider;
 import ru.sibek.parus.sqlite.storages.RacksProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
@@ -84,6 +86,38 @@ public class NetworkTask {
                     Log.d("FULL_INSERT_ORDER>>>>>>>>>>>>>", ((Orders) ret).toString());
                     break;
                 }
+
+                case "UPDATE_ORDERS_BY_TMS": {
+
+                    String[] nrn = ((Orders) ret).getAllNrnStringArray();
+
+                    for (int i = 0; i < nrn.length; i++) {
+                        syncResult.stats.numUpdates += provider
+                                .update(OrderProvider.URI, ((Orders) ret).toContentValues()[i], OrderProvider.Columns.NRN + "=?", new String[]{nrn[i]});
+                    }
+
+                    Log.d("UPDATE_ORDER_BY_TMS>>>>>>>>>>>>>", ((Orders) ret).toString());
+                    break;
+                }
+
+                case "UPDATE_ORDER": {
+                    syncResult.stats.numUpdates += provider
+                            .update(OrderProvider.URI, ((Orders) ret).toContentValues()[0], OrderProvider.Columns._ID + "=?", new String[]{entityID});
+                    Log.d("UPDATE_ORDER_SIZE>>>>>>>>>>>>>", ((Orders) ret).toString());
+
+                    break;
+                }
+
+                case "UPDATE_ORDER_SPEC": {
+                    Log.d("UPDATE_SPEC_SIZE>>>>>>>>>>>>>", ((OrdersSpec) ret).toString());
+                    syncResult.stats.numDeletes += provider
+                            .delete(OrderSpecProvider.URI, OrderSpecProvider.Columns.ORDER_ID + "=?", new String[]{entityID});
+
+                    syncResult.stats.numUpdates += provider
+                            .bulkInsert(OrderSpecProvider.URI, ((OrdersSpec) ret).toContentValues(entityID));
+                    break;
+                }
+
 
                 case "UPDATE_INVOICE_BY_TMS": {
 

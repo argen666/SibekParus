@@ -14,22 +14,21 @@ import ru.sibek.parus.mappers.ininvoices.Invoices;
 public class ParusService {
 
     private static String API_URL = "http://192.168.16.13:8080/ords";
-    private static Gson gson=null;
-    private static Parus instance=null;
+    private static Gson gson = null;
+    private static Parus instance = null;
 
     private ParusService() {
     }
 
     public static Parus getService() {
 
-        if (gson==null)
-        {
-        gson = new GsonBuilder()
-                        .registerTypeAdapter(Invoices.class, new JSONDeserializer<Invoices>())
-                        .registerTypeAdapter(Companies.class, new JSONDeserializer<Companies>())
-                        .create();
+        if (gson == null) {
+            gson = new GsonBuilder()
+                    .registerTypeAdapter(Invoices.class, new JSONDeserializer<Invoices>())
+                    .registerTypeAdapter(Companies.class, new JSONDeserializer<Companies>())
+                    .create();
         }
-        if (instance==null) {
+        if (instance == null) {
             instance = new RestAdapter.Builder()
                     .setConverter(new GsonConverter(gson))
                     .setEndpoint(API_URL)
