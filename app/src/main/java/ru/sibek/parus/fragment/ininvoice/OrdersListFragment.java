@@ -38,6 +38,7 @@ import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.ControlPanelFragment;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
 //import com.elegion.newsfeed.activity.NewsActivity;
@@ -65,7 +66,7 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
         super.onActivityCreated(savedInstanceState);
         mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_invoice);
         setListAdapter(mListAdapter);
-        getLoaderManager().initLoader(R.id.invoices_loader, null, this);
+        getLoaderManager().initLoader(R.id.orders_loader, null, this);
 
     }
 
@@ -81,11 +82,11 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (id == R.id.invoices_loader) {
+        if (id == R.id.orders_loader) {
             // String[] projection = {InvoiceProvider.Columns._ID, InvoiceProvider.Columns.SNUMB,InvoiceProvider.Columns.SPREF + " * " + InvoiceProvider.Columns.DDOC_DATE + " as data"};
             return new CursorLoader(
                     getActivity().getApplicationContext(),
-                    InvoiceProvider.URI, null, null, null, InvoiceProvider.Columns.NSTATUS + " ASC, " + InvoiceProvider.Columns.DDOC_DATE + " DESC"
+                    OrderProvider.URI, null, null, null, OrderProvider.Columns.NSTATUS + " ASC, " + InvoiceProvider.Columns.DDOC_DATE + " DESC"
 
 
             );
@@ -100,7 +101,7 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
 
         //TextView emptyDetailView = ((TextView) getActivity().findViewById(R.id.detail_empty_textView));
         // emptyDetailView.setVisibility(View.VISIBLE);
-        if (loader.getId() == R.id.invoices_loader) {
+        if (loader.getId() == R.id.orders_loader) {
             mListAdapter.swapCursor(data);
             //emptyDetailView.setText("Выберите накладную");
         }
@@ -109,7 +110,7 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        if (loader.getId() == R.id.invoices_loader) {
+        if (loader.getId() == R.id.orders_loader) {
             mListAdapter.swapCursor(null);
         }
     }

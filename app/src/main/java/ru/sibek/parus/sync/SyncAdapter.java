@@ -40,6 +40,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String KEY_INVOICE_ID = "ru.sibek.parus.sync.KEY_INVOICE_ID";
     public static final String KEY_STORAGE_ID = "ru.sibek.parus.sync.KEY_STORAGE_ID";
     public static final String KEY_RACK_ID = "ru.sibek.parus.sync.KEY_RACK_ID";
+    public static final String KEY_INORDER_ID = "ru.sibek.parus.sync.KEY_INORDER_ID";
 
     public SyncAdapter(Context context) {
         super(context, true);
@@ -52,11 +53,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final long feedId = extras.getLong(KEY_INVOICE_ID, -1);
         final long storageId = extras.getLong(KEY_STORAGE_ID, -1);
         final long rackId = extras.getLong(KEY_RACK_ID, -1);
+        final long orderId = extras.getLong(KEY_INORDER_ID, -1);
         Log.d(Log.INFO + ">>>>", "feed>>" + feedId + " store>>" + storageId + " rackId>>" + rackId);
-        if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1) {
-            startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
-            startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
-            // startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
+        if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1 && orderId == -1) {
+            //startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
+            //startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
+               // startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
+            startSync(provider, syncResult, null,null, SyncActions.SYNC_INORDERS);
         }
 
         if (postId > 0) {
@@ -128,6 +131,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             case SyncActions.SYNC_POST_INVOICES: {
                 syncPostInvoices(provider, syncResult, where, whereArgs);
+                break;
+            }
+
+            case SyncActions.SYNC_INORDERS: {
+                Thread myThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        OrdersSync.syncOrders(provider, syncResult, where, whereArgs);
+                    }
+                });
+
+                myThread.start();
                 break;
             }
 

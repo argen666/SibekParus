@@ -36,6 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.sqlite.storages.CellsProvider;
 import ru.sibek.parus.sqlite.storages.RacksProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
@@ -61,6 +62,7 @@ public class SQLiteContentProvider extends ContentProvider {
         SCHEMA.put(StorageProvider.TABLE_NAME, new StorageProvider());
         SCHEMA.put(RacksProvider.TABLE_NAME, new RacksProvider());
         SCHEMA.put(CellsProvider.TABLE_NAME, new CellsProvider());
+        SCHEMA.put(OrderProvider.TABLE_NAME, new OrderProvider());
     }
 
     private final SQLiteUriMatcher mUriMatcher = new SQLiteUriMatcher();

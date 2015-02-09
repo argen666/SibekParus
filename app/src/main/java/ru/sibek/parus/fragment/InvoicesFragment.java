@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 import ru.sibek.parus.ItemListAdapter;
 import ru.sibek.parus.rest.NetworkTask;
 import ru.sibek.parus.mappers.Companies;
-import ru.sibek.parus.mappers.Invoices;
+import ru.sibek.parus.mappers.ininvoices.Invoices;
 
 public class InvoicesFragment extends ListFragment {
     OnHeadlineSelectedListener mCallback;
