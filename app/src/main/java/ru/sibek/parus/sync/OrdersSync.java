@@ -63,8 +63,10 @@ public class OrdersSync {
         NetworkTask n = new NetworkTask(provider, syncResult);
         try {
             if (orderID == null) {
-                if (tms == "0") {
-                    n.getData(null, "FULL_INSERT_ORDERS", "listOrders", tms);
+                //todo разбораться с хешем
+                if (true) {
+                    //if (tms == "0") {
+                    n.getData(null, "FULL_INSERT_ORDERS", "listOrders", "0");
                     Log.d("ORDERS_FIRST>>>", "FIRST INSERT");
                 } else {
                     //TODO: только обновляет существующие, если ордер был удален в парусе то из андроида не удалится!!!

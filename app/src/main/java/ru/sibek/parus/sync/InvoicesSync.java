@@ -65,8 +65,10 @@ public class InvoicesSync {
         NetworkTask n = new NetworkTask(provider, syncResult);
         try {
             if (invoiceID == null) {
-                if (tms == "0") {
-                    n.getData(null, "FULL_INSERT_INVOICE", "listInvoices", tms);
+                //todo разбораться с хешем
+                if (true) {
+                    //if (tms == "0") {
+                    n.getData(null, "FULL_INSERT_INVOICE", "listInvoices", "0");
                     Log.d("INVOICE_FIRST>>>", "FIRST INSERT");
                 } else {
                     n.getData(null, "UPDATE_INVOICE_BY_TMS", "listInvoices", tms);

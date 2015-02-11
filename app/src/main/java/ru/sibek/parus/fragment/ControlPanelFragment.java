@@ -72,10 +72,12 @@ public class ControlPanelFragment extends Fragment {
             switch (position) {
                 case 0: {
                     mFragment = Fragment.instantiate(mActivity, Types.ININVOICES);
+                    type = Types.ININVOICES;
                     break;
                 }
                 case 1: {
                     mFragment = Fragment.instantiate(mActivity, Types.INORDERS);
+                    type = Types.INORDERS;
                     break;
                 }
                 case 2: {
