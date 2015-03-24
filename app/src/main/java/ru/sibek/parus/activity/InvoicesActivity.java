@@ -18,6 +18,7 @@ package ru.sibek.parus.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -110,4 +111,7 @@ public class InvoicesActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void replaceCP(Fragment instantiate) {
+        getFragmentManager().beginTransaction().replace(R.id.control_panel_frame, instantiate).commit();
+    }
 }

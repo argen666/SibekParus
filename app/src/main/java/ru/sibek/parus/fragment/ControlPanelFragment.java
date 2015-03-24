@@ -78,6 +78,8 @@ public class ControlPanelFragment extends Fragment {
                 case 1: {
                     mFragment = Fragment.instantiate(mActivity, Types.INORDERS);
                     type = Types.INORDERS;
+                    //((InvoicesActivity)mActivity).replaceCP(ControlPanelFragment.newInstance(Types.ININVOICES+"00",ft));
+
                     break;
                 }
                 case 2: {
@@ -87,6 +89,7 @@ public class ControlPanelFragment extends Fragment {
             }
             getFragmentManager().beginTransaction().replace(R.id.master_frame, mFragment).commit();
             Log.d("addMasterFragment", mFragment + "");
+
             //ft.add(R.id.master_frame, mFragment, mTag);
             //ft.attach(mFragment);
             // If not, instantiate and add it to the activity
