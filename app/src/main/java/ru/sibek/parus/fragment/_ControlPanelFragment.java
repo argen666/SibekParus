@@ -124,7 +124,7 @@ public class _ControlPanelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_control_panel, container, false);
+        View view = inflater.inflate(R.layout.fragment_ininvoices_control_panel, container, false);
         LinearLayout layout = (LinearLayout) view.findViewById(R.id.control_panel1);
 
         if (layout.getChildCount() > 0) {
