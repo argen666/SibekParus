@@ -42,7 +42,7 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
         //  Fragment detail = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
         if (mTag == Types.ININVOICES) {
             if (cPanel == null) {
-                cPanel = ControlPanelFragment.newInstance(mClass.getName(), ft);
+                cPanel = ControlPanelFragment.newInstance(mClass.getName());
                 ft.add(R.id.control_panel_frame, cPanel);
                 Log.d("IN_NULL", cPanel.getId() + "");
             } else {

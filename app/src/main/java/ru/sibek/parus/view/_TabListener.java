@@ -40,7 +40,7 @@ public class _TabListener<T extends Fragment> implements ActionBar.TabListener {
         // Check if the fragment is already initialized
         if (mTag == Types.ININVOICES) {
             if (cPanel == null) {
-                cPanel = ControlPanelFragment.newInstance(Types.ININVOICES, ft);
+                cPanel = ControlPanelFragment.newInstance(Types.ININVOICES);
                 ft.add(R.id.control_panel_frame, cPanel);
                 Log.d("IN_NULL", cPanel.getId() + "");
             } else {

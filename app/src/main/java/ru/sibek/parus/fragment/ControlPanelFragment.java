@@ -29,12 +29,14 @@ import ru.sibek.parus.view.DummyFragment;
 
 public class ControlPanelFragment extends Fragment {
     private static final String TYPE = "type";
+    private static final String SPINNER_POS = "spinner_position";
     public static final String ACTION = "defaultAction";
     private static final String ENTITY_ID = "ENTITY_ID";
     //private static final String ARG_PARAM2 = "param2";
 
     private static FragmentTransaction fragmentTransaction;
     private String type;
+    private int spinnerPos;
     private String itemTitle = "";
     private String strDate = "";
     String btnActText;
@@ -46,11 +48,15 @@ public class ControlPanelFragment extends Fragment {
 
     private Fragment mFragment;
 
-    public static ControlPanelFragment newInstance(String type, FragmentTransaction ft) {
-        fragmentTransaction = ft;
+    public static ControlPanelFragment newInstance(String type) {
+        return ControlPanelFragment.newInstance(type, 0);
+    }
+
+    public static ControlPanelFragment newInstance(String type, int spinnerPosition) {
         ControlPanelFragment fragment = new ControlPanelFragment();
         Bundle args = new Bundle();
         args.putString(TYPE, type);
+        args.putInt(SPINNER_POS, spinnerPosition);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,40 +69,43 @@ public class ControlPanelFragment extends Fragment {
     public void addMasterFragment(FragmentTransaction ft, Activity mActivity, String mTag, int position) {
         type = getArguments().getString(TYPE);
 
-        if (type.equals(Types.ININVOICES)) {
-            //if (mFragment == null) {
+        //if (type.equals(Types.ININVOICES)) {
+        //if (mFragment == null) {
 
-            switch (position) {
-                case 0: {
-                    mFragment = Fragment.instantiate(mActivity, Types.ININVOICES);
-                    type = Types.ININVOICES;
-                    break;
+        switch (position) {
+            case 0: {
+                mFragment = Fragment.instantiate(mActivity, Types.ININVOICES);
+                if (type != Types.ININVOICES) {
+                    ControlPanelFragment cp = ControlPanelFragment.newInstance(Types.ININVOICES, position);
+                    ((InvoicesActivity) mActivity).replaceCP(cp);
                 }
-                case 1: {
-                    mFragment = Fragment.instantiate(mActivity, Types.INORDERS);
-                    type = Types.INORDERS;
-                    //TODO передавать номер выбранной позиции спиннера и отображать ее выбранной
-                    ((InvoicesActivity) mActivity).replaceCP(ControlPanelFragment.newInstance(Types.INORDERS, ft));
-
-                    break;
-                }
-                case 2: {
-                    mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
-                    break;
-                }
+                break;
             }
-            getFragmentManager().beginTransaction().replace(R.id.master_frame, mFragment).commit();
-            Log.d("addMasterFragment", mFragment + "");
+            case 1: {
+                mFragment = Fragment.instantiate(mActivity, Types.INORDERS);
+                if (type != Types.INORDERS) {
+                    ControlPanelFragment cp = ControlPanelFragment.newInstance(Types.INORDERS, position);
+                    ((InvoicesActivity) mActivity).replaceCP(cp);
+                }
+                break;
+            }
+            case 2: {
+                mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
+                break;
+            }
+        }
+        getFragmentManager().beginTransaction().replace(R.id.master_frame, mFragment).commit();
+        Log.d("addMasterFragment", mFragment + "");
 
-            //ft.add(R.id.master_frame, mFragment, mTag);
-            //ft.attach(mFragment);
-            // If not, instantiate and add it to the activity
+        //ft.add(R.id.master_frame, mFragment, mTag);
+        //ft.attach(mFragment);
+        // If not, instantiate and add it to the activity
             /*} else {
                 // If it exists, simply attach it in order to show it
                 Log.d("addMasterFragment",mFragment+" RESTORE");
                 ft.attach(mFragment);
             }*/
-        }
+
 
     }
 
@@ -113,6 +122,7 @@ public class ControlPanelFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             type = getArguments().getString(TYPE);
+            spinnerPos = getArguments().getInt(SPINNER_POS);
             Log.d("QQQ", type);
             // mParam2 = getArguments().getString(ARG_PARAM2);
         }
@@ -153,6 +163,7 @@ public class ControlPanelFragment extends Fragment {
                 R.array.invoice_array, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         spinner.setAdapter(adapter);
+        spinner.setSelection(spinnerPos);
         getArguments().putInt(ACTION, spinner.getSelectedItemPosition());
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
