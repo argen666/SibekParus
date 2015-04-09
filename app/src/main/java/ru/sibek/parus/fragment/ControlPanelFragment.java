@@ -153,6 +153,14 @@ public class ControlPanelFragment extends Fragment {
         itemDate.setText(date);
         actionBtn.setVisibility(btnVisibility);
         actionBtn.setTag(btnTag);
+        if (btnActText == null) {
+            actionBtn.setText("Отработать накладную");
+            actionBtn.setEnabled(true);
+        } else {
+            actionBtn.setText(btnActText);
+            actionBtn.setEnabled(false);
+
+        }
     }
 
     private View getIninvoicesView(View view) {
