@@ -1,8 +1,7 @@
-package ru.sibek.parus.fragment;
+package ru.sibek.parus.fragment.controlpanel;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -22,20 +21,14 @@ import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.activity.InvoicesActivity;
+import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
 import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.view.DummyFragment;
 
-public class ControlPanelFragment extends Fragment {
-    private static final String TYPE = "type";
+public class OrderControlPanelFragment extends Fragment {
     private static final String SPINNER_POS = "spinner_position";
-    public static final String ACTION = "defaultAction";
-    private static final String ENTITY_ID = "ENTITY_ID";
-    //private static final String ARG_PARAM2 = "param2";
-
-    private static FragmentTransaction fragmentTransaction;
-    private String type;
     private int spinnerPos;
     private String itemTitle = "";
     private String strDate = "";
@@ -48,45 +41,40 @@ public class ControlPanelFragment extends Fragment {
 
     private Fragment mFragment;
 
-    public static ControlPanelFragment newInstance(String type) {
-        return ControlPanelFragment.newInstance(type, 0);
+    public static OrderControlPanelFragment newInstance() {
+        return OrderControlPanelFragment.newInstance(0);
     }
 
-    public static ControlPanelFragment newInstance(String type, int spinnerPosition) {
-        ControlPanelFragment fragment = new ControlPanelFragment();
+    public static OrderControlPanelFragment newInstance(int spinnerPosition) {
+        OrderControlPanelFragment fragment = new OrderControlPanelFragment();
         Bundle args = new Bundle();
-        args.putString(TYPE, type);
         args.putInt(SPINNER_POS, spinnerPosition);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public ControlPanelFragment() {
+    public OrderControlPanelFragment() {
         // Required empty public constructor
     }
 
 
-    public void addMasterFragment(FragmentTransaction ft, Activity mActivity, String mTag, int position) {
-        type = getArguments().getString(TYPE);
+    public void addMasterFragment(Activity mActivity, int position) {
 
-        //if (type.equals(Types.ININVOICES)) {
-        //if (mFragment == null) {
 
         switch (position) {
             case 0: {
                 mFragment = Fragment.instantiate(mActivity, Types.ININVOICES);
-                if (type != Types.ININVOICES) {
-                    ControlPanelFragment cp = ControlPanelFragment.newInstance(Types.ININVOICES, position);
-                    ((InvoicesActivity) mActivity).replaceCP(cp);
-                }
+
+                Fragment cp = ControlFragmentFactory.getControlPanel(Types.ININVOICES, position);
+                ((InvoicesActivity) mActivity).replaceCP(cp);
                 break;
             }
             case 1: {
                 mFragment = Fragment.instantiate(mActivity, Types.INORDERS);
-                if (type != Types.INORDERS) {
-                    ControlPanelFragment cp = ControlPanelFragment.newInstance(Types.INORDERS, position);
-                    ((InvoicesActivity) mActivity).replaceCP(cp);
-                }
+
+                    /*Fragment cp = ControlFragmentFactory.getControlPanel(Types.INORDERS, position);
+                    ((InvoicesActivity) mActivity).replaceCP(cp);*/
+
                 break;
             }
             case 2: {
@@ -97,34 +85,14 @@ public class ControlPanelFragment extends Fragment {
         getFragmentManager().beginTransaction().replace(R.id.master_frame, mFragment).commit();
         Log.d("addMasterFragment", mFragment + "");
 
-        //ft.add(R.id.master_frame, mFragment, mTag);
-        //ft.attach(mFragment);
-        // If not, instantiate and add it to the activity
-            /*} else {
-                // If it exists, simply attach it in order to show it
-                Log.d("addMasterFragment",mFragment+" RESTORE");
-                ft.attach(mFragment);
-            }*/
 
-
-    }
-
-    public long getEntityId() {
-        return getArguments().getLong(ENTITY_ID);
-    }
-
-    public void setEntityId(long entityId) {
-        getArguments().putLong(ENTITY_ID, entityId);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            type = getArguments().getString(TYPE);
             spinnerPos = getArguments().getInt(SPINNER_POS);
-            Log.d("QQQ", type);
-            // mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -132,15 +100,8 @@ public class ControlPanelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = null;
-        if (type == Types.ININVOICES) {
-            view = inflater.inflate(R.layout.fragment_ininvoices_control_panel, container, false);
-            view = getIninvoicesView(view);
-        }
-        if (type == Types.INORDERS) {
-            view = inflater.inflate(R.layout.fragment_inorders_control_panel, container, false);
-            view = getIninvoicesView(view);
-        }
+        View view = inflater.inflate(R.layout.fragment_ininvoices_control_panel, container, false);
+        view = getIninvoicesView(view);
         return view;
     }
 
@@ -172,7 +133,6 @@ public class ControlPanelFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         spinner.setAdapter(adapter);
         spinner.setSelection(spinnerPos);
-        getArguments().putInt(ACTION, spinner.getSelectedItemPosition());
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -180,7 +140,7 @@ public class ControlPanelFragment extends Fragment {
             public void onItemSelected(AdapterView<?> arg0, View v,
                                        int id, long arg3) {
                 Log.d("Spinner_OnItemSelected", id + "");
-                addMasterFragment(fragmentTransaction, getActivity(), Types.ININVOICES, id);
+                addMasterFragment(getActivity(), id);
             }
 
             @Override

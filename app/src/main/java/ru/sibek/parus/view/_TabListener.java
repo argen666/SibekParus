@@ -7,16 +7,16 @@ import android.app.FragmentTransaction;
 import android.util.Log;
 
 import ru.sibek.parus.R;
-import ru.sibek.parus.fragment.ControlPanelFragment;
 import ru.sibek.parus.fragment.LogoFragment;
 import ru.sibek.parus.fragment.Types;
+import ru.sibek.parus.fragment.controlpanel.InvoiceControlPanelFragment;
 
 /**
  * Created by argen666 on 01.11.14.
  */
 public class _TabListener<T extends Fragment> implements ActionBar.TabListener {
     private Fragment mFragment;
-    private ControlPanelFragment cPanel;
+    private InvoiceControlPanelFragment cPanel;
     private final Activity mActivity;
     private final String mTag;
     private final Class<T> mClass;
@@ -40,7 +40,7 @@ public class _TabListener<T extends Fragment> implements ActionBar.TabListener {
         // Check if the fragment is already initialized
         if (mTag == Types.ININVOICES) {
             if (cPanel == null) {
-                cPanel = ControlPanelFragment.newInstance(Types.ININVOICES);
+                cPanel = InvoiceControlPanelFragment.newInstance();
                 ft.add(R.id.control_panel_frame, cPanel);
                 Log.d("IN_NULL", cPanel.getId() + "");
             } else {

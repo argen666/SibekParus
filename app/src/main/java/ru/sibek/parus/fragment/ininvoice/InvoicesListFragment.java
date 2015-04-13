@@ -35,8 +35,8 @@ import java.util.Map;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
-import ru.sibek.parus.fragment.ControlPanelFragment;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
+import ru.sibek.parus.fragment.controlpanel.InvoiceControlPanelFragment;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
@@ -73,7 +73,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
        /* ControlPanel.cDate=(TextView) getActivity().findViewById(R.id.ininvoice_date);
         ControlPanel.cItemName=(TextView) getActivity().findViewById(R.id.ininvoice_item_name);
         ControlPanel.cButton=(Button) getActivity().findViewById(R.id.ininvoice_button);*/
-        ControlPanel.controlFragment = (ControlPanelFragment) getFragmentManager().findFragmentById(R.id.control_panel_frame);
+        ControlPanel.controlFragment = (InvoiceControlPanelFragment) getFragmentManager().findFragmentById(R.id.control_panel_frame);
 
         //specFragment = (InvoicesSpecFragment) getFragmentManager().findFragmentById(R.id.detail_frame);
         //Log.d("KKKK",cf.toString());
@@ -191,7 +191,7 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
     }
 
     static class ControlPanel {
-        static ControlPanelFragment controlFragment;
+        static InvoiceControlPanelFragment controlFragment;
         /*static TextView cDate;
         static TextView cItemName;
         static Button cButton;*/
