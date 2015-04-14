@@ -100,7 +100,7 @@ public class OrderControlPanelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_ininvoices_control_panel, container, false);
+        View view = inflater.inflate(R.layout.fragment_inorders_control_panel, container, false);
         view = getIninvoicesView(view);
         return view;
     }

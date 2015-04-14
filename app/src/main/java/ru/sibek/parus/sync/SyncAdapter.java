@@ -21,14 +21,9 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SyncResult;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.util.Log;
 
-import retrofit.client.Response;
-import ru.sibek.parus.rest.NetworkTask;
-import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.sqlite.storages.RacksProvider;
@@ -136,7 +131,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
 
             case SyncActions.SYNC_POST_INVOICES: {
-                syncPostInvoices(provider, syncResult, where, whereArgs);
+                InvoicesSync.syncPostInvoices(provider, syncResult, where, whereArgs);
                 break;
             }
 
@@ -158,7 +153,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
-    private void syncPostInvoices(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
+    /*private void syncPostInvoices(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
         try {
             final Cursor feeds = provider.query(
                     InvoiceProvider.URI, new String[]{
@@ -198,10 +193,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
             Log.d("CP_CLICK>>>", r.toString());
 
-        } catch (/*Remote*/Exception e) {
+        } catch (*//*Remote*//*Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
 

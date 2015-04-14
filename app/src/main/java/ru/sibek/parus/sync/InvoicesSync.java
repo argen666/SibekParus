@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.os.RemoteException;
 import android.util.Log;
 
+import retrofit.client.Response;
 import ru.sibek.parus.rest.NetworkTask;
+import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 
 /**
@@ -87,4 +89,50 @@ public class InvoicesSync {
             e.printStackTrace();
         }
     }
+
+    public static void syncPostInvoices(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
+        try {
+            final Cursor feeds = provider.query(
+                    InvoiceProvider.URI, new String[]{
+                            InvoiceProvider.Columns._ID,
+                            InvoiceProvider.Columns.NRN
+                    }, where, whereArgs, null
+            );
+
+            try {
+                if (feeds.moveToFirst()) {
+                    do {
+                        postInvoices(feeds.getString(0), feeds.getString(1), provider, syncResult);
+                    } while (feeds.moveToNext());
+                } else {
+                    // getInvoices(null, null, provider, syncResult);
+                }
+            } finally {
+                feeds.close();
+            }
+        } catch (RemoteException e) {
+            Log.e(SyncAdapter.class.getName(), e.getMessage(), e);
+            ++syncResult.stats.numIoExceptions;
+        }
+
+    }
+
+    private static void postInvoices(String invoiceId, String NRN, ContentProviderClient provider, SyncResult syncResult) {
+
+        NetworkTask n = new NetworkTask(provider, syncResult);
+        try {
+            //Response r = (Response) n.getData(null, "", "applyInvoiceAsFact", NRN);
+            Response r = (Response) ParusService.getService().applyInvoiceAsFact(Long.valueOf(NRN));
+            if (r != null) {
+                InvoicesSync.getInvoices(invoiceId, NRN, null, provider, syncResult);
+            } else {
+                Log.d("OOPS!", "Network is down");
+            }
+            Log.d("CP_CLICK>>>", r.toString());
+
+        } catch (/*Remote*/Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
