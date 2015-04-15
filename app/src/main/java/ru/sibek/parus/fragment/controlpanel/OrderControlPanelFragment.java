@@ -2,10 +2,7 @@ package ru.sibek.parus.fragment.controlpanel;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.ContentResolver;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
-import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.activity.InvoicesActivity;
 import ru.sibek.parus.fragment.Types;
-import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
-import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
-import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.view.DummyFragment;
 
 public class OrderControlPanelFragment extends Fragment {
@@ -159,7 +150,7 @@ public class OrderControlPanelFragment extends Fragment {
         itemDate.setText(strDate);
 
         actionBtn = (Button) view.findViewById(R.id.ininvoice_button);
-        actionBtn.setOnClickListener(new View.OnClickListener() {
+        /*actionBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -229,7 +220,7 @@ public class OrderControlPanelFragment extends Fragment {
                     cur.close();
                 }
             }
-        });
+        });*/
 
         return view;
     }

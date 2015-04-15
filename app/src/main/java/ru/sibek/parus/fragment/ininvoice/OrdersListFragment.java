@@ -116,9 +116,7 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-       /* final Intent intent = new Intent(getActivity(), NewsActivity.class);
-        intent.putExtra(NewsActivity.EXTRA_FEED_ID, id);
-        startActivity(intent);*/
+
         Log.d("ITEM_CLICK: ", "pos: " + position + "; id= " + id);
         Cursor curInv = mListAdapter.getCursor();
         // feed = getActivity().getContentResolver().query(InvoiceProvider.URI, new String[]{InvoiceProvider.Columns.SSTATUS} ,InvoiceProvider.Columns._ID+ "=?",new String[]{String.valueOf(id)},null);
@@ -133,12 +131,6 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
                 View.VISIBLE, btnText, id
         );
 
-      /*  if (specFragment==null)
-        {
-            Log.d("REPLACE!!!","!!!!!");*/
-           /* final Intent intent = new Intent(getActivity(), SpecActivity.class);
-            intent.putExtra(SpecActivity.EXTRA_FEED_ID, id);
-            startActivity(intent);*/
 
         //TODO: check this
 
@@ -153,15 +145,7 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
             getFragmentManager().beginTransaction().replace(R.id.detail_frame, (OrdersSpecFragment) getSpecInvoiceByID(id)).commit();
             Log.d("RESTORE SPEC>>>>", ((OrdersSpecFragment) getSpecInvoiceByID(id)).getId() + "");
         }
-       /* } else {
-           // getFragmentManager().beginTransaction()
-            specFragment.setId(id);
-            getFragmentManager().beginTransaction().replace(R.id.detail_frame, specFragment).commit();
-        }*/
 
-        /*ControlPanel.cItemName.setText(((TextView)view.findViewById(R.id.title)).getText());
-        ControlPanel.cDate.setText(((TextView)view.findViewById(R.id.doc_date)).getText());
-        ControlPanel.cButton.setVisibility(View.VISIBLE);*/
     }
 
     @Override
