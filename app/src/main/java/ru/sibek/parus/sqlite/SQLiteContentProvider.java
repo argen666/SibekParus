@@ -42,9 +42,6 @@ import ru.sibek.parus.sqlite.storages.CellsProvider;
 import ru.sibek.parus.sqlite.storages.RacksProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
 
-/**
- * @author Daniel Serdyukov
- */
 public class SQLiteContentProvider extends ContentProvider {
 
     private static final String DATABASE_NAME = "parus.db";
