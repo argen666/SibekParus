@@ -23,7 +23,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
-import android.util.Log;
 
 import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.account.ParusAccount;
@@ -101,7 +100,7 @@ public class OrderProvider extends SQLiteTableProvider {
             final Bundle syncExtras = new Bundle();
             syncExtras.putLong(SyncAdapter.KEY_INORDER_ID, extras.getLong(KEY_LAST_ID, -1));
             ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
-            Log.d("QQcontentChanged", "insert");
+            //Log.d("QQcontentChanged", "insert");
 
         }
     }
@@ -129,10 +128,10 @@ public class OrderProvider extends SQLiteTableProvider {
                 + Columns.NSUMM + " integer, "
                 + Columns.NSUMMTAX + " integer)");
         //ахуенный триггер
-       /* db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
+        db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
                 " begin " +
-                " delete from " + InvoiceSpecProvider.TABLE_NAME + " where " + InvoiceSpecProvider.Columns.INVOICE_ID + "=old." + Columns._ID + ";" +
-                " end;");*/
+                " delete from " + OrderSpecProvider.TABLE_NAME + " where " + OrderSpecProvider.Columns.ORDER_ID + "=old." + Columns._ID + ";" +
+                " end;");
     }
 
     public interface Columns extends BaseColumns {

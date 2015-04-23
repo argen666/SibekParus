@@ -37,6 +37,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String KEY_STORAGE_ID = "ru.sibek.parus.sync.KEY_STORAGE_ID";
     public static final String KEY_RACK_ID = "ru.sibek.parus.sync.KEY_RACK_ID";
     public static final String KEY_INORDER_ID = "ru.sibek.parus.sync.KEY_INORDER_ID";
+    public static final String KEY_TRANSINDEPT_ID = "ru.sibek.parus.sync.KEY_TRANSINDEPT_ID";
 
     public SyncAdapter(Context context) {
         super(context, true);
@@ -50,12 +51,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final long storageId = extras.getLong(KEY_STORAGE_ID, -1);
         final long rackId = extras.getLong(KEY_RACK_ID, -1);
         final long orderId = extras.getLong(KEY_INORDER_ID, -1);
+        final long transindeptId = extras.getLong(KEY_TRANSINDEPT_ID, -1);
         Log.d(Log.INFO + ">>>>", "feed>>" + feedId + " store>>" + storageId + " rackId>>" + rackId + " orderId>>" + orderId);
-        if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1 && orderId == -1) {
+        if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1 && orderId == -1 /*&& transindeptId == -1*/) {
             startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
-            // startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
+            //startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_INORDERS);
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_TRANSINDEPT);
         }
 
         if (postId > 0) {
@@ -89,6 +92,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void startSync(final ContentProviderClient provider, final SyncResult syncResult, final String where, final String[] whereArgs, String action) {
         //TODO: Если синхронизация не закончена не давать вызывать еще раз или вообще писать подождите...
+
         switch (action) {
             case SyncActions.SYNC_INVOICES: {
 
@@ -140,6 +144,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     @Override
                     public void run() {
                         OrdersSync.syncOrders(provider, syncResult, where, whereArgs);
+                    }
+                });
+
+                myThread.start();
+                break;
+            }
+
+            case SyncActions.SYNC_TRANSINDEPT: {
+                Thread myThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TransindeptSync.syncTransindept(provider, syncResult, where, whereArgs);
                     }
                 });
 

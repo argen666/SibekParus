@@ -1,7 +1,6 @@
 package ru.sibek.parus.mappers.ininvoices;
 
 import android.content.ContentValues;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -47,7 +46,7 @@ public class Invoices/* implements IContentValues*/ {
             contentValues.put(InvoiceProvider.Columns.NRN, item.getNrn());
             contentValues.put(InvoiceProvider.Columns.NCOMPANY, item.getNcompany());
             contentValuesList.add(contentValues);
-            Log.d("DMODIF>>", ParusDate.parse(item.getDdocDate()).getTime() + "!!!!" + ParusDate.parse(item.getDmodifdate()).getTime());
+            //Log.d("DMODIF>>", ParusDate.parse(item.getDdocDate()).getTime() + "!!!!" + ParusDate.parse(item.getDmodifdate()).getTime());
         }
 
         return contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
@@ -779,7 +778,7 @@ public class Invoices/* implements IContentValues*/ {
             listString += s.getDmodifdate() + "\n";
         }
         return "Invoices{" +
-                "items=" + items.size() + ">>>" + listString +
+                "items=" + items.size() + ">>>" + /*listString +*/
                 '}';
     }
 

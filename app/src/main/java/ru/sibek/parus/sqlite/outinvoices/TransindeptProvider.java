@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 
 import ru.sibek.parus.sqlite.SQLiteTableProvider;
-import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
 
 public class TransindeptProvider extends SQLiteTableProvider {
 
@@ -56,9 +55,9 @@ public class TransindeptProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SDOCTYPE));
     }
 
-    /*public static String getStatus(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.SSTATUS));
-    }*/
+    public static String getNSUMMWITHNDS(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.NSUMMWITHNDS));
+    }
 
     public static int getNStatus(Cursor c) {
         return c.getInt(c.getColumnIndex(Columns.NSTATUS));
@@ -95,7 +94,7 @@ public class TransindeptProvider extends SQLiteTableProvider {
         if (operation == INSERT) {
            /* extras.keySet();
             final Bundle syncExtras = new Bundle();
-            syncExtras.putLong(SyncAdapter.KEY_INVOICE_ID, extras.getLong(KEY_LAST_ID, -1));
+            syncExtras.putLong(SyncAdapter.KEY_TRANSINDEPT_ID, extras.getLong(KEY_LAST_ID, -1));
             ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
             Log.d("QQcontentChanged", "insert");*/
 
@@ -134,10 +133,10 @@ public class TransindeptProvider extends SQLiteTableProvider {
                 + Columns.SFACEACC + " text, "
                 + Columns.NSUMMWITHNDS + " integer)");
         //ахуенный триггер
-        db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
+        /*db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
                 " begin " +
                 " delete from " + InvoiceSpecProvider.TABLE_NAME + " where " + InvoiceSpecProvider.Columns.INVOICE_ID + "=old." + Columns._ID + ";" +
-                " end;");
+                " end;");*/
     }
 
     public interface Columns extends BaseColumns {

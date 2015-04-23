@@ -38,6 +38,7 @@ import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
 import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.sqlite.ininvoices.OrderSpecProvider;
+import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
 import ru.sibek.parus.sqlite.storages.CellsProvider;
 import ru.sibek.parus.sqlite.storages.RacksProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
@@ -62,6 +63,7 @@ public class SQLiteContentProvider extends ContentProvider {
         SCHEMA.put(CellsProvider.TABLE_NAME, new CellsProvider());
         SCHEMA.put(OrderProvider.TABLE_NAME, new OrderProvider());
         SCHEMA.put(OrderSpecProvider.TABLE_NAME, new OrderSpecProvider());
+        SCHEMA.put(TransindeptProvider.TABLE_NAME, new TransindeptProvider());
     }
 
     private final SQLiteUriMatcher mUriMatcher = new SQLiteUriMatcher();

@@ -9,4 +9,5 @@ public interface SyncActions {
     final String SYNC_RACKS = "SYNC_RACKS";
     final String SYNC_POST_INVOICES = "SYNC_POST_INVOICES";
     final String SYNC_INORDERS = "SYNC_INORDERS";
+    final String SYNC_TRANSINDEPT = "SYNC_TRANSINDEPT";
 }

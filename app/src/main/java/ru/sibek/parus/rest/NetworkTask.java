@@ -83,7 +83,8 @@ public class NetworkTask {
 
                     syncResult.stats.numUpdates += provider
                             .bulkInsert(OrderProvider.URI, ((Orders) ret).toContentValues());
-                    Log.d("FULL_INSERT_ORDER>>>>>>>>>>>>>", ((Orders) ret).toString());
+                    //Log.d("FULL_INSERT_ORDER>>>>>>>>>>>>>", ((Orders) ret).toString());
+                    Log.d("Orders>>>", "FULL_INSERT_ORDER>>>>>>>>>>>>>" + ((Orders) ret).toString());
                     break;
                 }
 
