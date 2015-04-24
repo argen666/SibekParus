@@ -14,6 +14,8 @@ import ru.sibek.parus.mappers.ininvoices.Invoices;
 import ru.sibek.parus.mappers.ininvoices.InvoicesSpec;
 import ru.sibek.parus.mappers.ininvoices.Orders;
 import ru.sibek.parus.mappers.ininvoices.OrdersSpec;
+import ru.sibek.parus.mappers.outvoices.TransindeptSpec;
+import ru.sibek.parus.mappers.outvoices.Transindepts;
 
 /**
  * Created by Developer on 06.10.2014.
@@ -61,4 +63,13 @@ public interface Parus {
 
     @GET("/parus/ru/order/{NRN}")
     Orders orderByNRN(@Path("NRN") String nrn);
+
+    @GET("/parus/ru/transindepts/{date}")
+    Transindepts listTransindepts(@Path("date") String date);
+
+    @GET("/parus/ru/transindeptspec/{NPRN}")
+    TransindeptSpec transindeptSpecByNRN(@Path("NPRN") String nprn);
+
+    @GET("/parus/ru/transindept/{NRN}")
+    Transindepts transindeptByNRN(@Path("NRN") String nrn);
 }

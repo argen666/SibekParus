@@ -8,7 +8,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Transindept {
+import ru.sibek.parus.rest.ParusDate;
+import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
+
+public class Transindepts {
 
     @Expose
     private List<TransindeptItem> items = new ArrayList<TransindeptItem>();
@@ -30,26 +33,48 @@ public class Transindept {
     public ContentValues[] toContentValues() {
 
         final List<ContentValues> contentValuesList = new ArrayList<>();
-       /* List<ItemInvoice> items = this.getItems();
-        for (ItemInvoice item : items) {
+        List<TransindeptItem> items = this.getItems();
+        for (TransindeptItem item : items) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(InvoiceProvider.Columns.SNUMB, item.getSnumb());
-            contentValues.put(InvoiceProvider.Columns.SDOCTYPE, item.getSdoctype());
-            contentValues.put(InvoiceProvider.Columns.SPREF, item.getSpref());
-            contentValues.put(InvoiceProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
-            contentValues.put(InvoiceProvider.Columns.HASH, ParusDate.parse(item.getDmodifdate()).getTime());
-            contentValues.put(InvoiceProvider.Columns.SAGENT, item.getSagent());
-            contentValues.put(InvoiceProvider.Columns.NSUMMTAX, item.getNsummtax());
-            contentValues.put(InvoiceProvider.Columns.NSTATUS, item.getNstatus());
-            contentValues.put(InvoiceProvider.Columns.LOCAL_NSTATUS, item.getNstatus());
-            contentValues.put(InvoiceProvider.Columns.SSTATUS, item.getSstatus());
-            contentValues.put(InvoiceProvider.Columns.NRN, item.getNrn());
-            contentValues.put(InvoiceProvider.Columns.NCOMPANY, item.getNcompany());
+            contentValues.put(TransindeptProvider.Columns.NCOMPANY, item.getNcompany());
+            contentValues.put(TransindeptProvider.Columns.SJUR_PERS, item.getSjurPers());
+            contentValues.put(TransindeptProvider.Columns.NDOCTYPE, item.getNdoctype());
+            contentValues.put(TransindeptProvider.Columns.SDOCTYPE, item.getSdoctype());
+            contentValues.put(TransindeptProvider.Columns.SPREF, item.getSpref().trim());
+            contentValues.put(TransindeptProvider.Columns.SNUMB, item.getSnumb().trim());
+            contentValues.put(TransindeptProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
+            contentValues.put(TransindeptProvider.Columns.HASH, ParusDate.parse(item.getDmodifdate()).getTime());
+            contentValues.put(TransindeptProvider.Columns.NSTATUS, item.getNstatus());
+            contentValues.put(TransindeptProvider.Columns.LOCAL_NSTATUS, item.getNstatus());
+            contentValues.put(TransindeptProvider.Columns.SSTATUS_IN_STATUS, item.getSstatusInStatus());
+            contentValues.put(TransindeptProvider.Columns.NRN, item.getNrn());
+            contentValues.put(TransindeptProvider.Columns.DWORK_DATE, item.dworkDate);
+            contentValues.put(TransindeptProvider.Columns.SAGENT, item.getSagent());
+            contentValues.put(TransindeptProvider.Columns.SAGENT_NAME, item.getSagentName());
+            contentValues.put(TransindeptProvider.Columns.NSTORE, item.getNstore());
+            contentValues.put(TransindeptProvider.Columns.SSTORE, item.getSstore());
+            contentValues.put(TransindeptProvider.Columns.SSTOPER, item.getSstoper());
+            contentValues.put(TransindeptProvider.Columns.SMOL, item.getSmol());
+            contentValues.put(TransindeptProvider.Columns.SSHEEPVIEW, item.getSsheepview());
+            contentValues.put(TransindeptProvider.Columns.SIN_STORE, item.getSinStore());
+            contentValues.put(TransindeptProvider.Columns.SIN_MOL, item.getSinMol());
+            contentValues.put(TransindeptProvider.Columns.SIN_STOPER, item.getSinStoper());
+            contentValues.put(TransindeptProvider.Columns.SFACEACC, item.getSfaceacc());
+            contentValues.put(TransindeptProvider.Columns.NSUMMWITHNDS, item.getNsummwithnds());
             contentValuesList.add(contentValues);
-            Log.d("DMODIF>>", ParusDate.parse(item.getDdocDate()).getTime() + "!!!!" + ParusDate.parse(item.getDmodifdate()).getTime());
-        }*/
+            //Log.d("DMODIF>>", ParusDate.parse(item.getDdocDate()).getTime() + "!!!!" + ParusDate.parse(item.getDmodifdate()).getTime());
+        }
 
         return contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
+
+
+    }
+
+    @Override
+    public String toString() {
+        return "Transindepts{" +
+                "items=" + items.size() +
+                '}';
     }
 
     public class TransindeptItem {
@@ -57,18 +82,29 @@ public class Transindept {
         @Expose
         private Integer nrn;
         @Expose
+        private Long nstore;
+        @Expose
         private Integer ncompany;
         @SerializedName("sjur_pers")
         @Expose
         private String sjurPers;
         @Expose
+        private String sfaceacc;
+        @Expose
         private Integer ndoctype;
         @Expose
         private String sdoctype;
         @Expose
+        private String dmodifdate;
+        @Expose
         private String spref;
         @Expose
         private String snumb;
+        @Expose
+        private String sagent;
+        @SerializedName("sagent_name")
+        @Expose
+        private String sagentName;
         @SerializedName("ddoc_date")
         @Expose
         private String ddocDate;
@@ -99,6 +135,46 @@ public class Transindept {
         @SerializedName("sin_stoper")
         @Expose
         private String sinStoper;
+
+        public String getSfaceacc() {
+            return sfaceacc;
+        }
+
+        public void setSfaceacc(String sfaceacc) {
+            this.sfaceacc = sfaceacc;
+        }
+
+        public Long getNstore() {
+            return nstore;
+        }
+
+        public void setNstore(Long nstore) {
+            this.nstore = nstore;
+        }
+
+        public String getSagent() {
+            return sagent;
+        }
+
+        public void setSagent(String sagent) {
+            this.sagent = sagent;
+        }
+
+        public String getSagentName() {
+            return sagentName;
+        }
+
+        public void setSagentName(String sagentName) {
+            this.sagentName = sagentName;
+        }
+
+        public String getDmodifdate() {
+            return dmodifdate;
+        }
+
+        public void setDmodifdate(String dmodifdate) {
+            this.dmodifdate = dmodifdate;
+        }
 
         /**
          * @return The nrn

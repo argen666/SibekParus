@@ -10,11 +10,15 @@ import ru.sibek.parus.fragment.Types;
 public class ControlFragmentFactory {
     public static Fragment getControlPanel(String type, int position) {
         Fragment cp = null;
+        //TODO instantiate fragment without if....with Type
         if (type == Types.ININVOICES) {
             cp = InvoiceControlPanelFragment.newInstance(position);
         }
         if (type == Types.INORDERS) {
             cp = OrderControlPanelFragment.newInstance(position);
+        }
+        if (type == Types.TRANSINDEPT) {
+            cp = TransindeptControlPanelFragment.newInstance(position);
         }
         return cp;
     }

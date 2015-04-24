@@ -67,13 +67,13 @@ public class InvoicesActivity extends Activity {
         ActionBar.Tab tab = actionBar.newTab()
                 .setText("Приход")
                 .setTabListener(new TabListener<InvoicesListFragment>(
-                        this, Types.ININVOICES, InvoicesListFragment.class));
+                        this, Types.ININVOICES_TAB, InvoicesListFragment.class));
         actionBar.addTab(tab, false);
 
         tab = actionBar.newTab()
                 .setText("Расход")
                 .setTabListener(new TabListener<DummyFragment>(
-                        this, "outvoice", DummyFragment.class));
+                        this, Types.OUTINVOICES_TAB, DummyFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar.newTab()

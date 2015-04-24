@@ -33,9 +33,9 @@ public class Orders/* implements IContentValues*/ {
         List<ItemOrder> items = this.getItems();
         for (ItemOrder item : items) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(OrderProvider.Columns.SNUMB, item.getSnumb());
+            contentValues.put(OrderProvider.Columns.SNUMB, item.getSnumb().trim());
             contentValues.put(OrderProvider.Columns.SDOCTYPE, item.getSdoctype());
-            contentValues.put(OrderProvider.Columns.SPREF, item.getSpref());
+            contentValues.put(OrderProvider.Columns.SPREF, item.getSpref().trim());
             contentValues.put(OrderProvider.Columns.DDOC_DATE, ParusDate.parse(item.getDdocDate()).getTime());
             contentValues.put(OrderProvider.Columns.HASH, ParusDate.parse(item.getDmodifdate()).getTime());
             contentValues.put(OrderProvider.Columns.SAGENT, item.getSagent());

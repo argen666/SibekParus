@@ -6,4 +6,5 @@
     <item name="spec_detail_loader" type="id" />
     <item name="orders_loader" type="id" />
     <item name="orders_spec_loader" type="id" />
+    <item name="transindept_loader" type="id" />
 </resources>

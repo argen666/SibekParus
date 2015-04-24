@@ -27,4 +27,9 @@
         <item>Приход из подразделений</item>
     </string-array>
 
+    <string-array name="outvoice_array">
+        <item>Подразделениям</item>
+        <item>Покупателям</item>
+    </string-array>
+
 </resources>

@@ -10,6 +10,7 @@ import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.LogoFragment;
 import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.fragment.controlpanel.ControlFragmentFactory;
+import ru.sibek.parus.fragment.controlpanel.InvoiceControlPanelFragment;
 
 /**
  * Created by argen666 on 01.11.14.
@@ -40,62 +41,47 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
         // Check if the fragment is already initialized
         // TextView emptyDetailView = ((TextView) mActivity.findViewById(R.id.detail_empty_textView));
         //  Fragment detail = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
-        if (mTag == Types.ININVOICES) {
+        if (mTag == Types.ININVOICES_TAB) {
             if (cPanel == null) {
                 //cPanel = InvoiceControlPanelFragment.newInstance(mClass.getName());
-                cPanel = ControlFragmentFactory.getControlPanel(mClass.getName());
+                cPanel = ControlFragmentFactory.getControlPanel(Types.ININVOICES);
                 ft.add(R.id.control_panel_frame, cPanel);
                 Log.d("IN_NULL", cPanel.getId() + "");
             } else {
-                Log.d("IN_!NULL", cPanel.getId() + "");
-                ft.attach(cPanel);
-                //ft.attach(cPanel);
-                // запихать ControlPanelFr которф    предварительно сохранить
+                if (cPanel instanceof InvoiceControlPanelFragment) {
+                    Log.d("IN_!NULL", cPanel.getId() + "");
+                    ft.attach(cPanel);
+                }
+
             }
-            //     emptyDetailView.setVisibility(View.VISIBLE);
-            //       emptyDetailView.setText("Выберите накладную");
-
-
-            Fragment logo = mActivity.getFragmentManager().findFragmentById(R.id.frame1);
-            if (logo != null && logo instanceof LogoFragment) {
-                ft.detach(logo);
-            }
-
-            //cPanel.addMasterFragment(ft,mActivity,mTag,0);
-
-
-            /*if (mFragment == null) {
-
-                mFragment = Fragment.instantiate(mActivity, mClass.getName());
-                ft.add(R.id.master_frame, mFragment, mTag);
-                // If not, instantiate and add it to the activity
-            } else {
-                // If it exists, simply attach it in order to show it
-                ft.attach(mFragment);
-            }*/
-
 
         } else {
+            if (mTag == Types.OUTINVOICES_TAB) {
+                if (cPanel == null) {
+                    //cPanel = InvoiceControlPanelFragment.newInstance(mClass.getName());
+                    cPanel = ControlFragmentFactory.getControlPanel(Types.TRANSINDEPT);
+                    ft.add(R.id.control_panel_frame, cPanel);
+                    Log.d("IN_NULL", cPanel.getId() + "");
+                } else {
+                    if (cPanel instanceof InvoiceControlPanelFragment) {
+                        Log.d("IN_!NULL", cPanel.getId() + "");
+                        ft.attach(cPanel);
+                    }
 
-            Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
+                }
+            }
+            /*Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
             if (f != null) ft.remove(f);
             Fragment f1 = mActivity.getFragmentManager().findFragmentById(R.id.master_frame);
             if (f1 != null) ft.remove(f1);
-            return;
-            /*if (cPanel == null) {
-                cPanel=ControlPanelFragment.newInstance("other");
-                ft.add(R.id.control_panel_frame, cPanel);
-                Log.d("OTHER_NULL", cPanel.getId()+"");
-            } else {
-                Log.d("OTHER_!NULL", cPanel.getId()+"");
-                ft.replace(R.id.control_panel_frame,cPanel);
-            }*/
+            return;*/
 
-            //       emptyDetailView.setVisibility(View.VISIBLE);
-            //       emptyDetailView.setText("Выберите empty");
         }
 
-
+        Fragment logo = mActivity.getFragmentManager().findFragmentById(R.id.frame1);
+        if (logo != null && logo instanceof LogoFragment) {
+            ft.detach(logo);
+        }
     }
 
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
