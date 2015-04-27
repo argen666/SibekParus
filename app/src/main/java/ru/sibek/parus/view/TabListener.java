@@ -10,7 +10,6 @@ import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.LogoFragment;
 import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.fragment.controlpanel.ControlFragmentFactory;
-import ru.sibek.parus.fragment.controlpanel.InvoiceControlPanelFragment;
 
 /**
  * Created by argen666 on 01.11.14.
@@ -48,10 +47,10 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                 ft.add(R.id.control_panel_frame, cPanel);
                 Log.d("IN_NULL", cPanel.getId() + "");
             } else {
-                if (cPanel instanceof InvoiceControlPanelFragment) {
+                // if (cPanel instanceof InvoiceControlPanelFragment) {
                     Log.d("IN_!NULL", cPanel.getId() + "");
                     ft.attach(cPanel);
-                }
+
 
             }
 
@@ -63,10 +62,10 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                     ft.add(R.id.control_panel_frame, cPanel);
                     Log.d("IN_NULL", cPanel.getId() + "");
                 } else {
-                    if (cPanel instanceof InvoiceControlPanelFragment) {
+                    // if (cPanel instanceof InvoiceControlPanelFragment) {
                         Log.d("IN_!NULL", cPanel.getId() + "");
                         ft.attach(cPanel);
-                    }
+                    // }
 
                 }
             }

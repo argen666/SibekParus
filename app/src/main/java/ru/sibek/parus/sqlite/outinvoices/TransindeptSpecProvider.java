@@ -46,9 +46,6 @@ public class TransindeptSpecProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SSERNUMB));
     }
 
-    public static String getSSTORE(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.SSTORE));
-    }
 
     public static String getSNOTE(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SNOTE));
@@ -70,11 +67,11 @@ public class TransindeptSpecProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SMEAS_MAIN));
     }
 
-    public static double getNFACTQUANT(Cursor c) {
+    public static double getQUANT(Cursor c) {
         return c.getDouble(c.getColumnIndex(Columns.NQUANT));
     }
 
-    public static double getNPLANQUANT(Cursor c) {
+    public static double getNSTOREQUANT(Cursor c) {
         return c.getDouble(c.getColumnIndex(Columns.NSTOREQUANT));
     }
 

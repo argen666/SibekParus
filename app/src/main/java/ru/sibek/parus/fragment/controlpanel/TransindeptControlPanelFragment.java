@@ -2,9 +2,14 @@ package ru.sibek.parus.fragment.controlpanel;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.LoaderManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,9 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.Types;
+import ru.sibek.parus.fragment.outvoice.TransindeptListFragment;
+import ru.sibek.parus.sqlite.storages.StorageProvider;
 import ru.sibek.parus.view.DummyFragment;
 
 public class TransindeptControlPanelFragment extends Fragment {
@@ -27,9 +35,11 @@ public class TransindeptControlPanelFragment extends Fragment {
     TextView itemName;
     TextView itemDate;
     Button actionBtn;
+    Button storageBtn;
     Spinner spinner;
 
     private Fragment mFragment;
+    private int storageId;
 
     public static TransindeptControlPanelFragment newInstance() {
         return TransindeptControlPanelFragment.newInstance(0);
@@ -101,9 +111,10 @@ public class TransindeptControlPanelFragment extends Fragment {
         itemName.setText(itemTitle);
         itemDate.setText(date);
         actionBtn.setVisibility(btnVisibility);
+        storageBtn.setVisibility(btnVisibility);
         actionBtn.setTag(btnTag);
         if (btnActText == null) {
-            actionBtn.setText("Отработать накладную");
+            actionBtn.setText("Отработать");
             actionBtn.setEnabled(true);
         } else {
             actionBtn.setText(btnActText);
@@ -145,6 +156,15 @@ public class TransindeptControlPanelFragment extends Fragment {
 
         itemDate = (TextView) view.findViewById(R.id.ininvoice_date);
         itemDate.setText(strDate);
+        storageBtn = (Button) view.findViewById(R.id.storage_button);
+        storageBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                registerForContextMenu(storageBtn);
+                getActivity().openContextMenu(storageBtn);
+            }
+        });
 
         actionBtn = (Button) view.findViewById(R.id.ininvoice_button);
         /*actionBtn.setOnClickListener(new View.OnClickListener() {
@@ -222,6 +242,50 @@ public class TransindeptControlPanelFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if (v.getId() == R.id.storage_button) {
+            menu.setHeaderTitle("Выберите склад!");
+            Cursor cur = getActivity().getContentResolver().query(
+                    StorageProvider.URI, new String[]{
+                            StorageProvider.Columns._ID,
+                            StorageProvider.Columns.SNUMB
+                    }, null, null, StorageProvider.Columns.SNUMB + " ASC"
+            );
+
+            try {
+                if (cur.moveToFirst()) {
+                    do {
+                        menu.add(R.id.button_storage, (int) StorageProvider.getId(cur), Menu.NONE, StorageProvider.getSNUMB(cur));
+                    } while (cur.moveToNext());
+                } else {
+
+                    Toast.makeText(getActivity(), "Нет складов", Toast.LENGTH_LONG).show();
+                }
+            } finally {
+                cur.close();
+            }
+
+
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getGroupId()) {
+            case R.id.button_storage: {
+                storageId = item.getItemId();
+                storageBtn.setText(item.toString());
+                LoaderManager loaderManager = mFragment.getLoaderManager();
+                //todo передавать where!!!!!
+                loaderManager.restartLoader(R.id.transindept_loader, null, (TransindeptListFragment) mFragment);
+            }
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    ;
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

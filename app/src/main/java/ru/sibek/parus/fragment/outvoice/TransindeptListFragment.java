@@ -84,6 +84,7 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         if (id == R.id.transindept_loader) {
             // String[] projection = {InvoiceProvider.Columns._ID, InvoiceProvider.Columns.SNUMB,InvoiceProvider.Columns.SPREF + " * " + InvoiceProvider.Columns.DDOC_DATE + " as data"};
+            Log.d(">>>", "RESETLOADER!!!");
             return new CursorLoader(
                     getActivity().getApplicationContext(),
                     TransindeptProvider.URI, null, null, null, TransindeptProvider.Columns.NSTATUS + " ASC, " + TransindeptProvider.Columns.DDOC_DATE + " DESC"
@@ -146,13 +147,13 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
         ((TextView) getActivity().findViewById(R.id.detail_empty_textView)).setVisibility(View.GONE);
 
         if (getSpecInvoiceByID(id) == null) {
-            InvoicesSpecFragment invSpec = InvoicesSpecFragment.newInstance(id);
+            TransindeptSpecFragment invSpec = TransindeptSpecFragment.newInstance(id);
             specsInvoices.put(id, invSpec);
             getFragmentManager().beginTransaction().replace(R.id.detail_frame, invSpec).commit();
             Log.d("CREATE SPEC>>>>", invSpec.getId() + "");
         } else {
-            getFragmentManager().beginTransaction().replace(R.id.detail_frame, (InvoicesSpecFragment) getSpecInvoiceByID(id)).commit();
-            Log.d("RESTORE SPEC>>>>", ((InvoicesSpecFragment) getSpecInvoiceByID(id)).getId() + "");
+            getFragmentManager().beginTransaction().replace(R.id.detail_frame, (TransindeptSpecFragment) getSpecInvoiceByID(id)).commit();
+            Log.d("RESTORE SPEC>>>>", ((TransindeptSpecFragment) getSpecInvoiceByID(id)).getId() + "");
         }
        /* } else {
            // getFragmentManager().beginTransaction()
