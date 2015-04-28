@@ -87,9 +87,12 @@ public class TransindeptProvider extends SQLiteTableProvider {
         return c.getLong(c.getColumnIndex(Columns.SNUMB));
     }
 
+    public static long getNstore(Cursor c) {
+        return c.getInt(c.getColumnIndex(Columns.NSTORE));
+    }
 
-    public static String getSagent(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.SAGENT));
+    public static String getSStore(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SSTORE));
     }
 
     @Override

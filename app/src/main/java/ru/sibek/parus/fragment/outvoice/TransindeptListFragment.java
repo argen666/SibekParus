@@ -25,6 +25,9 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
@@ -64,6 +67,7 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
         mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_transindept);
         setListAdapter(mListAdapter);
         getLoaderManager().initLoader(R.id.transindept_loader, null, this);
@@ -85,9 +89,15 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
         if (id == R.id.transindept_loader) {
             // String[] projection = {InvoiceProvider.Columns._ID, InvoiceProvider.Columns.SNUMB,InvoiceProvider.Columns.SPREF + " * " + InvoiceProvider.Columns.DDOC_DATE + " as data"};
             Log.d(">>>", "RESETLOADER!!!");
+            String selection = null;
+            String[] selectionArgs = null;
+            if (args != null) {
+                selection = args.getString("selection");
+                selectionArgs = args.getStringArray("selectionArgs");
+            }
             return new CursorLoader(
                     getActivity().getApplicationContext(),
-                    TransindeptProvider.URI, null, null, null, TransindeptProvider.Columns.NSTATUS + " ASC, " + TransindeptProvider.Columns.DDOC_DATE + " DESC"
+                    TransindeptProvider.URI, null, selection, selectionArgs, TransindeptProvider.Columns.NSTATUS + " ASC, " + TransindeptProvider.Columns.DDOC_DATE + " DESC"
 
 
             );
@@ -199,5 +209,17 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
         static Button cButton;*/
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.scanner_actions, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_scanner) {
+            Log.d("SCANNER>>>>", "!!!");
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

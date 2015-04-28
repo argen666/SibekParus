@@ -38,16 +38,16 @@
             dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\crashlytics-1.1.13-e907802ac57a2c1196c2c225b9dfe4091c0cd47b.jar" />
     </item>
     <item
-        jar="C:\Android\sdk\extras\android\m2repository\com\android\support\support-v13\19.1.0\support-v13-19.1.0.jar"
-        jumboMode="false" revision="20.0.0" sha1="6b852a232f642c75a7fdfc7212b841b8c8f8959c">
-        <dex
-            dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\support-v13-19.1.0-fe49160be0761f8796900b8bfb678142bc31d7ae.jar" />
-    </item>
-    <item
         jar="C:\Users\Арген\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.6.1\efb0a36546aa8857ab8df358b106c1817e03cbee\retrofit-1.6.1.jar"
         jumboMode="false" revision="20.0.0" sha1="efb0a36546aa8857ab8df358b106c1817e03cbee">
         <dex
             dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\retrofit-1.6.1-32460c3733521c418dce0844609916310b0888e6.jar" />
+    </item>
+    <item
+        jar="C:\Android\sdk\extras\android\m2repository\com\android\support\support-v13\19.1.0\support-v13-19.1.0.jar"
+        jumboMode="false" revision="20.0.0" sha1="6b852a232f642c75a7fdfc7212b841b8c8f8959c">
+        <dex
+            dex="C:\Android\AndroidstudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\support-v13-19.1.0-fe49160be0761f8796900b8bfb678142bc31d7ae.jar" />
     </item>
 
 </items>

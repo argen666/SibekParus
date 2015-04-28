@@ -53,8 +53,8 @@ public class StorageProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SNUMB));
     }
 
-    public static long getNRN(Cursor c) {
-        return c.getLong(c.getColumnIndex(Columns.NRN));
+    public static int getNRN(Cursor c) {
+        return c.getInt(c.getColumnIndex(Columns.NRN));
     }
 
     public static long getNDISTRIBUTION_SIGN(Cursor c) {

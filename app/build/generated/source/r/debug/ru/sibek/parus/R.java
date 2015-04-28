@@ -48,23 +48,25 @@ public final class R {
         public static final int progress_primary_example=0x7f020018;
         public static final int progress_secondary_example=0x7f020019;
         public static final int rect_text_edit=0x7f02001a;
-        public static final int selectable_background_example=0x7f02001b;
-        public static final int sibek_logo=0x7f02001c;
-        public static final int spinner_ab_default_example=0x7f02001d;
-        public static final int spinner_ab_disabled_example=0x7f02001e;
-        public static final int spinner_ab_focused_example=0x7f02001f;
-        public static final int spinner_ab_pressed_example=0x7f020020;
-        public static final int spinner_background_ab_example=0x7f020021;
-        public static final int tab_indicator_ab_example=0x7f020022;
-        public static final int tab_selected_example=0x7f020023;
-        public static final int tab_selected_focused_example=0x7f020024;
-        public static final int tab_selected_pressed_example=0x7f020025;
-        public static final int tab_unselected_example=0x7f020026;
-        public static final int tab_unselected_focused_example=0x7f020027;
-        public static final int tab_unselected_pressed_example=0x7f020028;
+        public static final int scanner=0x7f02001b;
+        public static final int selectable_background_example=0x7f02001c;
+        public static final int sibek_logo=0x7f02001d;
+        public static final int spinner_ab_default_example=0x7f02001e;
+        public static final int spinner_ab_disabled_example=0x7f02001f;
+        public static final int spinner_ab_focused_example=0x7f020020;
+        public static final int spinner_ab_pressed_example=0x7f020021;
+        public static final int spinner_background_ab_example=0x7f020022;
+        public static final int tab_indicator_ab_example=0x7f020023;
+        public static final int tab_selected_example=0x7f020024;
+        public static final int tab_selected_focused_example=0x7f020025;
+        public static final int tab_selected_pressed_example=0x7f020026;
+        public static final int tab_unselected_example=0x7f020027;
+        public static final int tab_unselected_focused_example=0x7f020028;
+        public static final int tab_unselected_pressed_example=0x7f020029;
     }
     public static final class id {
         public static final int action_exit=0x7f08002f;
+        public static final int action_scanner=0x7f080030;
         public static final int action_settings=0x7f08002e;
         public static final int agent=0x7f080024;
         public static final int button_cell=0x7f08001c;
@@ -136,6 +138,7 @@ public final class R {
     public static final class menu {
         public static final int main=0x7f0a0000;
         public static final int main_activity_actions=0x7f0a0001;
+        public static final int scanner_actions=0x7f0a0002;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;

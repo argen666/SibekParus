@@ -55,9 +55,9 @@ public class TransindeptListItem extends LinearLayout implements CursorBinder {
     public void bindCursor(Cursor c) {
         mCur = c;
         // mIcon.loadIcon(Provider.getIconUrl(c));
-        final String agent = TransindeptProvider.getSagent(c);
-        if (!TextUtils.isEmpty(agent)) {
-            mAgent.setText(/*"Поставщик: "*/agent/*DateFormat.getDateTimeInstance().format(new Date(TransindeptProvider.getHASH(c)))*/);
+        final String store = TransindeptProvider.getSStore(c);
+        if (!TextUtils.isEmpty(store)) {
+            mAgent.setText("Склад: " + store/*DateFormat.getDateTimeInstance().format(new Date(TransindeptProvider.getHASH(c)))*/);
         } else {
             mAgent.setText("Поставщик: " + getResources().getString(R.string.hello_world, TransindeptProvider.getId(c)));
         }

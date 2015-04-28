@@ -22,6 +22,7 @@ import android.widget.Toast;
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.fragment.outvoice.TransindeptListFragment;
+import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
 import ru.sibek.parus.view.DummyFragment;
 
@@ -39,7 +40,7 @@ public class TransindeptControlPanelFragment extends Fragment {
     Spinner spinner;
 
     private Fragment mFragment;
-    private int storageId;
+    private int storageNrn;
 
     public static TransindeptControlPanelFragment newInstance() {
         return TransindeptControlPanelFragment.newInstance(0);
@@ -250,14 +251,15 @@ public class TransindeptControlPanelFragment extends Fragment {
             Cursor cur = getActivity().getContentResolver().query(
                     StorageProvider.URI, new String[]{
                             StorageProvider.Columns._ID,
+                            StorageProvider.Columns.NRN,
                             StorageProvider.Columns.SNUMB
                     }, null, null, StorageProvider.Columns.SNUMB + " ASC"
             );
-
+            menu.add(R.id.button_storage, 0, Menu.NONE, "Все склады");
             try {
                 if (cur.moveToFirst()) {
                     do {
-                        menu.add(R.id.button_storage, (int) StorageProvider.getId(cur), Menu.NONE, StorageProvider.getSNUMB(cur));
+                        menu.add(R.id.button_storage, (int) StorageProvider.getNRN(cur), Menu.NONE, StorageProvider.getSNUMB(cur) + "");
                     } while (cur.moveToNext());
                 } else {
 
@@ -275,17 +277,29 @@ public class TransindeptControlPanelFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getGroupId()) {
             case R.id.button_storage: {
-                storageId = item.getItemId();
+                storageNrn = item.getItemId();
                 storageBtn.setText(item.toString());
                 LoaderManager loaderManager = mFragment.getLoaderManager();
-                //todo передавать where!!!!!
-                loaderManager.restartLoader(R.id.transindept_loader, null, (TransindeptListFragment) mFragment);
+                Log.d(">>>RESET>>", storageNrn + "");
+                if (storageNrn != 0) {
+                    String selection = TransindeptProvider.Columns.NSTORE + "=?";
+                    String[] selectionArgs = new String[]{String.valueOf(storageNrn)};
+                    Bundle args = new Bundle();
+                    args.putString("selection", selection);
+                    args.putStringArray("selectionArgs", selectionArgs);
+                    loaderManager.restartLoader(R.id.transindept_loader, args, (TransindeptListFragment) mFragment);
+                } else {
+                    loaderManager.restartLoader(R.id.transindept_loader, null, (TransindeptListFragment) mFragment);
+                }
+
+
             }
         }
         return super.onContextItemSelected(item);
     }
 
     ;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
