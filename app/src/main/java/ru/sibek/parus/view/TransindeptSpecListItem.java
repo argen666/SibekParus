@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,10 +47,11 @@ public class TransindeptSpecListItem extends LinearLayout implements CursorBinde
     private TextView mPubDate;
 
     private TextView mSpecQuant;
-    private TextView mSpecStore;
+    private TextView mSpecStoreQuant;
     private TextView mSpecPlace;
 
     private ImageView mSelect;
+    private ImageView mDelete;
 
     private long specId;
     private ContentProviderClient provider = null;
@@ -76,11 +78,11 @@ public class TransindeptSpecListItem extends LinearLayout implements CursorBinde
 //        final String sstore = TransindeptSpecProvider.getSSTORE(c);
 //        if (sstore != null) {
 //
-//            mSpecStore.setText(" Cклад: " + TransindeptSpecProvider.getSSTORE(c));
-//            mSpecStore.setTextColor(Color.BLACK);
+        mSpecStoreQuant.setText(" Остаток: " + TransindeptSpecProvider.getNSTOREQUANT(c));
+//            mSpecStoreQuant.setTextColor(Color.BLACK);
 //        } else {
-//            mSpecStore.setText("Cклад: - ");
-//            mSpecStore.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+//            mSpecStoreQuant.setText("Cклад: - ");
+//            mSpecStoreQuant.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
 //        }
         //final long storageSign = TransindeptSpecProvider.getNDISTRIBUTION_SIGN(c);
         //if (storageSign == 1) {
@@ -106,6 +108,15 @@ public class TransindeptSpecListItem extends LinearLayout implements CursorBinde
                 new String[]{String.valueOf(specId)},
                 null
         );*/
+        //mDelete.setTag(R.drawable.delete);
+        //mDelete.setImageResource(R.drawable.delete);
+        mDelete.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                mDelete.setSelected(arg1.getAction() == MotionEvent.ACTION_DOWN);
+                return true;
+            }
+        });
         final long iconId = TransindeptSpecProvider.getLOCAL_ICON(c);
         if (iconId != 0) {
             mSelect.setTag((int) iconId);
@@ -160,10 +171,11 @@ public class TransindeptSpecListItem extends LinearLayout implements CursorBinde
         mTitleNum = (TextView) findViewById(R.id.title_spec_number);
 
         mSpecQuant = (TextView) findViewById(R.id.spec_quant);
-        mSpecStore = (TextView) findViewById(R.id.spec_store);
+        mSpecStoreQuant = (TextView) findViewById(R.id.spec_store_quant);
         mSpecPlace = (TextView) findViewById(R.id.spec_place);
 
         mSelect = (ImageView) findViewById(R.id.spec_image);
+        mDelete = (ImageView) findViewById(R.id.spec_delete_image);
         // mPubDate = (TextView) findViewById(R.id.pub_date);
 
     }

@@ -21,10 +21,12 @@ import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,10 +34,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
@@ -52,6 +59,7 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
 
     private CursorAdapter mListAdapter;
     private InvoicesSpecFragment specFragment;
+    Pair<Long, Integer> selectedElement = null;
 
     //TODO: Создавать тут бандл <ид инвойса,Фрагмент спеки> и при нажатии на инвойс проверять есть ли для него спека...также сделать для детальной спеки
     Map<Long, Fragment> specsInvoices = new HashMap<Long, Fragment>();
@@ -135,6 +143,7 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
         Cursor curTrans = mListAdapter.getCursor();
         // feed = getActivity().getContentResolver().query(InvoiceProvider.URI, new String[]{InvoiceProvider.Columns.SSTATUS} ,InvoiceProvider.Columns._ID+ "=?",new String[]{String.valueOf(id)},null);
         Log.d("ITEM_CLICK: ", TransindeptProvider.getNStatus(curTrans) + "");
+        selectedElement = new Pair<>(id, TransindeptProvider.getNStatus(curTrans));
         String btnText = null;
         if (TransindeptProvider.getNStatus(curTrans) != 0) {
             btnText = "Отработано";
@@ -159,6 +168,7 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
         if (getSpecInvoiceByID(id) == null) {
             TransindeptSpecFragment invSpec = TransindeptSpecFragment.newInstance(id);
             specsInvoices.put(id, invSpec);
+
             getFragmentManager().beginTransaction().replace(R.id.detail_frame, invSpec).commit();
             Log.d("CREATE SPEC>>>>", invSpec.getId() + "");
         } else {
@@ -218,8 +228,37 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_scanner) {
-            Log.d("SCANNER>>>>", "!!!");
+            Log.d("SCANNER>>>>", "RUN");
+            if (selectedElement != null && selectedElement.second == 0) {
+                IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+                scanIntegrator.initiateScan();
+        } else {
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                        "Выберите не отработанный документ!", Toast.LENGTH_LONG);
+                toast.show();
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (scanningResult.getContents() != null) {
+            Log.d("SCANNER>>>>", scanningResult.getContents());
+            //todo добавить элемент
+            //обновляем спеку
+            ((TransindeptSpecFragment) specsInvoices.get(selectedElement.first)).onRefresh(ParusApplication.sAccount);
+
+            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                    scanningResult.getContents(), Toast.LENGTH_LONG);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                    "No scan data received!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        //super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -76,7 +76,7 @@
                     android:singleLine="true" />
 
                 <TextView
-                    android:id="@+id/spec_store"
+                    android:id="@+id/spec_store_quant"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -96,6 +96,13 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:src="@drawable/transindeptspec_listitem_selector"
+            android:id="@+id/spec_delete_image" />
 
         />
 
