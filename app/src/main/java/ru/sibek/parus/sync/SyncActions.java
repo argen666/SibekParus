@@ -10,4 +10,5 @@ public interface SyncActions {
     final String SYNC_POST_INVOICES = "SYNC_POST_INVOICES";
     final String SYNC_INORDERS = "SYNC_INORDERS";
     final String SYNC_TRANSINDEPT = "SYNC_TRANSINDEPT";
+    final String SYNC_TRANSINDEPT_SPEC_DELETE = "SYNC_TRANSINDEPT_SPEC_DELETE";
 }

@@ -1,8 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/action_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Добавить"
+        android:orderInCategory="1"
+        android:showAsAction="always|withText" />
+    <item
         android:id="@+id/action_scanner"
         android:icon="@drawable/scanner"
         android:title="Сканер"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         android:showAsAction="always|withText" />
 </menu>

@@ -1,6 +1,7 @@
 package ru.sibek.parus.rest;
 
 import retrofit.client.Response;
+import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -69,6 +70,9 @@ public interface Parus {
 
     @GET("/parus/ru/transindeptspec/{NPRN}")
     TransindeptSpec transindeptSpecByNRN(@Path("NPRN") String nprn);
+
+    @DELETE("/parus/ru/transindeptspec/{NPRN}")
+    Response deleteTransindeptSpecByNRN(@Path("NPRN") String nprn);
 
     @GET("/parus/ru/transindept/{NRN}")
     Transindepts transindeptByNRN(@Path("NRN") String nrn);

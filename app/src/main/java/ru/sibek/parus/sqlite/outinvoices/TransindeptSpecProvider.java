@@ -99,7 +99,7 @@ public class TransindeptSpecProvider extends SQLiteTableProvider {
         return c.getLong(c.getColumnIndex(Columns.NDISTRIBUTION_SIGN));
     }
 
-    public static long getORDER_ID(Cursor c) {
+    public static long getTRANSINDEPT_ID(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.TRANSINDEPT_ID));
     }
 

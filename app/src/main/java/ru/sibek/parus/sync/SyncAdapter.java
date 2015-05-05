@@ -27,6 +27,7 @@ import android.util.Log;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
+import ru.sibek.parus.sqlite.outinvoices.TransindeptSpecProvider;
 import ru.sibek.parus.sqlite.storages.RacksProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
 
@@ -39,6 +40,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String KEY_RACK_ID = "ru.sibek.parus.sync.KEY_RACK_ID";
     public static final String KEY_INORDER_ID = "ru.sibek.parus.sync.KEY_INORDER_ID";
     public static final String KEY_TRANSINDEPT_ID = "ru.sibek.parus.sync.KEY_TRANSINDEPT_ID";
+    public static final String KEY_DELETE_TRANSINDEPT_SPEC_ID = "ru.sibek.parus.sync.KEY_DELETE_TRANSINDEPT_SPEC_ID";
 
     public SyncAdapter(Context context) {
         super(context, true);
@@ -53,10 +55,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final long rackId = extras.getLong(KEY_RACK_ID, -1);
         final long orderId = extras.getLong(KEY_INORDER_ID, -1);
         final long transindeptId = extras.getLong(KEY_TRANSINDEPT_ID, -1);
+        final long transindeptSpecDeleteId = extras.getLong(KEY_DELETE_TRANSINDEPT_SPEC_ID, -1);
         Log.d(Log.INFO + ">>>>", "feed>>" + feedId + " store>>" + storageId + " rackId>>" + rackId + " orderId>>" + orderId + " transindeptId>>" + transindeptId);
-        if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1 && orderId == -1 && transindeptId == -1) {
+        if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1 && orderId == -1 && transindeptId == -1 && transindeptSpecDeleteId == -1) {
             //startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
-            startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
+            //startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
             //startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
             //startSync(provider, syncResult, null, null, SyncActions.SYNC_INORDERS);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_TRANSINDEPT);
@@ -89,6 +92,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         if (transindeptId > 0) {
             startSync(provider, syncResult, TransindeptProvider.Columns._ID + "=?", new String[]{String.valueOf(transindeptId)}, SyncActions.SYNC_TRANSINDEPT);
+            return;
+        }
+        if (transindeptSpecDeleteId > 0) {
+            startSync(provider, syncResult, TransindeptSpecProvider.Columns._ID + "=?", new String[]{String.valueOf(transindeptSpecDeleteId)}, SyncActions.SYNC_TRANSINDEPT_SPEC_DELETE);
             return;
         }
 
@@ -163,6 +170,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     @Override
                     public void run() {
                         TransindeptSync.syncTransindept(provider, syncResult, where, whereArgs);
+                    }
+                });
+
+                myThread.start();
+                break;
+            }
+            case SyncActions.SYNC_TRANSINDEPT_SPEC_DELETE: {
+                Log.d(">>", "Start SYNC_TRANSINDEPT_SPEC_DELETE");
+                Thread myThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TransindeptSync.syncTransindeptSpecDelete(provider, syncResult, where, whereArgs);
                     }
                 });
 

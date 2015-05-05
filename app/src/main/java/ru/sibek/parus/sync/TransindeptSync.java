@@ -6,6 +6,11 @@ import android.database.Cursor;
 import android.os.RemoteException;
 import android.util.Log;
 
+import java.io.IOException;
+import java.util.Scanner;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import ru.sibek.parus.mappers.outvoices.TransindeptSpec;
 import ru.sibek.parus.mappers.outvoices.Transindepts;
 import ru.sibek.parus.rest.ParusService;
@@ -107,5 +112,50 @@ public class TransindeptSync {
         } catch (/*Remote*/Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void syncTransindeptSpecDelete(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
+        try {
+            final Cursor transindepts = provider.query(
+                    TransindeptSpecProvider.URI, new String[]{
+                            TransindeptSpecProvider.Columns.TRANSINDEPT_ID,
+                            TransindeptSpecProvider.Columns.NRN,
+                            TransindeptSpecProvider.Columns.NPRN
+                    }, where, whereArgs, null
+            );
+
+
+            try {
+                if (transindepts.moveToFirst()) {
+
+
+                    deleteTransindeptSpec(transindepts.getString(0), transindepts.getString(1), transindepts.getString(2), provider, syncResult);
+
+                } else {
+
+                }
+            } finally {
+                transindepts.close();
+            }
+        } catch (RemoteException e) {
+            Log.e(SyncAdapter.class.getName(), e.getMessage(), e);
+            ++syncResult.stats.numIoExceptions;
+        }
+    }
+
+    private static void deleteTransindeptSpec(String id, String nrn, String nprn, ContentProviderClient provider, SyncResult syncResult) {
+        try {
+            Response status = ParusService.getService().deleteTransindeptSpecByNRN(nrn);
+        } catch (RetrofitError e) {
+            try {
+                Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());
+            } catch (IOException e1) {
+
+                Log.e("ERROR>>", "((((");
+            }
+
+        }
+        getTransindepts(id, nprn, null, provider, syncResult);
+        Log.d("Transindepts_DELETE_SPEC>>> ", nrn);
     }
 }

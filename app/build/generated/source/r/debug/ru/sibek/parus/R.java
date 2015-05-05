@@ -68,8 +68,9 @@ public final class R {
         public static final int transindeptspec_listitem_selector=0x7f02002c;
     }
     public static final class id {
+        public static final int action_add=0x7f080032;
         public static final int action_exit=0x7f080031;
-        public static final int action_scanner=0x7f080032;
+        public static final int action_scanner=0x7f080033;
         public static final int action_settings=0x7f080030;
         public static final int agent=0x7f080024;
         public static final int button_cell=0x7f08001c;
