@@ -238,6 +238,13 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
                 toast.show();
             }
         }
+
+        if (item.getItemId() == R.id.action_add) {
+            //todo
+            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                    "Выбfghfgjhfgh!", Toast.LENGTH_LONG);
+            toast.show();
+        }
         return super.onOptionsItemSelected(item);
     }
 
