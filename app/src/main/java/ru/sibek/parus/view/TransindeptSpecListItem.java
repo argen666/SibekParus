@@ -126,7 +126,6 @@ public class TransindeptSpecListItem extends LinearLayout implements CursorBinde
             mSelect.setImageResource(R.drawable.invoice_spec_non_accepted);
         }
 
-        //mSelect.setTag(SELECT);
 
         mSelect.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
