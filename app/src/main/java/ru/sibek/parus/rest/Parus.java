@@ -76,4 +76,8 @@ public interface Parus {
 
     @GET("/parus/ru/transindept/{NRN}")
     Transindepts transindeptByNRN(@Path("NRN") String nrn);
+
+    @FormUrlEncoded
+    @POST("/parus/ru/transindeptspec/{NPRN}")
+    Response addTransindeptSpecByMasterNRN(@Path("NPRN") long nrn, @Field("NNOMEN") String nnomen);
 }

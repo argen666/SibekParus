@@ -39,15 +39,19 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
+import retrofit.RetrofitError;
 import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
 import ru.sibek.parus.fragment.controlpanel.TransindeptControlPanelFragment;
 import ru.sibek.parus.fragment.ininvoice.InvoicesSpecFragment;
+import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
@@ -63,6 +67,7 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
 
     //TODO: Создавать тут бандл <ид инвойса,Фрагмент спеки> и при нажатии на инвойс проверять есть ли для него спека...также сделать для детальной спеки
     Map<Long, Fragment> specsInvoices = new HashMap<Long, Fragment>();
+    private int selectedNRN;
 
     public Fragment getSpecInvoiceByID(Long id) {
         return specsInvoices.get(id);
@@ -144,6 +149,7 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
         // feed = getActivity().getContentResolver().query(InvoiceProvider.URI, new String[]{InvoiceProvider.Columns.SSTATUS} ,InvoiceProvider.Columns._ID+ "=?",new String[]{String.valueOf(id)},null);
         Log.d("ITEM_CLICK: ", TransindeptProvider.getNStatus(curTrans) + "");
         selectedElement = new Pair<>(id, TransindeptProvider.getNStatus(curTrans));
+        selectedNRN = TransindeptProvider.getNRN(curTrans);
         String btnText = null;
         if (TransindeptProvider.getNStatus(curTrans) != 0) {
             btnText = "Отработано";
@@ -254,10 +260,41 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (scanningResult.getContents() != null) {
             Log.d("SCANNER>>>>", scanningResult.getContents());
-            //todo добавить элемент
-            //обновляем спеку
-            ((TransindeptSpecFragment) specsInvoices.get(selectedElement.first)).onRefresh(ParusApplication.sAccount);
+            final String nnomen = "010050001401";// nnomen = scanningResult.getContents();
 
+            if (selectedElement != null && selectedElement.first != 0) {
+                //todo добавить элемент - run sync
+                Log.d(">>SC_NRN", "___" + selectedNRN);
+                Thread myThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            ParusService.getService().addTransindeptSpecByMasterNRN(selectedNRN, nnomen);
+                        } catch (RetrofitError e) {
+                            try {
+                                Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());
+                            } catch (IOException e1) {
+
+                                Log.e("ERROR>>", "((((");
+                            }
+
+                        }
+                    }
+                });
+
+                myThread.start();
+
+
+                do {
+                    try {
+                        myThread.join(250);//Подождать окончания  четверть секунды.
+                    } catch (InterruptedException e) {
+                    }
+                }
+                while (myThread.isAlive());
+                //обновляем спеку
+                ((TransindeptSpecFragment) specsInvoices.get(selectedElement.first)).onRefresh(ParusApplication.sAccount);
+            }
             Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                     scanningResult.getContents(), Toast.LENGTH_LONG);
             toast.show();
