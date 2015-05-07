@@ -260,8 +260,8 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (scanningResult.getContents() != null) {
             Log.d("SCANNER>>>>", scanningResult.getContents());
-            final String nnomen = "010050001401";// nnomen = scanningResult.getContents();
-
+            final String nnomen = scanningResult.getContents();
+            //final String nnomen = "010050001401";
             if (selectedElement != null && selectedElement.first != 0) {
                 //todo добавить элемент - run sync
                 Log.d(">>SC_NRN", "___" + selectedNRN);
