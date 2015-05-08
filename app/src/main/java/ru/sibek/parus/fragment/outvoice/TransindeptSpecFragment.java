@@ -125,7 +125,10 @@ public class TransindeptSpecFragment extends SwipeToRefreshList implements Loade
 
                         EditText valueView = (EditText) dialogView.findViewById(R.id.spec_quant_text);
                         String text = valueView.getText().toString();
-                        text = text.isEmpty() ? "0" : text;
+                        //text = text.isEmpty() ? "0" : text;
+                        if (text.isEmpty()) {
+                            return;
+                        }
                         Double nquant = Double.valueOf(text);
                         if (nstoreQuant >= nquant) {
                             //todo update spec
