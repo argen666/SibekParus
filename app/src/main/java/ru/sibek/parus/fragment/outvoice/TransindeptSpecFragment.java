@@ -1,18 +1,23 @@
 package ru.sibek.parus.fragment.outvoice;
 
 import android.accounts.Account;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -98,33 +103,48 @@ public class TransindeptSpecFragment extends SwipeToRefreshList implements Loade
             mListAdapter.swapCursor(null);
         }
     }
-//TODO:uncomment this
-  /* @Override
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        iconState = (ImageView) ((LinearLayout) view).findViewById(R.id.spec_image);
-        if ((int) iconState.getTag() == R.drawable.invoice_spec_non_accepted) {
-
-            Log.d("SPEC_ITEM_CLICK: ", "pos: " + position + "; id= " + id);
-        //TODO: check this!
-        final FragmentManager fm = getActivity().getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        //ft.addToBackStack(null);
-
-        if (getSpecDetailByID(id) == null) {
-            SpecDetailFragment specDetail = SpecDetailFragment.newInstance(id);
-            specsDetails.put(id, specDetail);
-            ft.replace(R.id.detail_frame, specDetail).addToBackStack(null).commit();
-            Log.d("CREATE DETAIL>>>>", specDetail.getId() + "");
-        } else {
-            ft.replace(R.id.detail_frame, (SpecDetailFragment) getSpecDetailByID(id)).addToBackStack(null).commit();
-            Log.d("RESTORE DETAIL>>>>", ((SpecDetailFragment) getSpecDetailByID(id)).getId() + "");
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        Cursor cursor = mListAdapter.getCursor();
+        final Double nstoreQuant = TransindeptSpecProvider.getNSTOREQUANT(cursor);
+        if (nstoreQuant.compareTo(new Double(0)) == 0) {
+            Toast.makeText(getActivity().getApplicationContext(),
+                    "На складе нет остатков", Toast.LENGTH_LONG).show();
+            return;
         }
-        } else {
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Снимите галочку", Toast.LENGTH_LONG);
-            toast.show();
-        }
-    }*/
+        final View dialogView = inflater.inflate(R.layout.change_transindept_spec_menu_layout, null);
+        builder.setView(dialogView);
+        builder
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        EditText valueView = (EditText) dialogView.findViewById(R.id.spec_quant_text);
+                        String text = valueView.getText().toString();
+                        text = text.isEmpty() ? "0" : text;
+                        Double nquant = Double.valueOf(text);
+                        if (nstoreQuant >= nquant) {
+                            //todo update spec
+                            Toast.makeText(getActivity().getApplicationContext(),
+                                    "text__" + text, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity().getApplicationContext(),
+                                    "Остатков недостаточно", Toast.LENGTH_LONG).show();
+                        }
+
+
+                            /*final Bundle extras = new Bundle();
+                            extras.putLong(SyncAdapter.KEY_DELETE_TRANSINDEPT_SPEC_ID, trId);
+                            ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, extras);*/
+                    }
+                }).show();
+
+
+    }
 
     @Override
     protected void onRefresh(Account account) {
