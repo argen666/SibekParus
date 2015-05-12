@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
+import retrofit.RetrofitError;
+import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
+import ru.sibek.parus.mappers.outvoices.Nquant;
+import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptSpecProvider;
 import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.widget.CursorBinderAdapter;
@@ -111,6 +118,7 @@ public class TransindeptSpecFragment extends SwipeToRefreshList implements Loade
         LayoutInflater inflater = getActivity().getLayoutInflater();
         Cursor cursor = mListAdapter.getCursor();
         final Double nstoreQuant = TransindeptSpecProvider.getNSTOREQUANT(cursor);
+        final long selectedNRN = TransindeptSpecProvider.getNRN(cursor);
         if (nstoreQuant.compareTo(new Double(0)) == 0) {
             Toast.makeText(getActivity().getApplicationContext(),
                     "На складе нет остатков", Toast.LENGTH_LONG).show();
@@ -124,17 +132,50 @@ public class TransindeptSpecFragment extends SwipeToRefreshList implements Loade
                     public void onClick(DialogInterface dialog, int id) {
 
                         EditText valueView = (EditText) dialogView.findViewById(R.id.spec_quant_text);
-                        String text = valueView.getText().toString();
+                        final String text = valueView.getText().toString();
                         //text = text.isEmpty() ? "0" : text;
                         if (text.isEmpty()) {
                             return;
                         }
                         Double nquant = Double.valueOf(text);
                         if (nstoreQuant >= nquant) {
-                            //todo update spec
+                            Thread myThread = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Nquant n = new Nquant();
+                                        n.setNQUANT(text);
+                                        ParusService.getService().updateTransindeptSpecNQuant(selectedNRN, n);
+                                    } catch (RetrofitError e) {
+                                        try {
+                                            Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());
+                                        } catch (IOException e1) {
+
+                                            Log.e("ERROR>>", "((((");
+                                        }
+
+                                    }
+                                }
+                            });
+
+                            myThread.start();
+
+
+                            do {
+                                try {
+                                    myThread.join(250);//Подождать окончания  четверть секунды.
+                                } catch (InterruptedException e) {
+                                }
+                            }
+                            while (myThread.isAlive());
+                            //обновляем спеку
+                            onRefresh(ParusApplication.sAccount);
+
                             Toast.makeText(getActivity().getApplicationContext(),
-                                    "text__" + text, Toast.LENGTH_LONG).show();
-                        } else {
+                                    "text__" + text + "==" + selectedNRN, Toast.LENGTH_LONG).show();
+                        } else
+
+                        {
                             Toast.makeText(getActivity().getApplicationContext(),
                                     "Остатков недостаточно", Toast.LENGTH_LONG).show();
                         }

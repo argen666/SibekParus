@@ -261,6 +261,15 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
                     .setPositiveButton("Да", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
+                            //todo вызвать апи на создание документа,получить в ответе NRN
+                            //ParusService.getService().addTransindept(new Transindept());
+                            //todo cделать поток получить созданный документ
+                            //Transindepts transindepts = ParusService.getService().transindeptByNRN(NRN);
+                            //todo записать в бд
+                            //getActivity().getContentResolver().bulkInsert(TransindeptProvider.URI, transindepts.toContentValues());
+                            //todo рестартануть лоадер
+
+
                             /*final Bundle extras = new Bundle();
                             extras.putLong(SyncAdapter.KEY_DELETE_TRANSINDEPT_SPEC_ID, trId);
                             ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, extras);*/
