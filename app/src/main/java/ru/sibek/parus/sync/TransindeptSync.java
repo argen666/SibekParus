@@ -94,19 +94,26 @@ public class TransindeptSync {
 
                 Transindepts transindepts = ParusService.getService().transindeptByNRN(NRN);
                 Log.d(NRN, transindepts.toString());
-                syncResult.stats.numUpdates += provider
-                        .update(TransindeptProvider.URI, transindepts.toContentValues()[0], TransindeptProvider.Columns._ID + "=?", new String[]{transindeptId});
-                Log.d("Transindepts_UPDATE>>>", transindeptId + "___" + NRN);
+                if (transindepts.getItems().size() != 0) {
+                    syncResult.stats.numUpdates += provider
+                            .update(TransindeptProvider.URI, transindepts.toContentValues()[0], TransindeptProvider.Columns._ID + "=?", new String[]{transindeptId});
+                    Log.d("Transindepts_UPDATE>>>", transindeptId + "___" + NRN);
 
-                TransindeptSpec transspec = ParusService.getService().transindeptSpecByNRN(NRN);
-                //n.getData(transindeptId, "UPDATE_SPEC", "invoiceSpecByNRN", NRN);
-                syncResult.stats.numDeletes += provider
-                        .delete(TransindeptSpecProvider.URI, TransindeptSpecProvider.Columns.TRANSINDEPT_ID + "=?", new String[]{transindeptId});
+                    TransindeptSpec transspec = ParusService.getService().transindeptSpecByNRN(NRN);
+                    //n.getData(transindeptId, "UPDATE_SPEC", "invoiceSpecByNRN", NRN);
+                    syncResult.stats.numDeletes += provider
+                            .delete(TransindeptSpecProvider.URI, TransindeptSpecProvider.Columns.TRANSINDEPT_ID + "=?", new String[]{transindeptId});
 
-                syncResult.stats.numUpdates += provider
-                        .bulkInsert(TransindeptSpecProvider.URI, transspec.toContentValues(transindeptId));
-                Log.d("Transindepts_UPDATE_SPEC>>>", transindeptId + "___" + NRN);
+                    syncResult.stats.numUpdates += provider
+                            .bulkInsert(TransindeptSpecProvider.URI, transspec.toContentValues(transindeptId));
+                    Log.d("Transindepts_UPDATE_SPEC>>>", transindeptId + "___" + NRN);
+                } else {
+                    syncResult.stats.numDeletes += provider
+                            .delete(TransindeptProvider.URI, TransindeptProvider.Columns._ID + "=?", new String[]{transindeptId});
 
+                    syncResult.stats.numDeletes += provider
+                            .delete(TransindeptSpecProvider.URI, TransindeptSpecProvider.Columns.TRANSINDEPT_ID + "=?", new String[]{transindeptId});
+                }
             }
 
         } catch (/*Remote*/Exception e) {

@@ -12,6 +12,7 @@ import retrofit.http.Path;
 import ru.sibek.parus.mappers.Cells;
 import ru.sibek.parus.mappers.Companies;
 import ru.sibek.parus.mappers.Racks;
+import ru.sibek.parus.mappers.Status;
 import ru.sibek.parus.mappers.Storages;
 import ru.sibek.parus.mappers.ininvoices.Invoices;
 import ru.sibek.parus.mappers.ininvoices.InvoicesSpec;
@@ -82,7 +83,7 @@ public interface Parus {
     Transindepts transindeptByNRN(@Path("NRN") String nrn);
 
     @PUT("/parus/ru/transindept/")
-    Response addTransindept(@Body Transindept json);
+    Status addTransindept(@Body Transindept json);
 
     @FormUrlEncoded
     @POST("/parus/ru/transindeptspec/{NPRN}")

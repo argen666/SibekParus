@@ -59,7 +59,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Log.d(Log.INFO + ">>>>", "feed>>" + feedId + " store>>" + storageId + " rackId>>" + rackId + " orderId>>" + orderId + " transindeptId>>" + transindeptId);
         if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1 && orderId == -1 && transindeptId == -1 && transindeptSpecDeleteId == -1) {
             //startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
-            //startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
             //startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
             //startSync(provider, syncResult, null, null, SyncActions.SYNC_INORDERS);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_TRANSINDEPT);

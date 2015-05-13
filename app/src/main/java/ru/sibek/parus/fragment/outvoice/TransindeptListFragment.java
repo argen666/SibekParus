@@ -35,7 +35,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,8 +56,12 @@ import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
 import ru.sibek.parus.fragment.controlpanel.TransindeptControlPanelFragment;
 import ru.sibek.parus.fragment.ininvoice.InvoicesSpecFragment;
+import ru.sibek.parus.mappers.Status;
+import ru.sibek.parus.mappers.outvoices.Transindept;
+import ru.sibek.parus.mappers.outvoices.Transindepts;
 import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
+import ru.sibek.parus.sqlite.storages.StorageProvider;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
 //import com.elegion.newsfeed.activity.NewsActivity;
@@ -234,6 +240,45 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    class storageClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            final View view = v;
+            PopupMenu popupMenu = new PopupMenu(getActivity(), view);
+
+            Cursor cur = getActivity().getContentResolver().query(
+                    StorageProvider.URI, new String[]{
+                            StorageProvider.Columns._ID,
+                            StorageProvider.Columns.NRN,
+                            StorageProvider.Columns.SNUMB
+                    }, null, null, StorageProvider.Columns.SNUMB + " ASC"
+            );
+            try {
+                if (cur.moveToFirst()) {
+                    do {
+                        popupMenu.getMenu().add(view.getId(), (int) StorageProvider.getNRN(cur), Menu.NONE, StorageProvider.getSNUMB(cur) + "");
+                    } while (cur.moveToNext());
+                } else {
+
+                    Toast.makeText(getActivity(), "Нет складов", Toast.LENGTH_LONG).show();
+                }
+            } finally {
+                cur.close();
+            }
+            popupMenu.show();
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    ((Button) view).setText(item.toString());
+                    ((Button) view).setTag(item.getItemId());
+                    return true;
+                }
+            });
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_scanner) {
@@ -249,33 +294,68 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
         }
 
         if (item.getItemId() == R.id.action_add) {
-            //todo
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                    "Выбfghfgjhfgh!", Toast.LENGTH_LONG);
-            toast.show();
+
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            builder.setView(inflater.inflate(R.layout.dummy_fragment, null));
+            final View dialogView = inflater.inflate(R.layout.add_transindept_menu_layout, null);
+            builder.setView(dialogView);
+            final Button sstore = (Button) dialogView.findViewById(R.id.storage_button);
+            final Button sinstore = (Button) dialogView.findViewById(R.id.sintorage_button);
+            sstore.setOnClickListener(new storageClickListener());
+            sinstore.setOnClickListener(new storageClickListener());
+
+
             builder
-                    .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            //todo вызвать апи на создание документа,получить в ответе NRN
-                            //ParusService.getService().addTransindept(new Transindept());
-                            //todo cделать поток получить созданный документ
-                            //Transindepts transindepts = ParusService.getService().transindeptByNRN(NRN);
-                            //todo записать в бд
-                            //getActivity().getContentResolver().bulkInsert(TransindeptProvider.URI, transindepts.toContentValues());
-                            //todo рестартануть лоадер
+                            Log.d("sstore", sstore.getText().toString());
+                            Log.d("sinstore", sinstore.getText().toString());
+                            if (sstore.getTag() == null || sinstore.getTag() == null) {
+                                Toast toast = Toast.makeText(getActivity(),
+                                        "Задайте склады!", Toast.LENGTH_LONG);
+                                toast.show();
+                            } else {
+                                Thread myThread = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Transindept t = new Transindept();
+                                            t.setSSTORE(sstore.getText().toString());
+                                            t.setSIN_STORE(sinstore.getText().toString());
+                                            Status response = ParusService.getService().addTransindept(t);
+                                            Log.d("RESP>>>!!!", response.getNRN() + "");
+                                            Transindepts transindepts = ParusService.getService().transindeptByNRN(response.getNRN() + "");
+                                            getActivity().getContentResolver().bulkInsert(TransindeptProvider.URI, transindepts.toContentValues());
+                                        } catch (RetrofitError e) {
+                                            try {
+                                                e.printStackTrace();
+                                                //Log.e("ERROR>>", e.printStackTrace());
+                                                Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());
+                                            } catch (IOException e1) {
+
+                                                Log.e("ERROR>>", "((((");
+                                            }
+
+                                        }
+                                    }
+                                });
+
+                                myThread.start();
 
 
-                            /*final Bundle extras = new Bundle();
-                            extras.putLong(SyncAdapter.KEY_DELETE_TRANSINDEPT_SPEC_ID, trId);
-                            ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, extras);*/
+                                do {
+                                    try {
+                                        myThread.join(250);//Подождать окончания  четверть секунды.
+                                    } catch (InterruptedException e) {
+                                    }
+                                }
+                                while (myThread.isAlive());
+                        }
                         }
                     })
-                    .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
 
