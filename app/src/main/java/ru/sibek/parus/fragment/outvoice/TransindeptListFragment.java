@@ -129,14 +129,13 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        initControlPanel();
-
-
-        //TextView emptyDetailView = ((TextView) getActivity().findViewById(R.id.detail_empty_textView));
-        // emptyDetailView.setVisibility(View.VISIBLE);
+        if (ControlPanel.controlFragment == null) {
+            initControlPanel();
+        }
         if (loader.getId() == R.id.transindept_loader) {
             mListAdapter.swapCursor(data);
-            //emptyDetailView.setText("Выберите накладную");
+            Log.d(">>>", "onLoadFinished!!!");
+            //setSelection(3);
         }
 
     }
@@ -144,6 +143,7 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         if (loader.getId() == R.id.transindept_loader) {
+            Log.d(">>>", "RESETLOADER22222!!!");
             mListAdapter.swapCursor(null);
         }
     }
@@ -228,7 +228,7 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
     }
 
     static class ControlPanel {
-        static TransindeptControlPanelFragment controlFragment;
+        static TransindeptControlPanelFragment controlFragment = null;
         /*static TextView cDate;
         static TextView cItemName;
         static Button cButton;*/
@@ -328,6 +328,7 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
                                             Log.d("RESP>>>!!!", response.getNRN() + "");
                                             Transindepts transindepts = ParusService.getService().transindeptByNRN(response.getNRN() + "");
                                             getActivity().getContentResolver().bulkInsert(TransindeptProvider.URI, transindepts.toContentValues());
+                                            //todo выделить в списке добавленный элемеент
                                         } catch (RetrofitError e) {
                                             try {
                                                 e.printStackTrace();
@@ -352,7 +353,8 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
                                     }
                                 }
                                 while (myThread.isAlive());
-                        }
+
+                            }
                         }
                     })
                     .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
