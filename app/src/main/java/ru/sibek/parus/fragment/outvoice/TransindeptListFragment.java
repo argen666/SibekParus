@@ -219,7 +219,27 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
 
     @Override
     protected void onRefresh(Account account) {
-        ContentResolver.requestSync(account, ParusAccount.AUTHORITY, new Bundle());
+        final Account acc = account;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder
+                .setMessage("Обновление может занять продолжительное время.\nОбновить все документы?")
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        ContentResolver.requestSync(acc, ParusAccount.AUTHORITY, new Bundle());
+                    }
+                })
+                .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+                        setRefreshing(false);
+                        return;
+                    }
+                }).show();
+
     }
 
     @Override
@@ -344,7 +364,6 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
                                 });
 
                                 myThread.start();
-
 
                                 do {
                                     try {

@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.LoaderManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -19,10 +20,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.Scanner;
+
+import retrofit.RetrofitError;
+import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.fragment.outvoice.TransindeptListFragment;
+import ru.sibek.parus.fragment.outvoice.TransindeptSpecFragment;
+import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
+import ru.sibek.parus.sqlite.outinvoices.TransindeptSpecProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
 import ru.sibek.parus.view.DummyFragment;
 
@@ -168,40 +177,40 @@ public class TransindeptControlPanelFragment extends Fragment {
         });
 
         actionBtn = (Button) view.findViewById(R.id.ininvoice_button);
-        /*actionBtn.setOnClickListener(new View.OnClickListener() {
+        actionBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 long invoiceId = (long) actionBtn.getTag();
                 Log.d("CP_CLICK>>>", invoiceId + "");
                 Cursor cur = getActivity().getContentResolver().query(
-                        InvoiceSpecProvider.URI, new String[]{
-                                InvoiceSpecProvider.Columns.NDISTRIBUTION_SIGN,
-                                InvoiceSpecProvider.Columns.SRACK,
-                                InvoiceSpecProvider.Columns.LOCAL_ICON
-                        }, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{String.valueOf(invoiceId)}, null
+                        TransindeptSpecProvider.URI, new String[]{
+                                TransindeptSpecProvider.Columns.NDISTRIBUTION_SIGN,
+                                TransindeptSpecProvider.Columns.SRACK,
+                                TransindeptSpecProvider.Columns.LOCAL_ICON
+                        }, TransindeptSpecProvider.Columns.TRANSINDEPT_ID + "=?", new String[]{String.valueOf(invoiceId)}, null
                 );
                 boolean isChecked = true;
                 boolean isSrack = true;
                 try {
                     if (cur.moveToFirst()) {
                         do {
-                            if (InvoiceSpecProvider.getSRACK(cur) == null && InvoiceSpecProvider.getNDISTRIBUTION_SIGN(cur) == 1) {
+                            /*if (TransindeptSpecProvider.getSRACK(cur) == null && TransindeptSpecProvider.getNDISTRIBUTION_SIGN(cur) == 1) {
                                 isSrack = false;
                                 break;
-                            }
+                            }*/
 
-                            if (InvoiceSpecProvider.getLOCAL_ICON(cur) == 0 || InvoiceSpecProvider.getLOCAL_ICON(cur) == R.drawable.invoice_spec_non_accepted) {
+                            if (TransindeptSpecProvider.getLOCAL_ICON(cur) == 0 || TransindeptSpecProvider.getLOCAL_ICON(cur) == R.drawable.invoice_spec_non_accepted) {
                                 isChecked = false;
                                 break;
                             }
                         }
                         while (cur.moveToNext());
 
-                        if (!isSrack) {
+                       /* if (!isSrack) {
                             Toast.makeText(getActivity(), "Не определено место хранения!", Toast.LENGTH_LONG).show();
                             return;
-                        }
+                        }*/
 
                         if (!isChecked) {
                             Toast.makeText(getActivity(), "Выберите все позиции!", Toast.LENGTH_LONG).show();
@@ -209,16 +218,43 @@ public class TransindeptControlPanelFragment extends Fragment {
                             //POST
                             Log.d("CP_CLICK>>>", "POST!!!");
                             Cursor cNRN = getActivity().getContentResolver().query(
-                                    InvoiceProvider.URI, new String[]{
-                                            InvoiceProvider.Columns.NRN
-                                    }, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(invoiceId)}, null
+                                    TransindeptProvider.URI, new String[]{
+                                            TransindeptProvider.Columns.NRN
+                                    }, TransindeptProvider.Columns._ID + "=?", new String[]{String.valueOf(invoiceId)}, null
                             );
                             cNRN.moveToFirst();
-                            long nrn = InvoiceProvider.getNRN(cNRN);
+                            final long nrn = TransindeptProvider.getNRN(cNRN);
 
-                            final Bundle syncExtras = new Bundle();
-                            syncExtras.putLong(SyncAdapter.KEY_POST_INVOICE_ID, invoiceId);
-                            ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
+                            Thread myThread = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+
+                                        ParusService.getService().applyTransindeptAsFactWithIncome(nrn);
+                                    } catch (RetrofitError e) {
+                                        try {
+                                            Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());
+                                        } catch (IOException e1) {
+
+                                            Log.e("ERROR>>", "((((");
+                                        }
+
+                                    }
+                                }
+                            });
+
+                            myThread.start();
+
+
+                            do {
+                                try {
+                                    myThread.join(250);//Подождать окончания  четверть секунды.
+                                } catch (InterruptedException e) {
+                                }
+                            }
+                            while (myThread.isAlive());
+                            //обновляем
+                            ((TransindeptSpecFragment) ((TransindeptListFragment) mFragment).getSpecInvoiceByID(invoiceId)).refreshSpec(ParusApplication.sAccount);
                             Fragment f = getActivity().getFragmentManager().findFragmentById(R.id.detail_frame);
                             if (f != null)
                                 getActivity().getFragmentManager().beginTransaction().remove(f).commit();
@@ -238,7 +274,7 @@ public class TransindeptControlPanelFragment extends Fragment {
                     cur.close();
                 }
             }
-        });*/
+        });
 
         return view;
     }

@@ -197,6 +197,10 @@ public class TransindeptSpecFragment extends SwipeToRefreshList implements Loade
         ContentResolver.requestSync(account, ParusAccount.AUTHORITY, extras);
     }
 
+    public void refreshSpec(Account account) {
+        onRefresh(account);
+    }
+
     @Override
     protected void onSyncStatusChanged(Account account, boolean isSyncActive) {
         setRefreshing(isSyncActive);

@@ -86,6 +86,10 @@ public interface Parus {
     Status addTransindept(@Body Transindept json);
 
     @FormUrlEncoded
+    @POST("/parus/ru/transindept/")
+    Status applyTransindeptAsFactWithIncome(@Field("NRN") long nrn);
+
+    @FormUrlEncoded
     @POST("/parus/ru/transindeptspec/{NPRN}")
     Response addTransindeptSpecByMasterNRN(@Path("NPRN") long nrn, @Field("NNOMEN") String nnomen);
 
