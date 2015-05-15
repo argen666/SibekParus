@@ -13,4 +13,6 @@ public interface Types {
     final String INORDERS = OrdersListFragment.class.getName();
     final String OUTINVOICES_TAB = "OUTINVOICES_TAB";
     final String TRANSINDEPT = TransindeptListFragment.class.getName();
+    final String COMPLECTATIONS_TAB = "COMPLECTATIONS_TAB";
+    final String COMPLECTATION = TransindeptListFragment.class.getName();
 }

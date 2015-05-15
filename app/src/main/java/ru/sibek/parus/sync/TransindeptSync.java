@@ -1,16 +1,19 @@
 package ru.sibek.parus.sync;
 
 import android.content.ContentProviderClient;
+import android.content.ContentValues;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.os.RemoteException;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import ru.sibek.parus.mappers.ContentValuesUtils;
 import ru.sibek.parus.mappers.outvoices.TransindeptSpec;
 import ru.sibek.parus.mappers.outvoices.Transindepts;
 import ru.sibek.parus.rest.ParusService;
@@ -79,8 +82,16 @@ public class TransindeptSync {
                     syncResult.stats.numDeletes += provider
                             .delete(TransindeptProvider.URI, null, null);
 
-                    syncResult.stats.numUpdates += provider
-                            .bulkInsert(TransindeptProvider.URI, transindepts.toContentValues());
+                    ContentValues[] cValues = transindepts.toContentValues();
+                    List<ContentValues[]> chunkValues = ContentValuesUtils.splitArrayIntoChunk(cValues, 100);
+                    for (ContentValues[] chunkValue : chunkValues) {
+                        syncResult.stats.numUpdates += provider
+                                .bulkInsert(TransindeptProvider.URI, chunkValue);
+                        Log.d("TransindeptChunkValue>", "chunkValue size>>>" + chunkValue.length);
+                    }
+
+                    /*syncResult.stats.numUpdates += provider
+                            .bulkInsert(TransindeptProvider.URI, cValues);*/
 
                     //n.getData(null, "FULL_INSERT_INVOICE", "listInvoices", "0");
                     Log.d("Transindepts>", "Transindepts FIRST INSERT");

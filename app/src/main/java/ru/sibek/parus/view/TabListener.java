@@ -48,8 +48,8 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                 Log.d("IN_NULL", cPanel.getId() + "");
             } else {
                 // if (cPanel instanceof InvoiceControlPanelFragment) {
-                    Log.d("IN_!NULL", cPanel.getId() + "");
-                    ft.attach(cPanel);
+                Log.d("IN_!NULL", cPanel.getId() + "");
+                ft.attach(cPanel);
 
 
             }
@@ -63,10 +63,25 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                     Log.d("IN_NULL", cPanel.getId() + "");
                 } else {
                     // if (cPanel instanceof InvoiceControlPanelFragment) {
-                        Log.d("IN_!NULL", cPanel.getId() + "");
-                        ft.attach(cPanel);
+                    Log.d("IN_!NULL", cPanel.getId() + "");
+                    ft.attach(cPanel);
                     // }
 
+                }
+            } else {
+                if (mTag == Types.COMPLECTATIONS_TAB) {
+                    if (cPanel == null) {
+                        //cPanel = InvoiceControlPanelFragment.newInstance(mClass.getName());
+                        cPanel = ControlFragmentFactory.getControlPanel(Types.COMPLECTATION);
+                        ft.add(R.id.control_panel_frame, cPanel);
+                        Log.d("IN_NULL", cPanel.getId() + "");
+                    } else {
+                        // if (cPanel instanceof InvoiceControlPanelFragment) {
+                        Log.d("IN_!NULL", cPanel.getId() + "");
+                        ft.attach(cPanel);
+                        // }
+
+                    }
                 }
             }
             /*Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);

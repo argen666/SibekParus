@@ -19,6 +19,7 @@
         android:textSize="26dp"
         android:textStyle="bold"
         android:gravity="center"
+        android:visibility="invisible"
         android:id="@+id/ininvoice_item_name" />
 
     <Button
@@ -36,6 +37,7 @@
         android:textSize="26dp"
         android:textStyle="bold"
         android:gravity="center"
+        android:visibility="invisible"
         android:paddingLeft="50dp"
         android:id="@+id/ininvoice_date" />
 

@@ -62,6 +62,7 @@ import ru.sibek.parus.mappers.outvoices.Transindepts;
 import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
+import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
 //import com.elegion.newsfeed.activity.NewsActivity;
@@ -219,6 +220,9 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
 
     @Override
     protected void onRefresh(Account account) {
+        final Bundle extras = new Bundle();
+        extras.putBoolean(SyncAdapter.ALL_TRANSINDEPTS, true);
+        //ContentResolver.requestSync(account, ParusAccount.AUTHORITY, extras);
         final Account acc = account;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -227,7 +231,7 @@ public class TransindeptListFragment extends SwipeToRefreshList implements Loade
                 .setPositiveButton("Да", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        ContentResolver.requestSync(acc, ParusAccount.AUTHORITY, new Bundle());
+                        ContentResolver.requestSync(acc, ParusAccount.AUTHORITY, extras);
                     }
                 })
                 .setNegativeButton("Нет", new DialogInterface.OnClickListener() {

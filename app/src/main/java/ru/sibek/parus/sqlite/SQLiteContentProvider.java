@@ -34,6 +34,8 @@ import android.text.TextUtils;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import ru.sibek.parus.sqlite.complectations.ComplectationProvider;
+import ru.sibek.parus.sqlite.complectations.ComplectationSpecProvider;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
 import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
@@ -66,6 +68,8 @@ public class SQLiteContentProvider extends ContentProvider {
         SCHEMA.put(OrderSpecProvider.TABLE_NAME, new OrderSpecProvider());
         SCHEMA.put(TransindeptProvider.TABLE_NAME, new TransindeptProvider());
         SCHEMA.put(TransindeptSpecProvider.TABLE_NAME, new TransindeptSpecProvider());
+        SCHEMA.put(ComplectationProvider.TABLE_NAME, new ComplectationProvider());
+        SCHEMA.put(ComplectationSpecProvider.TABLE_NAME, new ComplectationSpecProvider());
     }
 
     private final SQLiteUriMatcher mUriMatcher = new SQLiteUriMatcher();

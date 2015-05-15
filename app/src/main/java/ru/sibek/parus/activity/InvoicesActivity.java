@@ -83,7 +83,7 @@ public class InvoicesActivity extends Activity {
         tab = actionBar.newTab()
                 .setText("Комплект.")
                 .setTabListener(new TabListener<DummyFragment>(
-                        this, "complectation", DummyFragment.class));
+                        this, Types.COMPLECTATIONS_TAB, DummyFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar.newTab()

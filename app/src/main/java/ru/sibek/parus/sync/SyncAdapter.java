@@ -34,6 +34,10 @@ import ru.sibek.parus.sqlite.storages.StorageProvider;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
+    public static final String ALL_INVOICES = "ALL_INVOICES";
+    public static final String ALL_ORDERS = "ALL_ORDERS";
+    public static final String ALL_TRANSINDEPTS = "ALL_TRANSINDEPTS";
+
     public static final String KEY_POST_INVOICE_ID = "ru.sibek.parus.sync.KEY_POST_INVOICE_ID";
     public static final String KEY_INVOICE_ID = "ru.sibek.parus.sync.KEY_INVOICE_ID";
     public static final String KEY_STORAGE_ID = "ru.sibek.parus.sync.KEY_STORAGE_ID";
@@ -49,6 +53,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider,
                               SyncResult syncResult) {
+        final boolean allInvoices = extras.getBoolean(ALL_INVOICES, false);
+        final boolean allOrders = extras.getBoolean(ALL_ORDERS, false);
+        final boolean allTransindepts = extras.getBoolean(ALL_TRANSINDEPTS, false);
+
         final long postId = extras.getLong(KEY_POST_INVOICE_ID, -1);
         final long feedId = extras.getLong(KEY_INVOICE_ID, -1);
         final long storageId = extras.getLong(KEY_STORAGE_ID, -1);
@@ -56,12 +64,32 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final long orderId = extras.getLong(KEY_INORDER_ID, -1);
         final long transindeptId = extras.getLong(KEY_TRANSINDEPT_ID, -1);
         final long transindeptSpecDeleteId = extras.getLong(KEY_DELETE_TRANSINDEPT_SPEC_ID, -1);
+        Log.d("ALL_DOCUMS>>", allInvoices + "  " + allOrders + "  " + allTransindepts + "");
+        if (allInvoices) {
+            Log.d("ALL_INVOICES>>", allInvoices + "");
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
+            return;
+        }
+        ;
+        if (allOrders) {
+            Log.d("ALL_ORDERS>>", allOrders + "");
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_INORDERS);
+            return;
+        }
+        ;
+        if (allTransindepts) {
+            Log.d("ALL_TRANSINDEPTS>>", allTransindepts + "");
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_TRANSINDEPT);
+            return;
+        }
+        ;
+
         Log.d(Log.INFO + ">>>>", "feed>>" + feedId + " store>>" + storageId + " rackId>>" + rackId + " orderId>>" + orderId + " transindeptId>>" + transindeptId);
         if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1 && orderId == -1 && transindeptId == -1 && transindeptSpecDeleteId == -1) {
-            //startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
-            //startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
-            //startSync(provider, syncResult, null, null, SyncActions.SYNC_INORDERS);
+            //--startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_INORDERS);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_TRANSINDEPT);
         }
 
@@ -174,6 +202,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 });
 
                 myThread.start();
+                do {
+                    try {
+                        myThread.join(250);
+                    } catch (InterruptedException e) {
+                    }
+                } while (myThread.isAlive());
                 break;
             }
             case SyncActions.SYNC_TRANSINDEPT_SPEC_DELETE: {
@@ -186,6 +220,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 });
 
                 myThread.start();
+               /* do{
+                    try {
+                        myThread.join(250);
+                    } catch (InterruptedException e) {
+                    }
+                }while (myThread.isAlive());*/
                 break;
             }
 

@@ -1,13 +1,16 @@
 package ru.sibek.parus.rest;
 
 import android.content.ContentProviderClient;
+import android.content.ContentValues;
 import android.content.SyncResult;
 import android.os.RemoteException;
 import android.util.Log;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import ru.sibek.parus.mappers.Cells;
+import ru.sibek.parus.mappers.ContentValuesUtils;
 import ru.sibek.parus.mappers.Racks;
 import ru.sibek.parus.mappers.Storages;
 import ru.sibek.parus.mappers.ininvoices.Invoices;
@@ -81,8 +84,16 @@ public class NetworkTask {
                     syncResult.stats.numDeletes += provider
                             .delete(OrderProvider.URI, null, null);
 
-                    syncResult.stats.numUpdates += provider
-                            .bulkInsert(OrderProvider.URI, ((Orders) ret).toContentValues());
+                    ContentValues[] cValues = ((Orders) ret).toContentValues();
+                    List<ContentValues[]> chunkValues = ContentValuesUtils.splitArrayIntoChunk(cValues, 100);
+                    for (ContentValues[] chunkValue : chunkValues) {
+                        syncResult.stats.numUpdates += provider
+                                .bulkInsert(OrderProvider.URI, chunkValue);
+                        Log.d("OrdersChunkValue>", "chunkValue size>>>" + chunkValue.length);
+                    }
+
+
+
                     //Log.d("FULL_INSERT_ORDER>>>>>>>>>>>>>", ((Orders) ret).toString());
                     Log.d("Orders>>>", "FULL_INSERT_ORDER>>>>>>>>>>>>>" + ((Orders) ret).toString());
                     break;
@@ -142,8 +153,14 @@ public class NetworkTask {
                     syncResult.stats.numDeletes += provider
                             .delete(InvoiceProvider.URI, null, null);
 
-                    syncResult.stats.numUpdates += provider
-                            .bulkInsert(InvoiceProvider.URI, ((Invoices) ret).toContentValues());
+                    ContentValues[] cValues = ((Invoices) ret).toContentValues();
+                    List<ContentValues[]> chunkValues = ContentValuesUtils.splitArrayIntoChunk(cValues, 100);
+                    for (ContentValues[] chunkValue : chunkValues) {
+                        syncResult.stats.numUpdates += provider
+                                .bulkInsert(InvoiceProvider.URI, chunkValue);
+                        Log.d("InvoicesChunkValue>", "chunkValue size>>>" + chunkValue.length);
+                    }
+
                     Log.d("FULL_INSERT_INVOICE>>>>>>>>>>>>>", ((Invoices) ret).toString());
                     break;
                 }
