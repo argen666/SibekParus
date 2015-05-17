@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ru.sibek.parus.R;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
@@ -63,7 +64,7 @@ public class TransindeptSpecListItem extends LinearLayout implements CursorBinde
 
     @Override
     @SuppressLint("StringFormatMatches")
-    public void bindCursor(Cursor c) {
+    public void bindCursor(final Cursor c) {
         specId = TransindeptSpecProvider.getId(c);
 
         mTitle.setText(TransindeptSpecProvider.getSNOMENNAME(c)/*+">>"+TransindeptSpecProvider.getLOCAL_ICON(c)*//*+">>"+TransindeptSpecProvider.getNRN(c)+"/"+TransindeptSpecProvider.getNPRN(c)*/);
@@ -117,6 +118,12 @@ public class TransindeptSpecListItem extends LinearLayout implements CursorBinde
                 return true;
             }
         });
+        final long nrn = TransindeptSpecProvider.getNRN(c);
+        mDelete.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                Log.d("DELETE_SPEC",nrn+"");
+                Toast.makeText(getContext(),""+nrn,Toast.LENGTH_LONG).show();
+            }});
         final long iconId = TransindeptSpecProvider.getLOCAL_ICON(c);
         if (iconId != 0) {
             mSelect.setTag((int) iconId);
