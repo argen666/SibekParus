@@ -93,7 +93,7 @@ public class OrderListItem extends LinearLayout implements CursorBinder {
         // mIcon = (FeedIconView) findViewById(R.id.feed_icon);
         mTitle = (TextView) findViewById(R.id.title);
         mAgent = (TextView) findViewById(R.id.agent);
-        mDocDate = (TextView) findViewById(R.id.doc_date);
+        mDocDate = (TextView) findViewById(R.id.order_doc_date);
         mStatus = (TextView) findViewById(R.id.status);
         mInvoiceIcon = (ImageView) findViewById(R.id.status_image);
     }

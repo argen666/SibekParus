@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.sibek.parus.sqlite.outinvoices;
+package ru.sibek.parus.sqlite.complectations;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,13 +24,13 @@ import android.provider.BaseColumns;
 import ru.sibek.parus.sqlite.SQLiteTableProvider;
 
 
-public class TransindeptSpecProvider extends SQLiteTableProvider {
+public class ComplectationSpecProvider extends SQLiteTableProvider {
 
-    public static final String TABLE_NAME = "transindeptsspec";
+    public static final String TABLE_NAME = "complectationsspec";
 
     public static final Uri URI = Uri.parse("content://ru.sibek.parus/" + TABLE_NAME);
 
-    public TransindeptSpecProvider() {
+    public ComplectationSpecProvider() {
         super(TABLE_NAME);
     }
 
@@ -38,7 +38,7 @@ public class TransindeptSpecProvider extends SQLiteTableProvider {
         return c.getLong(c.getColumnIndex(Columns._ID));
     }
 
-    public static String getSNOMENNAME(Cursor c) {
+/*    public static String getSNOMENNAME(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SNOMENNAME));
     }
 
@@ -49,17 +49,17 @@ public class TransindeptSpecProvider extends SQLiteTableProvider {
 
     public static String getSNOTE(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SNOTE));
-    }
+    }*/
 
     public static String getSRACK(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SRACK));
     }
 
-    public static String getSCELL(Cursor c) {
+  /*  public static String getSCELL(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SCELL));
-    }
+    }*/
 
-    public static String getSNOMEN(Cursor c) {
+  /*  public static String getSNOMEN(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SNOMEN));
     }
 
@@ -72,16 +72,9 @@ public class TransindeptSpecProvider extends SQLiteTableProvider {
     }
 
     public static double getNSTOREQUANT(Cursor c) {
-        return c.getDouble(c.getColumnIndex(Columns.NSTOREQUANT));
-    }
+        return c.getDouble(c.getColumnIndex(Columns.NSTOREQUANT));*/
+    //}
 
-    public static long getNSTORE(Cursor c) {
-        return c.getInt(c.getColumnIndex(Columns.NSTORE));
-    }
-
-    public static long getNPRICE(Cursor c) {
-        return c.getLong(c.getColumnIndex(Columns.NPRICE));
-    }
 
     public static long getNRN(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.NRN));
@@ -91,34 +84,16 @@ public class TransindeptSpecProvider extends SQLiteTableProvider {
         return c.getLong(c.getColumnIndex(Columns.NPRN));
     }
 
-    public static long getNSUMMTAX(Cursor c) {
-        return c.getLong(c.getColumnIndex(Columns.NSUMMTAX));
+
+    public static long getCOMPLECTATION_ID(Cursor c) {
+        return c.getLong(c.getColumnIndex(Columns.COMPLECTATION_ID));
     }
 
-    public static long getNDISTRIBUTION_SIGN(Cursor c) {
-        return c.getLong(c.getColumnIndex(Columns.NDISTRIBUTION_SIGN));
-    }
-
-    public static long getTRANSINDEPT_ID(Cursor c) {
-        return c.getLong(c.getColumnIndex(Columns.TRANSINDEPT_ID));
-    }
-
-    public static long getNRACK(Cursor c) {
-        return c.getLong(c.getColumnIndex(Columns.NRACK));
-    }
 
     public static long getLOCAL_ICON(Cursor c) {
         return c.getLong(c.getColumnIndex(Columns.LOCAL_ICON));
     }
 
-
-    public static String getLOCAL_SRACK(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.LOCAL_SRACK));
-    }
-
-    public static String getLOCAL_SCELL(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.LOCAL_SCELL));
-    }
 
     public static double getLOCAL_NQUANT(Cursor c) {
         return c.getDouble(c.getColumnIndex(Columns.LOCAL_NQUANT));
@@ -133,61 +108,68 @@ public class TransindeptSpecProvider extends SQLiteTableProvider {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table if not exists " + TABLE_NAME +
                 "(" + Columns._ID + " integer primary key on conflict replace, "
-                + Columns.SNOMEN + " text, "
-                + Columns.SNOMENNAME + " text, "
 
-                + Columns.SMEAS_MAIN + " text, "
-                + Columns.NQUANT + " integer, "
-                + Columns.NSTOREQUANT + " integer, "
-                + Columns.NPRICE + " integer, "
+                + Columns.SMATRES_CODE + " text, "
+                + Columns.SMATRES_NAME + " text, "
+                + Columns.SMATRES_NOMEN + " text, "
+                + Columns.SMATRES_MODIF + " text, "
+                + Columns.SPART_OF_CODE + " text, "
+                + Columns.SPART_OF_NAME + " text, "
+                + Columns.SPART_OF_NOMEN + " text, "
+                + Columns.SPART_OF_MODIF + " text, "
 
-                + Columns.NRACK + " integer, "
+                + Columns.DDATE_PLAN + " integer, "
                 + Columns.SRACK + " text, "
-                + Columns.SCELL + " text, "
-                + Columns.NDISTRIBUTION_SIGN + " integer, "
+                + Columns.SMATRES_UMEAS + " text, "
+                + Columns.NQUANT_SPEC + " integer, "
+                + Columns.NQUANT_PROD + " integer, "
+                + Columns.NQUANT_PLAN + " integer, "
+                + Columns.NQUANT_CMPL + " integer, "
+                + Columns.NQUANT_DLVR + " integer, "
+                + Columns.SQUANT + " text, "
 
                 + Columns.NRN + " integer, "
                 + Columns.NPRN + " integer, "
 
 
                 + Columns.LOCAL_NQUANT + " integer, "
-                + Columns.LOCAL_SRACK + " text, "
-                + Columns.LOCAL_SCELL + " text, "
                 + Columns.LOCAL_ICON + " integer, "
 
 
-                + Columns.TRANSINDEPT_ID + " integer);");
+                + Columns.COMPLECTATION_ID + " integer);");
         db.execSQL("create index if not exists " +
-                TABLE_NAME + "_" + Columns.TRANSINDEPT_ID + "_index" +
-                " on " + TABLE_NAME + "(" + Columns.TRANSINDEPT_ID + ");");
+                TABLE_NAME + "_" + Columns.COMPLECTATION_ID + "_index" +
+                " on " + TABLE_NAME + "(" + Columns.COMPLECTATION_ID + ");");
+
     }
 
     public interface Columns extends BaseColumns {
-        String SNOMEN = "SNOMEN";
-        String SNOMENNAME = "SNOMENNAME";
-        String SSERNUMB = "SSERNUMB";
-        String SSTORE = "SSTORE";
-        String NSTORE = "NSTORE";
-        String SMEAS_MAIN = "SMEAS_MAIN";
-        String SNOTE = "SNOTE";
-        String NQUANT = "NQUANT";
-        String NSTOREQUANT = "NSTOREQUANT";
-        String NPRICE = "NPRICE";
-        String NSUMMTAX = "NSUMMTAX";
-        String TRANSINDEPT_ID = "TRANSINDEPT_ID";
+        String SMATRES_CODE = "SMATRES_CODE";
+        String SMATRES_NAME = "SMATRES_NAME";
+        String SMATRES_NOMEN = "SMATRES_NOMEN";
+        String SMATRES_MODIF = "SMATRES_MODIF";
+        String SPART_OF_CODE = "SPART_OF_CODE";
+        String SPART_OF_NAME = "SPART_OF_NAME";
+        String SPART_OF_NOMEN = "SPART_OF_NOMEN";
+        String SPART_OF_MODIF = "SPART_OF_MODIF";
+        String DDATE_PLAN = "DDATE_PLAN";
+        String SMATRES_UMEAS = "SMATRES_UMEAS";
+        String NQUANT_PROD = "NQUANT_PROD";
+        String NQUANT_PLAN = "NQUANT_PLAN";
+        String NQUANT_CMPL = "NQUANT_CMPL";
+        String NQUANT_DLVR = "NQUANT_DLVR";
+        String SQUANT = "SQUANT";
+        String NQUANT_SPEC = "NQUANT_SPEC";
+
+        String COMPLECTATION_ID = "COMPLECTATION_ID";
+
+
         String NRN = "NRN";
         String NPRN = "NPRN";
 
-        String NRACK = "NRACK";
         String SRACK = "SRACK";
-        String SCELL = "SCELL";
-        String NDISTRIBUTION_SIGN = "NDISTRIBUTION_SIGN";
-
 
         String LOCAL_NQUANT = "LOCAL_NQUANT";
-        String LOCAL_SRACK = "LOCAL_SRACK";
-        String LOCAL_SCELL = "LOCAL_SCELL";
-        String LOCAL_SSTORE = "LOCAL_SSTORE";
         String LOCAL_ICON = "LOCAL_ICON";
     }
 

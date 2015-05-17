@@ -1,4 +1,4 @@
-package ru.sibek.parus.fragment.outvoice;
+package ru.sibek.parus.fragment.complectation;
 
 import android.accounts.Account;
 import android.app.AlertDialog;
@@ -39,7 +39,7 @@ import ru.sibek.parus.widget.CursorBinderAdapter;
 /**
  * Created by Developer on 13.10.2014.
  */
-public class TransindeptSpecFragment extends SwipeToRefreshList implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ComplectationSpecFragment extends SwipeToRefreshList implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String KEY_TRANSINDEPT_ID = "ru.sibek.parus.sync.KEY_TRANSINDEPT_ID";
 
@@ -54,8 +54,8 @@ public class TransindeptSpecFragment extends SwipeToRefreshList implements Loade
 
     private CursorAdapter mListAdapter;
 
-    public static TransindeptSpecFragment newInstance(long invoiceId) {
-        final TransindeptSpecFragment fragment = new TransindeptSpecFragment();
+    public static ComplectationSpecFragment newInstance(long invoiceId) {
+        final ComplectationSpecFragment fragment = new ComplectationSpecFragment();
         final Bundle args = new Bundle();
         args.putLong(KEY_TRANSINDEPT_ID, invoiceId);
         fragment.setArguments(args);

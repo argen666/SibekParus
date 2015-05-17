@@ -187,4 +187,10 @@ public class SwipeToRefreshList extends Fragment implements SwipeRefreshLayout.O
                 : ListView.CHOICE_MODE_NONE);
     }
 
+    public void setSelection(int position) {
+        //mListView.setSelection(position);
+        //mListView.performItemClick(mListView, position, mListView.getItemIdAtPosition(position));
+
+    }
+
 }

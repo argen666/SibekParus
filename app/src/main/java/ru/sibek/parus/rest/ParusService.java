@@ -32,6 +32,7 @@ public class ParusService {
             instance = new RestAdapter.Builder()
                     .setConverter(new GsonConverter(gson))
                     .setEndpoint(API_URL)
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
                     .build()
                     .create(Parus.class);
         }

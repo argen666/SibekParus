@@ -1,5 +1,6 @@
 package ru.sibek.parus.fragment;
 
+import ru.sibek.parus.fragment.complectation.ComplectationListFragment;
 import ru.sibek.parus.fragment.ininvoice.InvoicesListFragment;
 import ru.sibek.parus.fragment.ininvoice.OrdersListFragment;
 import ru.sibek.parus.fragment.outvoice.TransindeptListFragment;
@@ -13,4 +14,6 @@ public interface Types {
     final String INORDERS = OrdersListFragment.class.getName();
     final String OUTINVOICES_TAB = "OUTINVOICES_TAB";
     final String TRANSINDEPT = TransindeptListFragment.class.getName();
+    final String COMPLECTATIONS_TAB = "COMPLECTATIONS_TAB";
+    final String COMPLECTATION = ComplectationListFragment.class.getName();
 }

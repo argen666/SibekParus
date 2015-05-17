@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.sibek.parus.fragment.outvoice;
+package ru.sibek.parus.fragment.complectation;
 
 import android.accounts.Account;
 import android.app.AlertDialog;
@@ -56,6 +56,7 @@ import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
 import ru.sibek.parus.fragment.controlpanel.TransindeptControlPanelFragment;
 import ru.sibek.parus.fragment.ininvoice.InvoicesSpecFragment;
+import ru.sibek.parus.fragment.outvoice.TransindeptSpecFragment;
 import ru.sibek.parus.mappers.Status;
 import ru.sibek.parus.mappers.outvoices.Transindept;
 import ru.sibek.parus.mappers.outvoices.Transindepts;
@@ -69,7 +70,7 @@ import ru.sibek.parus.widget.CursorBinderAdapter;
 //import ru.sibek.parus.activity.SpecActivity;
 
 
-public class TransindeptListFragment extends SwipeToRefreshList implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ComplectationListFragment extends SwipeToRefreshList implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private CursorAdapter mListAdapter;
     private InvoicesSpecFragment specFragment;

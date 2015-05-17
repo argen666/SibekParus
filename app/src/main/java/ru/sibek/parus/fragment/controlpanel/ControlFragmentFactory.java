@@ -20,6 +20,9 @@ public class ControlFragmentFactory {
         if (type == Types.TRANSINDEPT) {
             cp = TransindeptControlPanelFragment.newInstance(position);
         }
+        if (type == Types.COMPLECTATION) {
+            cp = ComplectationControlPanelFragment.newInstance(position);
+        }
         return cp;
     }
 

@@ -17,23 +17,28 @@
 package ru.sibek.parus.view;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
+import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptSpecProvider;
+import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.widget.CursorBinder;
 
 /**
@@ -64,7 +69,7 @@ public class TransindeptSpecListItem extends LinearLayout implements CursorBinde
 
     @Override
     @SuppressLint("StringFormatMatches")
-    public void bindCursor(final Cursor c) {
+    public void bindCursor(Cursor c) {
         specId = TransindeptSpecProvider.getId(c);
 
         mTitle.setText(TransindeptSpecProvider.getSNOMENNAME(c)/*+">>"+TransindeptSpecProvider.getLOCAL_ICON(c)*//*+">>"+TransindeptSpecProvider.getNRN(c)+"/"+TransindeptSpecProvider.getNPRN(c)*/);
@@ -111,19 +116,39 @@ public class TransindeptSpecListItem extends LinearLayout implements CursorBinde
         );*/
         //mDelete.setTag(R.drawable.delete);
         //mDelete.setImageResource(R.drawable.delete);
-        mDelete.setOnTouchListener(new OnTouchListener() {
+        final long trId = TransindeptSpecProvider.getId(c);
+        //final long trId = TransindeptSpecProvider.getTRANSINDEPT_ID(c);
+        mDelete.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                builder
+                        .setMessage("Удалить запись?")
+                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                final Bundle extras = new Bundle();
+                                extras.putLong(SyncAdapter.KEY_DELETE_TRANSINDEPT_SPEC_ID, trId);
+                                ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, extras);
+                            }
+                        })
+                        .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                dialog.cancel();
+                            }
+                        }).show();
+            }
+        });
+      /*  mDelete.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
+
                 mDelete.setSelected(arg1.getAction() == MotionEvent.ACTION_DOWN);
                 return true;
             }
-        });
-        final long nrn = TransindeptSpecProvider.getNRN(c);
-        mDelete.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                Log.d("DELETE_SPEC",nrn+"");
-                Toast.makeText(getContext(),""+nrn,Toast.LENGTH_LONG).show();
-            }});
+        });*/
         final long iconId = TransindeptSpecProvider.getLOCAL_ICON(c);
         if (iconId != 0) {
             mSelect.setTag((int) iconId);

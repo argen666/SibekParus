@@ -50,14 +50,16 @@ public class OrderControlPanelFragment extends Fragment {
 
 
     public void addMasterFragment(Activity mActivity, int position) {
-
-
+        Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
+        if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
+        clearPanel();
         switch (position) {
             case 0: {
                 mFragment = Fragment.instantiate(mActivity, Types.ININVOICES);
 
                 Fragment cp = ControlFragmentFactory.getControlPanel(Types.ININVOICES, position);
                 ((InvoicesActivity) mActivity).replaceCP(cp);
+                //if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
                 break;
             }
             case 1: {
@@ -70,6 +72,7 @@ public class OrderControlPanelFragment extends Fragment {
             }
             case 2: {
                 mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
+                // if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
                 break;
             }
         }
@@ -103,6 +106,8 @@ public class OrderControlPanelFragment extends Fragment {
         visibility = btnVisibility;
         itemName.setText(itemTitle);
         itemDate.setText(date);
+        itemName.setVisibility(btnVisibility);
+        itemDate.setVisibility(btnVisibility);
         actionBtn.setVisibility(btnVisibility);
         actionBtn.setTag(btnTag);
         if (btnActText == null) {
@@ -115,10 +120,18 @@ public class OrderControlPanelFragment extends Fragment {
         }
     }
 
+    public void clearPanel() {
+        itemName.setVisibility(View.INVISIBLE);
+        itemDate.setVisibility(View.INVISIBLE);
+        actionBtn.setVisibility(View.INVISIBLE);
+
+    }
+
     private View getIninvoicesView(View view) {
+
         Log.d("getIninvoicesView", "getIninvoicesView");
 
-        spinner = (Spinner) view.findViewById(R.id.ininvoice_spinner);
+        spinner = (Spinner) view.findViewById(R.id.inorders_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.invoice_array, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
@@ -143,13 +156,13 @@ public class OrderControlPanelFragment extends Fragment {
         });
 
 
-        itemName = (TextView) view.findViewById(R.id.ininvoice_item_name);
+        itemName = (TextView) view.findViewById(R.id.inorders_item_name);
         itemName.setText(itemTitle);
 
-        itemDate = (TextView) view.findViewById(R.id.ininvoice_date);
+        itemDate = (TextView) view.findViewById(R.id.inorders_date);
         itemDate.setText(strDate);
 
-        actionBtn = (Button) view.findViewById(R.id.ininvoice_button);
+        actionBtn = (Button) view.findViewById(R.id.inorders_button);
         /*actionBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override

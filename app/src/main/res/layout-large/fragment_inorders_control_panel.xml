@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingLeft="20dp"
-        android:id="@+id/ininvoice_spinner" />
+        android:id="@+id/inorders_spinner" />
 
     <TextView
         android:layout_width="190dp"
@@ -19,7 +19,8 @@
         android:textSize="26dp"
         android:textStyle="bold"
         android:gravity="center"
-        android:id="@+id/ininvoice_item_name" />
+        android:visibility="invisible"
+        android:id="@+id/inorders_item_name" />
 
     <Button
         android:layout_width="230dp"
@@ -27,16 +28,17 @@
         android:text="Отработать ордер"
         android:textStyle="bold"
         android:visibility="invisible"
-        android:id="@+id/ininvoice_button" />
+        android:id="@+id/inorders_button" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text=""
         android:textSize="26dp"
+        android:visibility="invisible"
         android:textStyle="bold"
         android:gravity="center"
         android:paddingLeft="50dp"
-        android:id="@+id/ininvoice_date" />
+        android:id="@+id/inorders_date" />
 
 </LinearLayout>

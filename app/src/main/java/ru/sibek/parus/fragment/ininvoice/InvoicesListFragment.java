@@ -38,6 +38,7 @@ import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
 import ru.sibek.parus.fragment.controlpanel.InvoiceControlPanelFragment;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
+import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
 //import com.elegion.newsfeed.activity.NewsActivity;
@@ -182,7 +183,9 @@ public class InvoicesListFragment extends SwipeToRefreshList implements LoaderMa
 
     @Override
     protected void onRefresh(Account account) {
-        ContentResolver.requestSync(account, ParusAccount.AUTHORITY, new Bundle());
+        final Bundle extras = new Bundle();
+        extras.putBoolean(SyncAdapter.ALL_INVOICES, true);
+        ContentResolver.requestSync(account, ParusAccount.AUTHORITY, extras);
     }
 
     @Override

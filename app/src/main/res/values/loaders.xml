@@ -8,4 +8,5 @@
     <item name="orders_spec_loader" type="id" />
     <item name="transindept_loader" type="id" />
     <item name="transindept_spec_loader" type="id" />
+    <item name="complectation_loader" type="id" />
 </resources>

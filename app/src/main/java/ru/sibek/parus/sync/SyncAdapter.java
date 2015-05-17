@@ -27,11 +27,17 @@ import android.util.Log;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
+import ru.sibek.parus.sqlite.outinvoices.TransindeptSpecProvider;
 import ru.sibek.parus.sqlite.storages.RacksProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
 
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
+
+    public static final String ALL_INVOICES = "ALL_INVOICES";
+    public static final String ALL_ORDERS = "ALL_ORDERS";
+    public static final String ALL_TRANSINDEPTS = "ALL_TRANSINDEPTS";
+    public static final String ALL_COMPLECTATIONS = "ALL_COMPLECTATIONS";
 
     public static final String KEY_POST_INVOICE_ID = "ru.sibek.parus.sync.KEY_POST_INVOICE_ID";
     public static final String KEY_INVOICE_ID = "ru.sibek.parus.sync.KEY_INVOICE_ID";
@@ -39,6 +45,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String KEY_RACK_ID = "ru.sibek.parus.sync.KEY_RACK_ID";
     public static final String KEY_INORDER_ID = "ru.sibek.parus.sync.KEY_INORDER_ID";
     public static final String KEY_TRANSINDEPT_ID = "ru.sibek.parus.sync.KEY_TRANSINDEPT_ID";
+    public static final String KEY_DELETE_TRANSINDEPT_SPEC_ID = "ru.sibek.parus.sync.KEY_DELETE_TRANSINDEPT_SPEC_ID";
+    public static final String KEY_COMPLECTATION_ID = "ru.sibek.parus.sync.KEY_COMPLECTATION_ID";
 
     public SyncAdapter(Context context) {
         super(context, true);
@@ -47,18 +55,49 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider,
                               SyncResult syncResult) {
+        final boolean allInvoices = extras.getBoolean(ALL_INVOICES, false);
+        final boolean allOrders = extras.getBoolean(ALL_ORDERS, false);
+        final boolean allTransindepts = extras.getBoolean(ALL_TRANSINDEPTS, false);
+        final boolean allComplectations = extras.getBoolean(ALL_COMPLECTATIONS, false);
+
         final long postId = extras.getLong(KEY_POST_INVOICE_ID, -1);
         final long feedId = extras.getLong(KEY_INVOICE_ID, -1);
         final long storageId = extras.getLong(KEY_STORAGE_ID, -1);
         final long rackId = extras.getLong(KEY_RACK_ID, -1);
         final long orderId = extras.getLong(KEY_INORDER_ID, -1);
         final long transindeptId = extras.getLong(KEY_TRANSINDEPT_ID, -1);
+        final long transindeptSpecDeleteId = extras.getLong(KEY_DELETE_TRANSINDEPT_SPEC_ID, -1);
+        final long complectationId = extras.getLong(KEY_COMPLECTATION_ID, -1);
+        Log.d("ALL_DOCUMS>>", allInvoices + "  " + allOrders + "  " + allTransindepts + "");
+        if (allInvoices) {
+            Log.d("ALL_INVOICES>>", allInvoices + "");
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
+            return;
+        }
+
+        if (allOrders) {
+            Log.d("ALL_ORDERS>>", allOrders + "");
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_INORDERS);
+            return;
+        }
+
+        if (allTransindepts) {
+            Log.d("ALL_TRANSINDEPTS>>", allTransindepts + "");
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_TRANSINDEPT);
+            return;
+        }
+
+        if (allComplectations) {
+            Log.d("all_Complectations>>", allComplectations + "");
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_COMPLECTATIONS);
+            return;
+        }
         Log.d(Log.INFO + ">>>>", "feed>>" + feedId + " store>>" + storageId + " rackId>>" + rackId + " orderId>>" + orderId + " transindeptId>>" + transindeptId);
-        if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1 && orderId == -1 && transindeptId == -1) {
-            //startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
+        if (feedId == -1 && storageId == -1 && rackId == -1 && postId == -1 && orderId == -1 && transindeptId == -1 && transindeptSpecDeleteId == -1 && complectationId == -1) {
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_STORAGES);
-            //startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
-            //startSync(provider, syncResult, null, null, SyncActions.SYNC_INORDERS);
+            //--startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_INORDERS);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_TRANSINDEPT);
         }
 
@@ -89,6 +128,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         if (transindeptId > 0) {
             startSync(provider, syncResult, TransindeptProvider.Columns._ID + "=?", new String[]{String.valueOf(transindeptId)}, SyncActions.SYNC_TRANSINDEPT);
+            return;
+        }
+        if (transindeptSpecDeleteId > 0) {
+            startSync(provider, syncResult, TransindeptSpecProvider.Columns._ID + "=?", new String[]{String.valueOf(transindeptSpecDeleteId)}, SyncActions.SYNC_TRANSINDEPT_SPEC_DELETE);
             return;
         }
 
@@ -167,6 +210,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 });
 
                 myThread.start();
+                do {
+                    try {
+                        myThread.join(250);
+                    } catch (InterruptedException e) {
+                    }
+                } while (myThread.isAlive());
+                break;
+            }
+            case SyncActions.SYNC_TRANSINDEPT_SPEC_DELETE: {
+                Log.d(">>", "Start SYNC_TRANSINDEPT_SPEC_DELETE");
+                Thread myThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TransindeptSync.syncTransindeptSpecDelete(provider, syncResult, where, whereArgs);
+                    }
+                });
+
+                myThread.start();
+               /* do{
+                    try {
+                        myThread.join(250);
+                    } catch (InterruptedException e) {
+                    }
+                }while (myThread.isAlive());*/
                 break;
             }
 

@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingLeft="20dp"
+        android:paddingLeft="0dp"
         android:id="@+id/ininvoice_spinner" />
 
     <TextView
@@ -19,6 +19,7 @@
         android:textSize="26dp"
         android:textStyle="bold"
         android:gravity="center"
+        android:visibility="invisible"
         android:id="@+id/ininvoice_item_name" />
 
     <Button
@@ -36,6 +37,7 @@
         android:textSize="26dp"
         android:textStyle="bold"
         android:gravity="center"
+        android:visibility="invisible"
         android:paddingLeft="50dp"
         android:id="@+id/ininvoice_date" />
 

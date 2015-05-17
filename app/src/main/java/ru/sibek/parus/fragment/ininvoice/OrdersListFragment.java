@@ -38,6 +38,7 @@ import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
 import ru.sibek.parus.fragment.controlpanel.OrderControlPanelFragment;
 import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
+import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
 //import com.elegion.newsfeed.activity.NewsActivity;
@@ -127,7 +128,7 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
         }
         ControlPanel.controlFragment.addInfoToPanel(
                 ((TextView) view.findViewById(R.id.title)).getText().toString(),
-                ((TextView) view.findViewById(R.id.doc_date)).getText().toString(),
+                ((TextView) view.findViewById(R.id.order_doc_date)).getText().toString(),
                 View.VISIBLE, btnText, id
         );
 
@@ -166,7 +167,9 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
 
     @Override
     protected void onRefresh(Account account) {
-        ContentResolver.requestSync(account, ParusAccount.AUTHORITY, new Bundle());
+        final Bundle extras = new Bundle();
+        extras.putBoolean(SyncAdapter.ALL_ORDERS, true);
+        ContentResolver.requestSync(account, ParusAccount.AUTHORITY, extras);
     }
 
     @Override

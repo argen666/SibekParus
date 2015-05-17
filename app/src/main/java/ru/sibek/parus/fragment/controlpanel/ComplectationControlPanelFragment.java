@@ -35,7 +35,7 @@ import ru.sibek.parus.sqlite.outinvoices.TransindeptSpecProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
 import ru.sibek.parus.view.DummyFragment;
 
-public class TransindeptControlPanelFragment extends Fragment {
+public class ComplectationControlPanelFragment extends Fragment {
     private static final String SPINNER_POS = "spinner_position";
     private int spinnerPos;
     private String itemTitle = "";
@@ -51,19 +51,19 @@ public class TransindeptControlPanelFragment extends Fragment {
     private Fragment mFragment;
     private int storageNrn;
 
-    public static TransindeptControlPanelFragment newInstance() {
-        return TransindeptControlPanelFragment.newInstance(0);
+    public static ComplectationControlPanelFragment newInstance() {
+        return ComplectationControlPanelFragment.newInstance(0);
     }
 
-    public static TransindeptControlPanelFragment newInstance(int spinnerPosition) {
-        TransindeptControlPanelFragment fragment = new TransindeptControlPanelFragment();
+    public static ComplectationControlPanelFragment newInstance(int spinnerPosition) {
+        ComplectationControlPanelFragment fragment = new ComplectationControlPanelFragment();
         Bundle args = new Bundle();
         args.putInt(SPINNER_POS, spinnerPosition);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public TransindeptControlPanelFragment() {
+    public ComplectationControlPanelFragment() {
         // Required empty public constructor
     }
 

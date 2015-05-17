@@ -59,8 +59,9 @@ public class InvoiceControlPanelFragment extends Fragment {
 
 
     public void addMasterFragment(Activity mActivity, int position) {
-
-
+        Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
+        if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
+        clearPanel();
         switch (position) {
             case 0: {
                 mFragment = Fragment.instantiate(mActivity, Types.ININVOICES);
@@ -73,18 +74,18 @@ public class InvoiceControlPanelFragment extends Fragment {
                 mFragment = Fragment.instantiate(mActivity, Types.INORDERS);
 
                 Fragment cp = ControlFragmentFactory.getControlPanel(Types.INORDERS, position);
-                    ((InvoicesActivity) mActivity).replaceCP(cp);
-
+                ((InvoicesActivity) mActivity).replaceCP(cp);
+                // if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
                 break;
             }
             case 2: {
                 mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
+                //if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
                 break;
             }
         }
         getFragmentManager().beginTransaction().replace(R.id.master_frame, mFragment).commit();
         Log.d("addMasterFragment", mFragment + "");
-
 
 
     }
@@ -102,7 +103,7 @@ public class InvoiceControlPanelFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_ininvoices_control_panel, container, false);
-            view = getIninvoicesView(view);
+        view = getIninvoicesView(view);
         return view;
     }
 
@@ -113,6 +114,8 @@ public class InvoiceControlPanelFragment extends Fragment {
         visibility = btnVisibility;
         itemName.setText(itemTitle);
         itemDate.setText(date);
+        itemName.setVisibility(btnVisibility);
+        itemDate.setVisibility(btnVisibility);
         actionBtn.setVisibility(btnVisibility);
         actionBtn.setTag(btnTag);
         if (btnActText == null) {
@@ -123,6 +126,13 @@ public class InvoiceControlPanelFragment extends Fragment {
             actionBtn.setEnabled(false);
 
         }
+    }
+
+    public void clearPanel() {
+        itemName.setVisibility(View.INVISIBLE);
+        itemDate.setVisibility(View.INVISIBLE);
+        actionBtn.setVisibility(View.INVISIBLE);
+
     }
 
     private View getIninvoicesView(View view) {

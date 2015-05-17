@@ -1,19 +1,25 @@
 package ru.sibek.parus.rest;
 
 import retrofit.client.Response;
+import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 import ru.sibek.parus.mappers.Cells;
 import ru.sibek.parus.mappers.Companies;
 import ru.sibek.parus.mappers.Racks;
+import ru.sibek.parus.mappers.Status;
 import ru.sibek.parus.mappers.Storages;
 import ru.sibek.parus.mappers.ininvoices.Invoices;
 import ru.sibek.parus.mappers.ininvoices.InvoicesSpec;
 import ru.sibek.parus.mappers.ininvoices.Orders;
 import ru.sibek.parus.mappers.ininvoices.OrdersSpec;
+import ru.sibek.parus.mappers.outvoices.Nquant;
+import ru.sibek.parus.mappers.outvoices.Transindept;
 import ru.sibek.parus.mappers.outvoices.TransindeptSpec;
 import ru.sibek.parus.mappers.outvoices.Transindepts;
 
@@ -70,6 +76,23 @@ public interface Parus {
     @GET("/parus/ru/transindeptspec/{NPRN}")
     TransindeptSpec transindeptSpecByNRN(@Path("NPRN") String nprn);
 
+    @DELETE("/parus/ru/transindeptspec/{NPRN}")
+    Response deleteTransindeptSpecByNRN(@Path("NPRN") String nprn);
+
     @GET("/parus/ru/transindept/{NRN}")
     Transindepts transindeptByNRN(@Path("NRN") String nrn);
+
+    @PUT("/parus/ru/transindept/")
+    Status addTransindept(@Body Transindept json);
+
+    @FormUrlEncoded
+    @POST("/parus/ru/transindept/")
+    Status applyTransindeptAsFactWithIncome(@Field("NRN") long nrn);
+
+    @FormUrlEncoded
+    @POST("/parus/ru/transindeptspec/{NPRN}")
+    Response addTransindeptSpecByMasterNRN(@Path("NPRN") long nrn, @Field("NNOMEN") String nnomen);
+
+    @PUT("/parus/ru/transindeptspec/{NPRN}")
+    Response updateTransindeptSpecNQuant(@Path("NPRN") long nprn, @Body Nquant json);
 }
