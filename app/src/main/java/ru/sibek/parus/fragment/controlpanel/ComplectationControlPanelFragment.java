@@ -27,13 +27,10 @@ import retrofit.RetrofitError;
 import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.Types;
-import ru.sibek.parus.fragment.outvoice.TransindeptListFragment;
-import ru.sibek.parus.fragment.outvoice.TransindeptSpecFragment;
+import ru.sibek.parus.fragment.complectation.ComplectationListFragment;
 import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
-import ru.sibek.parus.sqlite.outinvoices.TransindeptSpecProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
-import ru.sibek.parus.view.DummyFragment;
 
 public class ComplectationControlPanelFragment extends Fragment {
     private static final String SPINNER_POS = "spinner_position";
@@ -46,7 +43,6 @@ public class ComplectationControlPanelFragment extends Fragment {
     TextView itemDate;
     Button actionBtn;
     Button storageBtn;
-    Spinner spinner;
 
     private Fragment mFragment;
     private int storageNrn;
@@ -68,31 +64,16 @@ public class ComplectationControlPanelFragment extends Fragment {
     }
 
 
-    public void addMasterFragment(Activity mActivity, int position) {
+    public void addMasterFragment(Activity mActivity) {
         Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
         if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
-        clearPanel();
-        switch (position) {
-            case 0: {
-                mFragment = Fragment.instantiate(mActivity, Types.TRANSINDEPT);
+       clearPanel();
+
+                mFragment = Fragment.instantiate(mActivity, Types.COMPLECTATION);
 
                 /*Fragment cp = ControlFragmentFactory.getControlPanel(Types.TRANSINDEPT, position);
                 ((InvoicesActivity) mActivity).replaceCP(cp);*/
 
-                break;
-            }
-            case 1: {
-                mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
-                /*Fragment cp = ControlFragmentFactory.getControlPanel(Types.TRANSINDEPT, position);
-                ((InvoicesActivity) mActivity).replaceCP(cp);*/
-                //if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
-                break;
-            }
-           /* case 2: {
-                mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
-                break;
-            }*/
-        }
         getFragmentManager().beginTransaction().replace(R.id.master_frame, mFragment).commit();
         Log.d("addMasterFragment", mFragment + "");
 
@@ -111,7 +92,7 @@ public class ComplectationControlPanelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_transindept_control_panel, container, false);
+        View view = inflater.inflate(R.layout.fragment_complectation_control_panel, container, false);
         view = getIninvoicesView(view);
         return view;
     }
@@ -147,8 +128,7 @@ public class ComplectationControlPanelFragment extends Fragment {
 
     private View getIninvoicesView(View view) {
         Log.d("getIninvoicesView", "getIninvoicesView");
-
-        spinner = (Spinner) view.findViewById(R.id.transindept_spinner);
+       /* spinner = (Spinner) view.findViewById(R.id.complectation_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.outvoice_array, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
@@ -170,15 +150,15 @@ public class ComplectationControlPanelFragment extends Fragment {
 
             }
 
-        });
+        });*/
 
 
-        itemName = (TextView) view.findViewById(R.id.transindept_item_name);
+        itemName = (TextView) view.findViewById(R.id.complectation_item_name);
         itemName.setText(itemTitle);
 
-        itemDate = (TextView) view.findViewById(R.id.transindept_date);
+        itemDate = (TextView) view.findViewById(R.id.complectation_date);
         itemDate.setText(strDate);
-        storageBtn = (Button) view.findViewById(R.id.storage_button);
+        storageBtn = (Button) view.findViewById(R.id.complectation_storage_button);
         storageBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -188,29 +168,26 @@ public class ComplectationControlPanelFragment extends Fragment {
             }
         });
 
-        actionBtn = (Button) view.findViewById(R.id.transindept_button);
+        actionBtn = (Button) view.findViewById(R.id.complectation_button);
         actionBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                long invoiceId = (long) actionBtn.getTag();
+               /* long invoiceId = (long) actionBtn.getTag();
                 Log.d("CP_CLICK>>>", invoiceId + "");
                 Cursor cur = getActivity().getContentResolver().query(
                         TransindeptSpecProvider.URI, new String[]{
                                 TransindeptSpecProvider.Columns.NDISTRIBUTION_SIGN,
                                 TransindeptSpecProvider.Columns.SRACK,
                                 TransindeptSpecProvider.Columns.LOCAL_ICON
-                        }, TransindeptSpecProvider.Columns.TRANSINDEPT_ID + "=?", new String[]{String.valueOf(invoiceId)}, null
+                        }, TransindeptSpecProvider.Columns.complectation_ID + "=?", new String[]{String.valueOf(invoiceId)}, null
                 );
                 boolean isChecked = true;
                 boolean isSrack = true;
                 try {
                     if (cur.moveToFirst()) {
                         do {
-                            /*if (TransindeptSpecProvider.getSRACK(cur) == null && TransindeptSpecProvider.getNDISTRIBUTION_SIGN(cur) == 1) {
-                                isSrack = false;
-                                break;
-                            }*/
+
 
                             if (TransindeptSpecProvider.getLOCAL_ICON(cur) == 0 || TransindeptSpecProvider.getLOCAL_ICON(cur) == R.drawable.invoice_spec_non_accepted) {
                                 isChecked = false;
@@ -219,10 +196,7 @@ public class ComplectationControlPanelFragment extends Fragment {
                         }
                         while (cur.moveToNext());
 
-                       /* if (!isSrack) {
-                            Toast.makeText(getActivity(), "Не определено место хранения!", Toast.LENGTH_LONG).show();
-                            return;
-                        }*/
+
 
                         if (!isChecked) {
                             Toast.makeText(getActivity(), "Выберите все позиции!", Toast.LENGTH_LONG).show();
@@ -284,17 +258,17 @@ public class ComplectationControlPanelFragment extends Fragment {
                     }
                 } finally {
                     cur.close();
-                }
+                }*/
             }
         });
-
+        addMasterFragment(getActivity());
         return view;
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        if (v.getId() == R.id.storage_button) {
+        if (v.getId() == R.id.complectation_storage_button) {
             menu.setHeaderTitle("Выберите склад!");
             Cursor cur = getActivity().getContentResolver().query(
                     StorageProvider.URI, new String[]{
@@ -335,9 +309,9 @@ public class ComplectationControlPanelFragment extends Fragment {
                     Bundle args = new Bundle();
                     args.putString("selection", selection);
                     args.putStringArray("selectionArgs", selectionArgs);
-                    loaderManager.restartLoader(R.id.transindept_loader, args, (TransindeptListFragment) mFragment);
+                    loaderManager.restartLoader(R.id.complectation_loader, args, (ComplectationListFragment) mFragment);
                 } else {
-                    loaderManager.restartLoader(R.id.transindept_loader, null, (TransindeptListFragment) mFragment);
+                    loaderManager.restartLoader(R.id.complectation_loader, null, (ComplectationListFragment) mFragment);
                 }
 
 
