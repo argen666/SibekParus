@@ -32,7 +32,7 @@ import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
 import ru.sibek.parus.mappers.outvoices.Nquant;
 import ru.sibek.parus.rest.ParusService;
-import ru.sibek.parus.sqlite.outinvoices.TransindeptSpecProvider;
+import ru.sibek.parus.sqlite.complectations.ComplectationSpecProvider;
 import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
@@ -41,7 +41,7 @@ import ru.sibek.parus.widget.CursorBinderAdapter;
  */
 public class ComplectationSpecFragment extends SwipeToRefreshList implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    public static final String KEY_TRANSINDEPT_ID = "ru.sibek.parus.sync.KEY_TRANSINDEPT_ID";
+    public static final String KEY_COMPLECTATION_ID = "ru.sibek.parus.sync.KEY_TRANSINDEPT_ID";
 
     private long mInvoiceId;
     private ImageView iconState;
@@ -57,14 +57,14 @@ public class ComplectationSpecFragment extends SwipeToRefreshList implements Loa
     public static ComplectationSpecFragment newInstance(long invoiceId) {
         final ComplectationSpecFragment fragment = new ComplectationSpecFragment();
         final Bundle args = new Bundle();
-        args.putLong(KEY_TRANSINDEPT_ID, invoiceId);
+        args.putLong(KEY_COMPLECTATION_ID, invoiceId);
         fragment.setArguments(args);
         return fragment;
     }
 
     public void setId(long id) {
-        this.getArguments().remove(KEY_TRANSINDEPT_ID);
-        this.getArguments().putLong(KEY_TRANSINDEPT_ID, id);
+        this.getArguments().remove(KEY_COMPLECTATION_ID);
+        this.getArguments().putLong(KEY_COMPLECTATION_ID, id);
     }
 
     @Override
@@ -75,22 +75,22 @@ public class ComplectationSpecFragment extends SwipeToRefreshList implements Loa
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mInvoiceId = getArguments().getLong(KEY_TRANSINDEPT_ID, -1);
-        mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_transindept_spec);
+        mInvoiceId = getArguments().getLong(KEY_COMPLECTATION_ID, -1);
+        mListAdapter = new CursorBinderAdapter(getActivity(), R.layout.li_complectation_spec);
         setListAdapter(mListAdapter);
-        getLoaderManager().initLoader(R.id.transindept_spec_loader, null, this);
+        getLoaderManager().initLoader(R.id.complectation_spec_loader, null, this);
 
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (id == R.id.transindept_spec_loader) {
+        if (id == R.id.complectation_spec_loader) {
             return new CursorLoader(
                     getActivity().getApplicationContext(),
-                    TransindeptSpecProvider.URI, null,
-                    TransindeptSpecProvider.Columns.TRANSINDEPT_ID + "=?",
+                    ComplectationSpecProvider.URI, null,
+                    ComplectationSpecProvider.Columns.COMPLECTATION_ID + "=?",
                     new String[]{String.valueOf(mInvoiceId)},
-                    TransindeptSpecProvider.Columns.SNOMEN + " DESC"
+                    ComplectationSpecProvider.Columns.SMATRES_NOMEN + " DESC"
             );
         }
         return null;
@@ -98,7 +98,7 @@ public class ComplectationSpecFragment extends SwipeToRefreshList implements Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (loader.getId() == R.id.transindept_spec_loader) {
+        if (loader.getId() == R.id.complectation_spec_loader) {
             mListAdapter.swapCursor(data);
 
         }
@@ -106,7 +106,7 @@ public class ComplectationSpecFragment extends SwipeToRefreshList implements Loa
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        if (loader.getId() == R.id.transindept_spec_loader) {
+        if (loader.getId() == R.id.complectation_spec_loader) {
             mListAdapter.swapCursor(null);
         }
     }
@@ -117,8 +117,8 @@ public class ComplectationSpecFragment extends SwipeToRefreshList implements Loa
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         Cursor cursor = mListAdapter.getCursor();
-        final Double nstoreQuant = TransindeptSpecProvider.getNSTOREQUANT(cursor);
-        final long selectedNRN = TransindeptSpecProvider.getNRN(cursor);
+        final Double nstoreQuant = ComplectationSpecProvider.getNSTOREQUANT(cursor);
+        final long selectedNRN = ComplectationSpecProvider.getNRN(cursor);
         if (nstoreQuant.compareTo(new Double(0)) == 0) {
             Toast.makeText(getActivity().getApplicationContext(),
                     "На складе нет остатков", Toast.LENGTH_LONG).show();
@@ -193,7 +193,7 @@ public class ComplectationSpecFragment extends SwipeToRefreshList implements Loa
     @Override
     protected void onRefresh(Account account) {
         final Bundle extras = new Bundle();
-        extras.putLong(SyncAdapter.KEY_TRANSINDEPT_ID, mInvoiceId);
+        extras.putLong(SyncAdapter.KEY_COMPLECTATION_ID, mInvoiceId);
         ContentResolver.requestSync(account, ParusAccount.AUTHORITY, extras);
     }
 

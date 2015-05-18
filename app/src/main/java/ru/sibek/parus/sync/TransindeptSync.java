@@ -122,8 +122,8 @@ public class TransindeptSync {
                     syncResult.stats.numDeletes += provider
                             .delete(TransindeptProvider.URI, TransindeptProvider.Columns._ID + "=?", new String[]{transindeptId});
 
-                    syncResult.stats.numDeletes += provider
-                            .delete(TransindeptSpecProvider.URI, TransindeptSpecProvider.Columns.TRANSINDEPT_ID + "=?", new String[]{transindeptId});
+                    /*syncResult.stats.numDeletes += provider
+                            .delete(TransindeptSpecProvider.URI, TransindeptSpecProvider.Columns.TRANSINDEPT_ID + "=?", new String[]{transindeptId});*/
                 }
             }
 

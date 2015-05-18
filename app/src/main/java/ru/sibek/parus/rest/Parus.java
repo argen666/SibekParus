@@ -14,6 +14,8 @@ import ru.sibek.parus.mappers.Companies;
 import ru.sibek.parus.mappers.Racks;
 import ru.sibek.parus.mappers.Status;
 import ru.sibek.parus.mappers.Storages;
+import ru.sibek.parus.mappers.complectations.ComplectationSpec;
+import ru.sibek.parus.mappers.complectations.Complectations;
 import ru.sibek.parus.mappers.ininvoices.Invoices;
 import ru.sibek.parus.mappers.ininvoices.InvoicesSpec;
 import ru.sibek.parus.mappers.ininvoices.Orders;
@@ -95,4 +97,13 @@ public interface Parus {
 
     @PUT("/parus/ru/transindeptspec/{NPRN}")
     Response updateTransindeptSpecNQuant(@Path("NPRN") long nprn, @Body Nquant json);
+
+    @GET("/parus/ru/complectations/{date}")
+    Complectations listComplectations(@Path("date") String date);
+
+    @GET("/parus/ru/complectation/{NRN}")
+    Complectations complectationByNRN(@Path("NRN") String nrn);
+
+    @GET("/parus/ru/complectationspec/{NPRN}")
+    ComplectationSpec complectationSpecByNRN(@Path("NPRN") String nprn);
 }

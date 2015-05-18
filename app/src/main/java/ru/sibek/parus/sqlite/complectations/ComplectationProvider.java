@@ -16,6 +16,7 @@
 
 package ru.sibek.parus.sqlite.complectations;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,7 +24,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 
+import ru.sibek.parus.ParusApplication;
+import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.sqlite.SQLiteTableProvider;
+import ru.sibek.parus.sync.SyncAdapter;
 
 public class ComplectationProvider extends SQLiteTableProvider {
 
@@ -55,8 +59,8 @@ public class ComplectationProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SDOCTYPE));
     }
 
-    public static String getStatus(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.SSTATUS_IN_STATUS));
+    public static String getSPROD_ORDER(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SPROD_ORDER));
     }
 
     public static String getNSUMMWITHNDS(Cursor c) {
@@ -99,10 +103,10 @@ public class ComplectationProvider extends SQLiteTableProvider {
     @Override
     public void onContentChanged(Context context, int operation, Bundle extras) {
         if (operation == INSERT) {
-            /*extras.keySet();
+            extras.keySet();
             final Bundle syncExtras = new Bundle();
-            syncExtras.putLong(SyncAdapter.KEY_TRANSINDEPT_ID, extras.getLong(KEY_LAST_ID, -1));
-            ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);*/
+            syncExtras.putLong(SyncAdapter.KEY_COMPLECTATION_ID, extras.getLong(KEY_LAST_ID, -1));
+            ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
             //Log.d("QQcontentChanged", "insert");
 
         }

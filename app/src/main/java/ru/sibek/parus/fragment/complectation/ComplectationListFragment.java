@@ -23,43 +23,25 @@ import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CursorAdapter;
-import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
-import retrofit.RetrofitError;
-import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
 import ru.sibek.parus.fragment.controlpanel.ComplectationControlPanelFragment;
 import ru.sibek.parus.fragment.ininvoice.InvoicesSpecFragment;
-import ru.sibek.parus.mappers.Status;
-import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.complectations.ComplectationProvider;
-import ru.sibek.parus.sqlite.storages.StorageProvider;
 import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.widget.CursorBinderAdapter;
 
@@ -219,7 +201,7 @@ public class ComplectationListFragment extends SwipeToRefreshList implements Loa
     @Override
     protected void onRefresh(Account account) {
         final Bundle extras = new Bundle();
-        extras.putBoolean(SyncAdapter.ALL_TRANSINDEPTS, true);
+        extras.putBoolean(SyncAdapter.ALL_COMPLECTATIONS, true);
         //ContentResolver.requestSync(account, ParusAccount.AUTHORITY, extras);
         final Account acc = account;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

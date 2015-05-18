@@ -24,6 +24,7 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
+import ru.sibek.parus.sqlite.complectations.ComplectationProvider;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
@@ -68,7 +69,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final long transindeptId = extras.getLong(KEY_TRANSINDEPT_ID, -1);
         final long transindeptSpecDeleteId = extras.getLong(KEY_DELETE_TRANSINDEPT_SPEC_ID, -1);
         final long complectationId = extras.getLong(KEY_COMPLECTATION_ID, -1);
-        Log.d("ALL_DOCUMS>>", allInvoices + "  " + allOrders + "  " + allTransindepts + "");
+        Log.d("ALL_DOCUMS>>", allInvoices + "  " + allOrders + "  " + allTransindepts + "  " + allComplectations);
         if (allInvoices) {
             Log.d("ALL_INVOICES>>", allInvoices + "");
             startSync(provider, syncResult, null, null, SyncActions.SYNC_INVOICES);
@@ -134,7 +135,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             startSync(provider, syncResult, TransindeptSpecProvider.Columns._ID + "=?", new String[]{String.valueOf(transindeptSpecDeleteId)}, SyncActions.SYNC_TRANSINDEPT_SPEC_DELETE);
             return;
         }
-
+        if (complectationId > 0) {
+            startSync(provider, syncResult, ComplectationProvider.Columns._ID + "=?", new String[]{String.valueOf(complectationId)}, SyncActions.SYNC_COMPLECTATIONS);
+            return;
+        }
         Log.d("PARUS_Sync", "Start" + feedId);
     }
 
@@ -153,7 +157,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 });
 
                 myThread.start();
-
+                do {
+                    try {
+                        myThread.join(250);
+                    } catch (InterruptedException e) {
+                    }
+                } while (myThread.isAlive());
                 break;
             }
 
@@ -167,6 +176,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 });
 
                 myThread.start();
+                do {
+                    try {
+                        myThread.join(250);
+                    } catch (InterruptedException e) {
+                    }
+                } while (myThread.isAlive());
                 break;
             }
 
@@ -180,11 +195,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 });
 
                 myThread.start();
+                do {
+                    try {
+                        myThread.join(250);
+                    } catch (InterruptedException e) {
+                    }
+                } while (myThread.isAlive());
                 break;
             }
 
             case SyncActions.SYNC_POST_INVOICES: {
                 InvoicesSync.syncPostInvoices(provider, syncResult, where, whereArgs);
+
                 break;
             }
 
@@ -197,6 +219,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 });
 
                 myThread.start();
+                do {
+                    try {
+                        myThread.join(250);
+                    } catch (InterruptedException e) {
+                    }
+                } while (myThread.isAlive());
                 break;
             }
 
@@ -228,12 +256,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 });
 
                 myThread.start();
-               /* do{
+                do {
                     try {
                         myThread.join(250);
                     } catch (InterruptedException e) {
                     }
-                }while (myThread.isAlive());*/
+                } while (myThread.isAlive());
+                break;
+            }
+            case SyncActions.SYNC_COMPLECTATIONS: {
+                Log.d(">>", "Start SYNC_COMPLECTATIONS");
+                Thread myThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ComplectationSync.syncComplectation(provider, syncResult, where, whereArgs);
+                    }
+                });
+
+                myThread.start();
+                do {
+                    try {
+                        myThread.join(250);
+                    } catch (InterruptedException e) {
+                    }
+                } while (myThread.isAlive());
                 break;
             }
 

@@ -144,10 +144,10 @@ public class TransindeptProvider extends SQLiteTableProvider {
                 + Columns.SFACEACC + " text, "
                 + Columns.NSUMMWITHNDS + " integer)");
         //ахуенный триггер
-        /*db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
+        db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
                 " begin " +
-                " delete from " + InvoiceSpecProvider.TABLE_NAME + " where " + InvoiceSpecProvider.Columns.INVOICE_ID + "=old." + Columns._ID + ";" +
-                " end;");*/
+                " delete from " + TransindeptSpecProvider.TABLE_NAME + " where " + TransindeptSpecProvider.Columns.TRANSINDEPT_ID + "=old." + Columns._ID + ";" +
+                " end;");
     }
 
     public interface Columns extends BaseColumns {
