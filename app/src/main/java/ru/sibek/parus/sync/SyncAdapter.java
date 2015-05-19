@@ -100,6 +100,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             //--startSync(provider, syncResult, null,null, SyncActions.SYNC_POST_INVOICES);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_INORDERS);
             startSync(provider, syncResult, null, null, SyncActions.SYNC_TRANSINDEPT);
+            startSync(provider, syncResult, null, null, SyncActions.SYNC_COMPLECTATIONS);
         }
 
         if (postId > 0) {

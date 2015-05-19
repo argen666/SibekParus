@@ -11,12 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:id="@+id/spec_image" />
+        <!--   <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent"
+               android:layout_gravity="center"
+               android:clickable="true"
+               android:id="@+id/spec_image" />-->
 
 
         <!-- <ImageButton
@@ -61,32 +61,54 @@
 
                 <TextView
                     android:id="@+id/title_spec_number"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:ellipsize="end"
                     android:textSize="18sp"
                     android:singleLine="true" />
 
                 <TextView
-                    android:id="@+id/spec_quant"
-                    android:layout_width="150dp"
+                    android:id="@+id/spec_plan_quant"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/spec_cmpl_quant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/spec_dlvr_quant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:ellipsize="end"
                     android:textSize="18sp"
                     android:singleLine="true" />
 
                 <TextView
                     android:id="@+id/spec_store_quant"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:ellipsize="end"
                     android:textSize="18sp"
                     android:singleLine="true" />
 
                 <TextView
                     android:id="@+id/spec_place"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:ellipsize="end"
                     android:textSize="18sp"
                     android:singleLine="true" />
@@ -96,13 +118,6 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:src="@drawable/transindeptspec_listitem_selector"
-            android:id="@+id/spec_delete_image" />
 
         />
 

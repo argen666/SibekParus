@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.LoaderManager;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -13,22 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.Scanner;
-
-import retrofit.RetrofitError;
-import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.fragment.complectation.ComplectationListFragment;
-import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
 
@@ -110,7 +100,7 @@ public class ComplectationControlPanelFragment extends Fragment {
         storageBtn.setVisibility(btnVisibility);
         actionBtn.setTag(btnTag);
         if (btnActText == null) {
-            actionBtn.setText("Отработать");
+            actionBtn.setText("Сформировать РН");
             actionBtn.setEnabled(true);
         } else {
             actionBtn.setText(btnActText);

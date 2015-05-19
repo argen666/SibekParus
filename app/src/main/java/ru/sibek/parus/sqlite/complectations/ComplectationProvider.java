@@ -63,8 +63,8 @@ public class ComplectationProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SPROD_ORDER));
     }
 
-    public static String getNSUMMWITHNDS(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.NSUMMWITHNDS));
+    public static String getSMATRES_NAME(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SMATRES_NAME));
     }
 
     public static int getNStatus(Cursor c) {
@@ -87,8 +87,8 @@ public class ComplectationProvider extends SQLiteTableProvider {
         return c.getLong(c.getColumnIndex(Columns.SNUMB));
     }
 
-    public static long getNstore(Cursor c) {
-        return c.getInt(c.getColumnIndex(Columns.NSTORE));
+    public static int getSALIVE(Cursor c) {
+        return c.getInt(c.getColumnIndex(Columns.SALIVE));
     }
 
     public static String getSStore(Cursor c) {
@@ -129,7 +129,7 @@ public class ComplectationProvider extends SQLiteTableProvider {
                 + Columns.HASH + " integer, "
                 + Columns.NSTATE + " integer, "
                 + Columns.LOCAL_NSTATUS + " integer, "
-                + Columns.SSTATUS_IN_STATUS + " text, "
+                + Columns.SALIVE + " text, "
                 + Columns.NRN + " integer, "
                 + Columns.DWORK_DATE + " integer, "
                 + Columns.NSTORE + " integer, "
@@ -160,7 +160,7 @@ public class ComplectationProvider extends SQLiteTableProvider {
         String SPREF = "SPREF";
         String SNUMB = "SNUMB";
         String DDOC_DATE = "DDOC_DATE";
-        String SSTATUS_IN_STATUS = "SSTATUS_IN_STATUS";
+        String SALIVE = "SALIVE";
         String DWORK_DATE = "DWORK_DATE";
         String NRN = "NRN";
         String LOCAL_NSTATUS = "LOCAL_NSTATUS";

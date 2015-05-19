@@ -56,6 +56,13 @@
                     android:textStyle="bold"
                     android:textSize="18sp" />
 
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -73,12 +80,11 @@
                     android:singleLine="true" />
 
                 <TextView
-                    android:id="@+id/status"
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="32dp"
-                    android:singleLine="true"
-                    android:textColor="@android:color/holo_red_dark" />
+
+                    android:singleLine="true" />
 
             </LinearLayout>
 

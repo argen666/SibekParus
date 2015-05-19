@@ -38,16 +38,19 @@ import ru.sibek.parus.widget.CursorBinder;
  */
 public class ComplectationListItem extends LinearLayout implements CursorBinder {
 
+    private final Context context;
     // private FeedIconView mIcon;
     Cursor mCur;
     private TextView mTitle;
-    private TextView mAgent;
+    private TextView mName;
+    private TextView mStore;
     private TextView mDocDate;
     private TextView mStatus;
     private ImageView mInvoiceIcon;
 
     public ComplectationListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
     }
 
     @Override
@@ -57,9 +60,9 @@ public class ComplectationListItem extends LinearLayout implements CursorBinder 
         // mIcon.loadIcon(Provider.getIconUrl(c));
         final String store = ComplectationProvider.getSStore(c);
         if (!TextUtils.isEmpty(store)) {
-            mAgent.setText("Склад: " + store/*DateFormat.getDateTimeInstance().format(new Date(ComplectationProvider.getHASH(c)))*/);
+            mStore.setText("Склад: " + store/*DateFormat.getDateTimeInstance().format(new Date(ComplectationProvider.getHASH(c)))*/);
         } else {
-            mAgent.setText("Поставщик: " + getResources().getString(R.string.hello_world, ComplectationProvider.getId(c)));
+            mStore.setText("Склад: -");
         }
 
         final String title = ComplectationProvider.getSDoctype(c) + ", " + ComplectationProvider.getSpref(c).trim() + "-" + (ComplectationProvider.getSnumb(c));
@@ -68,6 +71,13 @@ public class ComplectationListItem extends LinearLayout implements CursorBinder 
             mTitle.setText(title);
         } else {
             mTitle.setText(getResources().getString(R.string.hello_world, ComplectationProvider.getId(c)));
+        }
+        final String name = ComplectationProvider.getSMATRES_NAME(c);
+        if (!TextUtils.isEmpty(name)) {
+
+            mName.setText(name);
+        } else {
+            mName.setText(getResources().getString(R.string.hello_world, ComplectationProvider.getId(c)));
         }
         final long docDate = ComplectationProvider.getDdocdate(c);
         if (docDate > 0) {
@@ -80,12 +90,47 @@ public class ComplectationListItem extends LinearLayout implements CursorBinder 
             mStatus.setText("Заказ: -");
         }
 
-        final int numStatus = ComplectationProvider.getNStatus(c);
+        //TODO перенести в бд,и возвращать поле isAllowed=0/1
+        /*boolean isOk = true;
+        Cursor cur=null;
+        try {
+            cur = context.getContentResolver().query(
+                    ComplectationSpecProvider.URI, null,
+                    ComplectationSpecProvider.Columns.COMPLECTATION_ID + "=?",
+                    new String[]{String.valueOf(ComplectationProvider.getId(c))}, null);
+
+            if (cur.moveToFirst()) {
+                do {
+                    Double nquantStore = ComplectationSpecProvider.getNSTOREQUANT(cur);
+                    Double nquantPlan = ComplectationSpecProvider.getPLANQUANT(cur);
+                    Double nquantDlvr = ComplectationSpecProvider.getNQUANT_DLVR(cur);
+                    if (nquantStore >= (nquantPlan - nquantDlvr)) {
+                        isOk = true;
+                    } else {
+                        isOk = false;
+
+                    }
+
+                } while (cur.moveToNext());
+
+            } else {
+                mInvoiceIcon.setImageResource(R.drawable.invoice_non_accepted);
+            }
+        } finally {
+            cur.close();
+        }*/
+        int salive = ComplectationProvider.getSALIVE(c);
+        if (ComplectationProvider.getSALIVE(c) == 0) {
+            mInvoiceIcon.setImageResource(R.drawable.invoice_accepted);
+        } else {
+            mInvoiceIcon.setImageResource(R.drawable.invoice_non_accepted);
+        }
+        /*final int numStatus = ComplectationProvider.getNStatus(c);
         if (numStatus == 0) {
             mInvoiceIcon.setImageResource(R.drawable.invoice_non_accepted);
         } else {
             mInvoiceIcon.setImageResource(R.drawable.invoice_accepted);
-        }
+        }*/
     }
 
     @Override
@@ -93,7 +138,8 @@ public class ComplectationListItem extends LinearLayout implements CursorBinder 
         super.onFinishInflate();
         // mIcon = (FeedIconView) findViewById(R.id.feed_icon);
         mTitle = (TextView) findViewById(R.id.title);
-        mAgent = (TextView) findViewById(R.id.agent);
+        mName = (TextView) findViewById(R.id.name);
+        mStore = (TextView) findViewById(R.id.agent);
         mDocDate = (TextView) findViewById(R.id.doc_date);
         mStatus = (TextView) findViewById(R.id.status);
         mInvoiceIcon = (ImageView) findViewById(R.id.status_image);

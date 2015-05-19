@@ -42,6 +42,9 @@ public class ComplectationSpecProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SMATRES_NAME));
     }
 
+    public static String getSMATRES_NOMEN(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SMATRES_NOMEN));
+    }
   /*  public static String getSSERNUMB(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SSERNUMB));
     }
@@ -69,6 +72,14 @@ public class ComplectationSpecProvider extends SQLiteTableProvider {
 
     public static double getPLANQUANT(Cursor c) {
         return c.getDouble(c.getColumnIndex(Columns.NQUANT_PLAN));
+    }
+
+    public static double getNQUANT_DLVR(Cursor c) {
+        return c.getDouble(c.getColumnIndex(Columns.NQUANT_DLVR));
+    }
+
+    public static double getNQUANT_CMPL(Cursor c) {
+        return c.getDouble(c.getColumnIndex(Columns.NQUANT_CMPL));
     }
 
     public static double getNSTOREQUANT(Cursor c) {

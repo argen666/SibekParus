@@ -49,7 +49,7 @@ public class Complectations {
             contentValues.put(ComplectationProvider.Columns.NRN, item.getNrn());
             contentValues.put(ComplectationProvider.Columns.DEND_DATE_PLAN, ParusDate.parse(item.getDendDatePlan()).getTime());
             contentValues.put(ComplectationProvider.Columns.SPROD_ORDER, item.getSprodOrder());
-            contentValues.put(ComplectationProvider.Columns.SMATRES_NAME, item.getSmatresUmeas());
+            contentValues.put(ComplectationProvider.Columns.SMATRES_NAME, item.getSmatresName());
             contentValues.put(ComplectationProvider.Columns.NSTORE, item.getNstore());
             contentValues.put(ComplectationProvider.Columns.SSTORE, item.getSstore());
             contentValues.put(ComplectationProvider.Columns.SMATRES_UMEAS, item.getSmatresUmeas());
@@ -58,6 +58,7 @@ public class Complectations {
             contentValues.put(ComplectationProvider.Columns.SSUBDIV, item.getSsubdiv());
             contentValues.put(ComplectationProvider.Columns.SDOCTYPE, item.getSdoctype());
             contentValues.put(ComplectationProvider.Columns.NQUANT, item.getNquant());
+            contentValues.put(ComplectationProvider.Columns.SALIVE, item.getSALIVE());
             contentValuesList.add(contentValues);
             //Log.d("DMODIF>>", ParusDate.parse(item.getDdocDate()).getTime() + "!!!!" + ParusDate.parse(item.getDmodifdate()).getTime());
         }
@@ -88,6 +89,8 @@ public class Complectations {
         @Expose
         private String ddocdate;
         @Expose
+        private String salive;
+        @Expose
         private Integer nstate;
         @SerializedName("sprod_order")
         @Expose
@@ -111,6 +114,14 @@ public class Complectations {
         @SerializedName("dend_date_plan")
         @Expose
         private String dendDatePlan;
+
+        public String getSALIVE() {
+            return salive;
+        }
+
+        public void setSALIVE(String salive) {
+            this.salive = salive;
+        }
 
         /**
          * @return The nrn

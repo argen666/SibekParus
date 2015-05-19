@@ -100,7 +100,7 @@ public class ComplectationListFragment extends SwipeToRefreshList implements Loa
             }
             return new CursorLoader(
                     getActivity().getApplicationContext(),
-                    ComplectationProvider.URI, null, selection, selectionArgs, /*ComplectationProvider.Columns.NSTATUS + " ASC, " +*/ ComplectationProvider.Columns.DDOC_DATE + " DESC"
+                    ComplectationProvider.URI, null, selection, selectionArgs, ComplectationProvider.Columns.SALIVE + " ASC, " + ComplectationProvider.Columns.DDOC_DATE + " DESC"
 
 
             );
@@ -141,8 +141,8 @@ public class ComplectationListFragment extends SwipeToRefreshList implements Loa
         selectedElement = new Pair<>(id, ComplectationProvider.getNStatus(curTrans));
         selectedNRN = ComplectationProvider.getNRN(curTrans);
         String btnText = null;
-        if (ComplectationProvider.getNStatus(curTrans) != 0) {
-            btnText = "Отработано";
+        if (ComplectationProvider.getSALIVE(curTrans) != 0) {
+            btnText = "Сформировать РН";
         }
         ControlPanel.controlFragment.addInfoToPanel(
                 ((TextView) view.findViewById(R.id.title)).getText().toString(),
