@@ -34,6 +34,10 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
         mClass = clz;
     }
 
+    public void setcPanel(Fragment cPanel) {
+        this.cPanel = cPanel;
+    }
+
     /* The following are each of the ActionBar.TabListener callbacks */
 
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
@@ -47,10 +51,10 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                 ft.add(R.id.control_panel_frame, cPanel);
                 Log.d("IN_NULL", cPanel.getId() + "");
             } else {
-                // if (cPanel instanceof InvoiceControlPanelFragment) {
+
+
                 Log.d("IN_!NULL", cPanel.getId() + "");
                 ft.attach(cPanel);
-
 
             }
 
@@ -82,7 +86,29 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                         // }
 
                     }
-                }
+                } else {
+
+                    if (mTag == "nomenclature") {
+
+                        if (cPanel != null) {
+                            ft.detach(cPanel);
+                        }
+                        mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
+
+                        ft.replace(R.id.master_frame, mFragment);
+                    } else {
+
+                        if (mTag == "stores") {
+
+                            if (cPanel != null) {
+                                ft.detach(cPanel);
+                            }
+                            mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
+
+                            ft.replace(R.id.master_frame, mFragment);
+                        }
+                    }
+            }
             }
             /*Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
             if (f != null) ft.remove(f);

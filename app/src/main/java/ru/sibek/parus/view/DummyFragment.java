@@ -14,7 +14,7 @@ import ru.sibek.parus.R;
  */
 public class DummyFragment extends Fragment {
 
-    String text="Fragment";
+    String text = "Раздел в разработке";
     int i=0;
     public DummyFragment() {
 

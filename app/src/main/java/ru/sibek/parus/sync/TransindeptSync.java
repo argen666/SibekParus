@@ -2,6 +2,7 @@ package ru.sibek.parus.sync;
 
 import android.content.ContentProviderClient;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.os.RemoteException;
@@ -132,7 +133,7 @@ public class TransindeptSync {
         }
     }
 
-    public static void syncTransindeptSpecDelete(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
+    public static void syncTransindeptSpecDelete(Context context, ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
         try {
             final Cursor transindepts = provider.query(
                     TransindeptSpecProvider.URI, new String[]{
@@ -147,7 +148,7 @@ public class TransindeptSync {
                 if (transindepts.moveToFirst()) {
 
 
-                    deleteTransindeptSpec(transindepts.getString(0), transindepts.getString(1), transindepts.getString(2), provider, syncResult);
+                    deleteTransindeptSpec(transindepts.getString(0), transindepts.getString(1), transindepts.getString(2), provider, syncResult, context);
 
                 } else {
 
@@ -161,9 +162,11 @@ public class TransindeptSync {
         }
     }
 
-    private static void deleteTransindeptSpec(String id, String nrn, String nprn, ContentProviderClient provider, SyncResult syncResult) {
+
+    private static void deleteTransindeptSpec(String id, String nrn, String nprn, ContentProviderClient provider, SyncResult syncResult, Context context) {
         try {
             Response status = ParusService.getService().deleteTransindeptSpecByNRN(nrn);
+            //Toast.makeText(context,"Success",Toast.LENGTH_LONG).show();
         } catch (RetrofitError e) {
             try {
                 Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());

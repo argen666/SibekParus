@@ -48,9 +48,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String KEY_TRANSINDEPT_ID = "ru.sibek.parus.sync.KEY_TRANSINDEPT_ID";
     public static final String KEY_DELETE_TRANSINDEPT_SPEC_ID = "ru.sibek.parus.sync.KEY_DELETE_TRANSINDEPT_SPEC_ID";
     public static final String KEY_COMPLECTATION_ID = "ru.sibek.parus.sync.KEY_COMPLECTATION_ID";
+    private Context context;
 
     public SyncAdapter(Context context) {
         super(context, true);
+        this.context = context;
     }
 
     @Override
@@ -252,7 +254,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Thread myThread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        TransindeptSync.syncTransindeptSpecDelete(provider, syncResult, where, whereArgs);
+                        TransindeptSync.syncTransindeptSpecDelete(context, provider, syncResult, where, whereArgs);
                     }
                 });
 

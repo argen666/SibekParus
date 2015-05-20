@@ -20,7 +20,6 @@ import android.widget.Toast;
 import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
-import ru.sibek.parus.activity.InvoicesActivity;
 import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
@@ -73,9 +72,9 @@ public class InvoiceControlPanelFragment extends Fragment {
             case 1: {
                 mFragment = Fragment.instantiate(mActivity, Types.INORDERS);
 
-                Fragment cp = ControlFragmentFactory.getControlPanel(Types.INORDERS, position);
-                ((InvoicesActivity) mActivity).replaceCP(cp);
-                // if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
+               /* Fragment cp = ControlFragmentFactory.getControlPanel(Types.INORDERS, position);
+                ((InvoicesActivity) mActivity).replaceCP(cp);*/
+
                 break;
             }
             case 2: {
@@ -107,6 +106,9 @@ public class InvoiceControlPanelFragment extends Fragment {
         return view;
     }
 
+    public int getSpinnerId() {
+        return spinner.getSelectedItemPosition();
+    }
     public void addInfoToPanel(String title, String date, int btnVisibility, String btnText, Object btnTag) {
         itemTitle = title;
         strDate = date;
@@ -119,7 +121,7 @@ public class InvoiceControlPanelFragment extends Fragment {
         actionBtn.setVisibility(btnVisibility);
         actionBtn.setTag(btnTag);
         if (btnActText == null) {
-            actionBtn.setText("Отработать накладную");
+            actionBtn.setText("Отработать как факт");
             actionBtn.setEnabled(true);
         } else {
             actionBtn.setText(btnActText);
