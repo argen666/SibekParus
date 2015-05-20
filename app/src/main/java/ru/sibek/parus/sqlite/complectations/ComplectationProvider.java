@@ -141,10 +141,10 @@ public class ComplectationProvider extends SQLiteTableProvider {
                 + Columns.SSUBDIV + " text, "
                 + Columns.NSUBDIV + " integer)");
         //ахуенный триггер
-        /*db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
+        db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
                 " begin " +
-                " delete from " + InvoiceSpecProvider.TABLE_NAME + " where " + InvoiceSpecProvider.Columns.INVOICE_ID + "=old." + Columns._ID + ";" +
-                " end;");*/
+                " delete from " + ComplectationSpecProvider.TABLE_NAME + " where " + ComplectationSpecProvider.Columns.COMPLECTATION_ID + "=old." + Columns._ID + ";" +
+                " end;");
     }
 
     public interface Columns extends BaseColumns {

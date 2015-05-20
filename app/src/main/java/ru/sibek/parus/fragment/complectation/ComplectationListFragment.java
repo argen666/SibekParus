@@ -100,7 +100,7 @@ public class ComplectationListFragment extends SwipeToRefreshList implements Loa
             }
             return new CursorLoader(
                     getActivity().getApplicationContext(),
-                    ComplectationProvider.URI, null, selection, selectionArgs, ComplectationProvider.Columns.SALIVE + " ASC, " + ComplectationProvider.Columns.DDOC_DATE + " DESC"
+                    ComplectationProvider.URI, null, selection, selectionArgs, ComplectationProvider.Columns.SALIVE + " ASC, " + ComplectationProvider.Columns.DDOC_DATE + " DESC, " + ComplectationProvider.Columns.SPREF + " DESC"
 
 
             );
