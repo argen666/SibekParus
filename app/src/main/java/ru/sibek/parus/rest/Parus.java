@@ -106,4 +106,7 @@ public interface Parus {
 
     @GET("/parus/ru/complectationspec/{NPRN}")
     ComplectationSpec complectationSpecByNRN(@Path("NPRN") String nprn);
+
+    @PUT("/parus/ru/complectationspec/{NPRN}")
+    Status complectationSpecComplect(@Path("NPRN") long nprn, @Body Nquant json);
 }

@@ -266,7 +266,7 @@ public class TransindeptControlPanelFragment extends Fragment {
                             }
                             while (myThread.isAlive());
                             //обновляем
-                            if (status[0].getNRN() != -1) {
+                            if (status[0] != null && status[0].getNRN() != -1) {
                             ((TransindeptSpecFragment) ((TransindeptListFragment) mFragment).getSpecInvoiceByID(invoiceId)).refreshSpec(ParusApplication.sAccount);
                             Fragment f = getActivity().getFragmentManager().findFragmentById(R.id.detail_frame);
                             if (f != null)

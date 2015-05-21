@@ -104,7 +104,7 @@ public class ComplectationControlPanelFragment extends Fragment {
             actionBtn.setEnabled(true);
         } else {
             actionBtn.setText(btnActText);
-            actionBtn.setEnabled(false);
+            //actionBtn.setEnabled(false);
 
         }
     }
