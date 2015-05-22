@@ -139,4 +139,7 @@ public class OrdersSpecFragment extends SwipeToRefreshList implements LoaderMana
         setRefreshing(isSyncActive);
     }
 
+    public void refreshSpec(Account sAccount) {
+        onRefresh(sAccount);
+    }
 }

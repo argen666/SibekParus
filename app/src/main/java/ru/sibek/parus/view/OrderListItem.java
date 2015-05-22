@@ -25,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -46,6 +45,7 @@ public class OrderListItem extends LinearLayout implements CursorBinder {
     private TextView mDocDate;
     private TextView mStatus;
     private ImageView mInvoiceIcon;
+    private TextView mSstore;
 
     public OrderListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -56,6 +56,12 @@ public class OrderListItem extends LinearLayout implements CursorBinder {
     public void bindCursor(Cursor c) {
         mCur = c;
         // mIcon.loadIcon(Provider.getIconUrl(c));
+        final String store = OrderProvider.getSstore(c);
+        if (!TextUtils.isEmpty(store)) {
+            mSstore.setText("Cклад: " + store + " "/*DateFormat.getDateTimeInstance().format(new Date(OrderProvider.getHASH(c)))*/);
+        } else {
+            mSstore.setText("Cклад: - ");
+        }
         final String agent = OrderProvider.getSagent(c);
         if (!TextUtils.isEmpty(agent)) {
             mAgent.setText(/*"Поставщик: "*/agent/*DateFormat.getDateTimeInstance().format(new Date(OrderProvider.getHASH(c)))*/);
@@ -96,6 +102,7 @@ public class OrderListItem extends LinearLayout implements CursorBinder {
         mAgent = (TextView) findViewById(R.id.agent);
         mDocDate = (TextView) findViewById(R.id.order_doc_date);
         mStatus = (TextView) findViewById(R.id.status);
+        mSstore = (TextView) findViewById(R.id.order_sstore);
         mInvoiceIcon = (ImageView) findViewById(R.id.status_image);
     }
 

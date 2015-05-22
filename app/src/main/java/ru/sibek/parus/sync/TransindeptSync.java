@@ -58,7 +58,9 @@ public class TransindeptSync {
                         getTransindepts(null, null, tms, provider, syncResult);
                     }
                 } else {
-                    getTransindepts(null, null, "0", provider, syncResult);
+                    if (where == null) {
+                        getTransindepts(null, null, "0", provider, syncResult);
+                    }
                 }
             } finally {
                 transindepts.close();
@@ -120,6 +122,7 @@ public class TransindeptSync {
                             .bulkInsert(TransindeptSpecProvider.URI, transspec.toContentValues(transindeptId));
                     Log.d("Transindepts_UPDATE_SPEC>>>", transindeptId + "___" + NRN);
                 } else {
+                    Log.d("Transindepts_DELETE!!!>>>", transindeptId + "___" + NRN);
                     syncResult.stats.numDeletes += provider
                             .delete(TransindeptProvider.URI, TransindeptProvider.Columns._ID + "=?", new String[]{transindeptId});
 

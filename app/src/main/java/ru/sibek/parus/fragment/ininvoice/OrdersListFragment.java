@@ -17,10 +17,12 @@
 package ru.sibek.parus.fragment.ininvoice;
 
 import android.accounts.Account;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ import java.util.Map;
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
+import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.fragment.controlpanel.InvoiceControlPanelFragment;
 import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
 import ru.sibek.parus.sync.SyncAdapter;
@@ -126,8 +129,8 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
         ControlPanel.controlFragment.addInfoToPanel(
                 ((TextView) view.findViewById(R.id.title)).getText().toString(),
                 ((TextView) view.findViewById(R.id.order_doc_date)).getText().toString(),
-                View.VISIBLE, btnText, id
-        );
+                View.VISIBLE, btnText, id,
+                Types.INORDERS);
 
 
         //TODO: check this
@@ -166,7 +169,26 @@ public class OrdersListFragment extends SwipeToRefreshList implements LoaderMana
     protected void onRefresh(Account account) {
         final Bundle extras = new Bundle();
         extras.putBoolean(SyncAdapter.ALL_ORDERS, true);
-        ContentResolver.requestSync(account, ParusAccount.AUTHORITY, extras);
+        final Account acc = account;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder
+                .setMessage("Обновление может занять продолжительное время.\nОбновить все документы?")
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        ContentResolver.requestSync(acc, ParusAccount.AUTHORITY, extras);
+                    }
+                })
+                .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+                        setRefreshing(false);
+                        return;
+                    }
+                }).show();
     }
 
     @Override

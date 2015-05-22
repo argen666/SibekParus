@@ -16,9 +16,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import retrofit.RetrofitError;
+import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.fragment.complectation.ComplectationListFragment;
+import ru.sibek.parus.fragment.complectation.ComplectationSpecFragment;
+import ru.sibek.parus.mappers.Status;
+import ru.sibek.parus.mappers.outvoices.Transindepts;
+import ru.sibek.parus.rest.ParusService;
+import ru.sibek.parus.sqlite.complectations.ComplectationProvider;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
 import ru.sibek.parus.sqlite.storages.StorageProvider;
 
@@ -57,9 +64,9 @@ public class ComplectationControlPanelFragment extends Fragment {
     public void addMasterFragment(Activity mActivity) {
         Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
         if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
-       clearPanel();
+        clearPanel();
 
-                mFragment = Fragment.instantiate(mActivity, Types.COMPLECTATION);
+        mFragment = Fragment.instantiate(mActivity, Types.COMPLECTATION);
 
                 /*Fragment cp = ControlFragmentFactory.getControlPanel(Types.TRANSINDEPT, position);
                 ((InvoicesActivity) mActivity).replaceCP(cp);*/
@@ -163,16 +170,16 @@ public class ComplectationControlPanelFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-               /* long invoiceId = (long) actionBtn.getTag();
-                Log.d("CP_CLICK>>>", invoiceId + "");
-                Cursor cur = getActivity().getContentResolver().query(
+                final long complectationId = (long) actionBtn.getTag();
+                Log.d("CP_CLICK>>>", complectationId + "");
+                /*Cursor cur = getActivity().getContentResolver().query(
                         TransindeptSpecProvider.URI, new String[]{
                                 TransindeptSpecProvider.Columns.NDISTRIBUTION_SIGN,
                                 TransindeptSpecProvider.Columns.SRACK,
                                 TransindeptSpecProvider.Columns.LOCAL_ICON
                         }, TransindeptSpecProvider.Columns.complectation_ID + "=?", new String[]{String.valueOf(invoiceId)}, null
-                );
-                boolean isChecked = true;
+                );*/
+               /* boolean isChecked = true;
                 boolean isSrack = true;
                 try {
                     if (cur.moveToFirst()) {
@@ -190,68 +197,78 @@ public class ComplectationControlPanelFragment extends Fragment {
 
                         if (!isChecked) {
                             Toast.makeText(getActivity(), "Выберите все позиции!", Toast.LENGTH_LONG).show();
-                        } else {
-                            //POST
-                            Log.d("CP_CLICK>>>", "POST!!!");
-                            Cursor cNRN = getActivity().getContentResolver().query(
-                                    TransindeptProvider.URI, new String[]{
-                                            TransindeptProvider.Columns.NRN
-                                    }, TransindeptProvider.Columns._ID + "=?", new String[]{String.valueOf(invoiceId)}, null
-                            );
-                            cNRN.moveToFirst();
-                            final long nrn = TransindeptProvider.getNRN(cNRN);
+                        } else {*/
+                //POST
+                Log.d("CP_CLICK>>>", "POST!!!");
+                Cursor cNRN = getActivity().getContentResolver().query(
+                        ComplectationProvider.URI, new String[]{
+                                ComplectationProvider.Columns.NRN
+                        }, ComplectationProvider.Columns._ID + "=?", new String[]{String.valueOf(complectationId)}, null
+                );
+                cNRN.moveToFirst();
+                final long nrn = ComplectationProvider.getNRN(cNRN);
+                Log.d("NRN>>>", nrn + "!");
+                final Status[] status = new Status[]{null};
+                Thread myThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
 
-                            Thread myThread = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-
-                                        ParusService.getService().applyTransindeptAsFactWithIncome(nrn);
-                                    } catch (RetrofitError e) {
-                                        try {
-                                            Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());
-                                        } catch (IOException e1) {
-
-                                            Log.e("ERROR>>", "((((");
-                                        }
-
-                                    }
-                                }
-                            });
-
-                            myThread.start();
-
-
-                            do {
-                                try {
-                                    myThread.join(250);//Подождать окончания  четверть секунды.
-                                } catch (InterruptedException e) {
-                                }
+                            status[0] = ParusService.getService().createTransindeptByComplectation(nrn);
+                            if (status[0] != null && status[0].getNRN() != -1) {
+                                Transindepts transindepts = ParusService.getService().transindeptByNRN(status[0].getNRN() + "");
+                                getActivity().getContentResolver().bulkInsert(TransindeptProvider.URI, transindepts.toContentValues(complectationId + ""));
                             }
-                            while (myThread.isAlive());
-                            //обновляем
-                            ((TransindeptSpecFragment) ((TransindeptListFragment) mFragment).getSpecInvoiceByID(invoiceId)).refreshSpec(ParusApplication.sAccount);
-                            Fragment f = getActivity().getFragmentManager().findFragmentById(R.id.detail_frame);
-                            if (f != null)
-                                getActivity().getFragmentManager().beginTransaction().remove(f).commit();
-                            new Handler().postDelayed(new Runnable() {
+                        } catch (RetrofitError e) {
+                            //try {
+                            //    Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());
+                            //} catch (IOException e1) {
 
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getActivity(), "Отработано", Toast.LENGTH_LONG).show();
-                                }
-                            }, 1500);
+                            Log.e("ERROR>>", e.toString());
+                            // }
+
                         }
+                    }
+                });
 
-                    } else {
+                myThread.start();
+
+
+                do {
+                    try {
+                        myThread.join(250);//Подождать окончания  четверть секунды.
+                    } catch (InterruptedException e) {
+                    }
+                }
+                while (myThread.isAlive());
+                if (status[0] != null && status[0].getNRN() != -1) {
+                    ((ComplectationSpecFragment) ((ComplectationListFragment) mFragment).getSpecInvoiceByID(complectationId)).refreshSpec(ParusApplication.sAccount);
+                    /*Fragment f = getActivity().getFragmentManager().findFragmentById(R.id.detail_frame);
+                    if (f != null)
+                        getActivity().getFragmentManager().beginTransaction().remove(f).commit();*/
+                    Log.d("NRN@@!!!!", status[0].getNRN().toString());
+
+                    Toast.makeText(getActivity(), "Накладная создана", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), status[0].getSMSG(), Toast.LENGTH_LONG).show();
+                }
+
+
+//---------------------------
+                   /* } else {
                         Log.d("CP_CLICK>>>", "NO SPECS???");
                     }
                 } finally {
                     cur.close();
                 }*/
             }
-        });
-        addMasterFragment(getActivity());
+    }
+
+        );
+
+        addMasterFragment(getActivity()
+
+        );
         return view;
     }
 

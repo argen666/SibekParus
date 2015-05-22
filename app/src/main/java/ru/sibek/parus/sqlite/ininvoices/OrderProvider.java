@@ -63,6 +63,10 @@ public class OrderProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SSTATUS));
     }
 
+    public static String getSstore(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SSTORE));
+    }
+
     public static int getNStatus(Cursor c) {
         return c.getInt(c.getColumnIndex(Columns.NSTATUS));
     }

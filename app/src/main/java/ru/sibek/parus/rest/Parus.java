@@ -72,6 +72,10 @@ public interface Parus {
     @GET("/parus/ru/order/{NRN}")
     Orders orderByNRN(@Path("NRN") String nrn);
 
+    @FormUrlEncoded
+    @POST("/parus/ru/order/status")
+    Response applyOrdereAsFact(@Field("NRN") long nrn/*, @Field("last_name") String last*/);
+
     @GET("/parus/ru/transindepts/{date}")
     Transindepts listTransindepts(@Path("date") String date);
 
@@ -109,4 +113,7 @@ public interface Parus {
 
     @PUT("/parus/ru/complectationspec/{NPRN}")
     Status complectationSpecComplect(@Path("NPRN") long nprn, @Body Nquant json);
+
+    @POST("/parus/ru/complectationspec/{NPRN}")
+    Status createTransindeptByComplectation(@Path("NPRN") long complectationNRN);
 }

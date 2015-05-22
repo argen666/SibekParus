@@ -142,7 +142,11 @@ public class TransindeptProvider extends SQLiteTableProvider {
                 + Columns.SIN_MOL + " text, "
                 + Columns.SIN_STOPER + " text, "
                 + Columns.SFACEACC + " text, "
-                + Columns.NSUMMWITHNDS + " integer)");
+                + Columns.NSUMMWITHNDS + " integer, "
+                + Columns.COMPLECTATION_LINK_ID + " integer)");
+        db.execSQL("create index if not exists " +
+                TABLE_NAME + "_" + Columns.COMPLECTATION_LINK_ID + "_index" +
+                " on " + TABLE_NAME + "(" + Columns.COMPLECTATION_LINK_ID + ");");
         //ахуенный триггер
         db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
                 " begin " +
@@ -178,6 +182,17 @@ public class TransindeptProvider extends SQLiteTableProvider {
         String NRN = "NRN";
         String LOCAL_NSTATUS = "LOCAL_NSTATUS";
         String HASH = "HASH";
+        String COMPLECTATION_LINK_ID = "COMPLECTATION_LINK_ID";
     }
 
+   /* @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        Log.w(TransindeptProvider.class.getName(), "Upgrading database from version " + oldVersion + " to "
+                + newVersion + ". Old data will be destroyed");
+
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+
+
+    }*/
 }

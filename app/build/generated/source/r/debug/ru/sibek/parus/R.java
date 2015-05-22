@@ -68,10 +68,10 @@ public final class R {
         public static final int transindeptspec_listitem_selector=0x7f02002c;
     }
     public static final class id {
-        public static final int action_add=0x7f080049;
-        public static final int action_exit=0x7f080048;
-        public static final int action_scanner=0x7f08004a;
-        public static final int action_settings=0x7f080047;
+        public static final int action_add=0x7f08004a;
+        public static final int action_exit=0x7f080049;
+        public static final int action_scanner=0x7f08004b;
+        public static final int action_settings=0x7f080048;
         public static final int agent=0x7f080037;
         public static final int button_cell=0x7f08002b;
         public static final int button_detail_spec_cancel=0x7f08002d;
@@ -109,12 +109,13 @@ public final class R {
         public static final int master_frame=0x7f080010;
         public static final int name=0x7f080038;
         public static final int order_doc_date=0x7f080043;
+        public static final int order_sstore=0x7f080044;
         public static final int orders_loader=0x7f080009;
         public static final int orders_spec_loader=0x7f08000a;
         public static final int refresh_layout=0x7f080019;
         public static final int sintorage_button=0x7f080015;
         public static final int spec_cmpl_quant=0x7f08003c;
-        public static final int spec_delete_image=0x7f080044;
+        public static final int spec_delete_image=0x7f080045;
         public static final int spec_detail_loader=0x7f08000b;
         public static final int spec_dlvr_quant=0x7f08003d;
         public static final int spec_image=0x7f080040;
@@ -124,7 +125,7 @@ public final class R {
         public static final int spec_quant_text=0x7f080018;
         public static final int spec_store=0x7f080042;
         public static final int spec_store_quant=0x7f08003e;
-        public static final int spinnerTarget=0x7f080046;
+        public static final int spinnerTarget=0x7f080047;
         public static final int status=0x7f080036;
         public static final int status_image=0x7f080033;
         public static final int storage_button=0x7f080014;
@@ -142,7 +143,7 @@ public final class R {
         public static final int transindept_loader=0x7f08000c;
         public static final int transindept_spec_loader=0x7f08000d;
         public static final int transindept_spinner=0x7f08002e;
-        public static final int tvName=0x7f080045;
+        public static final int tvName=0x7f080046;
     }
     public static final class layout {
         public static final int ac_single_frame=0x7f030000;

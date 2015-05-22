@@ -50,7 +50,7 @@ public class SQLiteContentProvider extends ContentProvider {
 
     private static final String DATABASE_NAME = "parus.db";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 10;
 
     private static final String MIME_DIR = "vnd.android.cursor.dir/";
 
