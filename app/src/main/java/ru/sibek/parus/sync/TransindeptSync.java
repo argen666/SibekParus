@@ -2,10 +2,14 @@ package ru.sibek.parus.sync;
 
 import android.content.ContentProviderClient;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.os.RemoteException;
 import android.util.Log;
+
+import com.squareup.otto.parus.BusProvider;
+import com.squareup.otto.parus.TransindeptDeletedEvent;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +18,7 @@ import java.util.Scanner;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import ru.sibek.parus.mappers.ContentValuesUtils;
+import ru.sibek.parus.mappers.Status;
 import ru.sibek.parus.mappers.outvoices.TransindeptSpec;
 import ru.sibek.parus.mappers.outvoices.Transindepts;
 import ru.sibek.parus.rest.ParusService;
@@ -57,7 +62,9 @@ public class TransindeptSync {
                         getTransindepts(null, null, tms, provider, syncResult);
                     }
                 } else {
-                    getTransindepts(null, null, "0", provider, syncResult);
+                    if (where == null) {
+                        getTransindepts(null, null, "0", provider, syncResult);
+                    }
                 }
             } finally {
                 transindepts.close();
@@ -119,11 +126,12 @@ public class TransindeptSync {
                             .bulkInsert(TransindeptSpecProvider.URI, transspec.toContentValues(transindeptId));
                     Log.d("Transindepts_UPDATE_SPEC>>>", transindeptId + "___" + NRN);
                 } else {
+                    Log.d("Transindepts_DELETE!!!>>>", transindeptId + "___" + NRN);
                     syncResult.stats.numDeletes += provider
                             .delete(TransindeptProvider.URI, TransindeptProvider.Columns._ID + "=?", new String[]{transindeptId});
 
-                    syncResult.stats.numDeletes += provider
-                            .delete(TransindeptSpecProvider.URI, TransindeptSpecProvider.Columns.TRANSINDEPT_ID + "=?", new String[]{transindeptId});
+                    /*syncResult.stats.numDeletes += provider
+                            .delete(TransindeptSpecProvider.URI, TransindeptSpecProvider.Columns.TRANSINDEPT_ID + "=?", new String[]{transindeptId});*/
                 }
             }
 
@@ -132,7 +140,7 @@ public class TransindeptSync {
         }
     }
 
-    public static void syncTransindeptSpecDelete(ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
+    public static void syncTransindeptSpecDelete(Context context, ContentProviderClient provider, SyncResult syncResult, String where, String[] whereArgs) {
         try {
             final Cursor transindepts = provider.query(
                     TransindeptSpecProvider.URI, new String[]{
@@ -147,7 +155,7 @@ public class TransindeptSync {
                 if (transindepts.moveToFirst()) {
 
 
-                    deleteTransindeptSpec(transindepts.getString(0), transindepts.getString(1), transindepts.getString(2), provider, syncResult);
+                    deleteTransindeptSpec(transindepts.getString(0), transindepts.getString(1), transindepts.getString(2), provider, syncResult, context);
 
                 } else {
 
@@ -161,9 +169,14 @@ public class TransindeptSync {
         }
     }
 
-    private static void deleteTransindeptSpec(String id, String nrn, String nprn, ContentProviderClient provider, SyncResult syncResult) {
+
+    private static void deleteTransindeptSpec(String id, String nrn, String nprn, ContentProviderClient provider, SyncResult syncResult, Context context) {
         try {
-            Response status = ParusService.getService().deleteTransindeptSpecByNRN(nrn);
+            Status status = ParusService.getService().deleteTransindeptSpecByNRN(nrn);
+            //Toast.makeText(context,"Success",Toast.LENGTH_LONG).show();
+            if (status!=null) {
+                BusProvider.getInstance().post(new TransindeptDeletedEvent(status.getNRN(),status.getSMSG()));
+            }
         } catch (RetrofitError e) {
             try {
                 Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());

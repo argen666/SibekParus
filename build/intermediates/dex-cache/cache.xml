@@ -51,6 +51,13 @@
         <dex dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\okhttp-2.0.0-45436654978b2062aae87f33bea27c0cd10acc0a.jar" />
     </item>
     <item
+        jar="C:\Users\Developer\.gradle\caches\modules-2\files-2.1\com.squareup\otto\1.3.7\69d90fd7fb70e54746e26c10454c220e40a775ce\otto-1.3.7.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="69d90fd7fb70e54746e26c10454c220e40a775ce">
+        <dex dex="E:\Android\AndroidStudioProjects\SibekParus\app\build\intermediates\pre-dexed\debug\otto-1.3.7-9c282ad28dd6b6d75eb865d1311868053939b7f9.jar" />
+    </item>
+    <item
         jar="C:\Users\Developer\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp-urlconnection\2.0.0\afe8399d352713b66e597e9670c741d1e60ae923\okhttp-urlconnection-2.0.0.jar"
         jumboMode="false"
         revision="20.0.0"

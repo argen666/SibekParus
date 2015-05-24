@@ -6,7 +6,11 @@ import android.database.Cursor;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.squareup.otto.parus.BusProvider;
+import com.squareup.otto.parus.InvoiceChangedEvent;
+
 import retrofit.client.Response;
+import ru.sibek.parus.mappers.Status;
 import ru.sibek.parus.rest.NetworkTask;
 import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
@@ -122,13 +126,14 @@ public class InvoicesSync {
         NetworkTask n = new NetworkTask(provider, syncResult);
         try {
             //Response r = (Response) n.getData(null, "", "applyInvoiceAsFact", NRN);
-            Response r = (Response) ParusService.getService().applyInvoiceAsFact(Long.valueOf(NRN));
-            if (r != null) {
+            Status status =  ParusService.getService().applyInvoiceAsFact(Long.valueOf(NRN));
+            if (status != null) {
                 InvoicesSync.getInvoices(invoiceId, NRN, null, provider, syncResult);
+                BusProvider.getInstance().post(new InvoiceChangedEvent(status.getNRN(),status.getSMSG()));
             } else {
                 Log.d("OOPS!", "Network is down");
             }
-            Log.d("CP_CLICK>>>", r.toString());
+            Log.d("CP_CLICK>>>", status.toString());
 
         } catch (/*Remote*/Exception e) {
             e.printStackTrace();

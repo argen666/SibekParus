@@ -17,13 +17,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.otto.Subscribe;
+import com.squareup.otto.parus.BusProvider;
+import com.squareup.otto.parus.InvoiceChangedEvent;
+
+import retrofit.RetrofitError;
 import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
-import ru.sibek.parus.activity.InvoicesActivity;
 import ru.sibek.parus.fragment.Types;
+import ru.sibek.parus.fragment.ininvoice.OrdersListFragment;
+import ru.sibek.parus.fragment.ininvoice.OrdersSpecFragment;
+import ru.sibek.parus.mappers.Status;
+import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceProvider;
 import ru.sibek.parus.sqlite.ininvoices.InvoiceSpecProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderProvider;
+import ru.sibek.parus.sqlite.ininvoices.OrderSpecProvider;
 import ru.sibek.parus.sync.SyncAdapter;
 import ru.sibek.parus.view.DummyFragment;
 
@@ -40,6 +50,7 @@ public class InvoiceControlPanelFragment extends Fragment {
     Spinner spinner;
 
     private Fragment mFragment;
+    private String panelType;
 
     public static InvoiceControlPanelFragment newInstance() {
         return InvoiceControlPanelFragment.newInstance(0);
@@ -73,9 +84,9 @@ public class InvoiceControlPanelFragment extends Fragment {
             case 1: {
                 mFragment = Fragment.instantiate(mActivity, Types.INORDERS);
 
-                Fragment cp = ControlFragmentFactory.getControlPanel(Types.INORDERS, position);
-                ((InvoicesActivity) mActivity).replaceCP(cp);
-                // if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
+               /* Fragment cp = ControlFragmentFactory.getControlPanel(Types.INORDERS, position);
+                ((InvoicesActivity) mActivity).replaceCP(cp);*/
+
                 break;
             }
             case 2: {
@@ -107,11 +118,17 @@ public class InvoiceControlPanelFragment extends Fragment {
         return view;
     }
 
-    public void addInfoToPanel(String title, String date, int btnVisibility, String btnText, Object btnTag) {
+    public int getSpinnerId() {
+        return spinner.getSelectedItemPosition();
+    }
+
+    public void addInfoToPanel(String title, String date, int btnVisibility, String btnText, Object btnTag, String type) {
         itemTitle = title;
         strDate = date;
         btnActText = btnText;
         visibility = btnVisibility;
+        panelType = type;
+        itemName.setTag(type);//todo fix!
         itemName.setText(itemTitle);
         itemDate.setText(date);
         itemName.setVisibility(btnVisibility);
@@ -119,7 +136,7 @@ public class InvoiceControlPanelFragment extends Fragment {
         actionBtn.setVisibility(btnVisibility);
         actionBtn.setTag(btnTag);
         if (btnActText == null) {
-            actionBtn.setText("Отработать накладную");
+            actionBtn.setText("Отработать как факт");
             actionBtn.setEnabled(true);
         } else {
             actionBtn.setText(btnActText);
@@ -176,73 +193,183 @@ public class InvoiceControlPanelFragment extends Fragment {
             public void onClick(View v) {
                 long invoiceId = (long) actionBtn.getTag();
                 Log.d("CP_CLICK>>>", invoiceId + "");
-                Cursor cur = getActivity().getContentResolver().query(
-                        InvoiceSpecProvider.URI, new String[]{
-                                InvoiceSpecProvider.Columns.NDISTRIBUTION_SIGN,
-                                InvoiceSpecProvider.Columns.SRACK,
-                                InvoiceSpecProvider.Columns.LOCAL_ICON
-                        }, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{String.valueOf(invoiceId)}, null
-                );
-                boolean isChecked = true;
-                boolean isSrack = true;
-                try {
-                    if (cur.moveToFirst()) {
-                        do {
-                            if (InvoiceSpecProvider.getSRACK(cur) == null && InvoiceSpecProvider.getNDISTRIBUTION_SIGN(cur) == 1) {
-                                isSrack = false;
-                                break;
-                            }
-
-                            if (InvoiceSpecProvider.getLOCAL_ICON(cur) == 0 || InvoiceSpecProvider.getLOCAL_ICON(cur) == R.drawable.invoice_spec_non_accepted) {
-                                isChecked = false;
-                                break;
-                            }
-                        }
-                        while (cur.moveToNext());
-
-                        if (!isSrack) {
-                            Toast.makeText(getActivity(), "Не определено место хранения!", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        if (!isChecked) {
-                            Toast.makeText(getActivity(), "Выберите все позиции!", Toast.LENGTH_LONG).show();
-                        } else {
-                            //POST
-                            Log.d("CP_CLICK>>>", "POST!!!");
-                            Cursor cNRN = getActivity().getContentResolver().query(
-                                    InvoiceProvider.URI, new String[]{
-                                            InvoiceProvider.Columns.NRN
-                                    }, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(invoiceId)}, null
-                            );
-                            cNRN.moveToFirst();
-                            long nrn = InvoiceProvider.getNRN(cNRN);
-
-                            final Bundle syncExtras = new Bundle();
-                            syncExtras.putLong(SyncAdapter.KEY_POST_INVOICE_ID, invoiceId);
-                            ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
-                            Fragment f = getActivity().getFragmentManager().findFragmentById(R.id.detail_frame);
-                            if (f != null)
-                                getActivity().getFragmentManager().beginTransaction().remove(f).commit();
-                            new Handler().postDelayed(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getActivity(), "Отработано", Toast.LENGTH_LONG).show();
+                Log.d("CP_TYPE>>>", panelType);
+                if (panelType == Types.ININVOICES) {
+                    Cursor cur = getActivity().getContentResolver().query(
+                            InvoiceSpecProvider.URI, new String[]{
+                                    InvoiceSpecProvider.Columns.NDISTRIBUTION_SIGN,
+                                    InvoiceSpecProvider.Columns.SRACK,
+                                    InvoiceSpecProvider.Columns.LOCAL_ICON
+                            }, InvoiceSpecProvider.Columns.INVOICE_ID + "=?", new String[]{String.valueOf(invoiceId)}, null
+                    );
+                    boolean isChecked = true;
+                    boolean isSrack = true;
+                    try {
+                        if (cur.moveToFirst()) {
+                            do {
+                                if (InvoiceSpecProvider.getSRACK(cur) == null && InvoiceSpecProvider.getNDISTRIBUTION_SIGN(cur) == 1) {
+                                    isSrack = false;
+                                    break;
                                 }
-                            }, 1500);
-                        }
 
-                    } else {
-                        Log.d("CP_CLICK>>>", "NO SPECS???");
+                                if (InvoiceSpecProvider.getLOCAL_ICON(cur) == 0 || InvoiceSpecProvider.getLOCAL_ICON(cur) == R.drawable.invoice_spec_non_accepted) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            while (cur.moveToNext());
+
+                            if (!isSrack) {
+                                Toast.makeText(getActivity(), "Не определено место хранения!", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            if (!isChecked) {
+                                Toast.makeText(getActivity(), "Выберите все позиции!", Toast.LENGTH_LONG).show();
+                            } else {
+                                //POST
+                                Log.d("CP_CLICK>>>", "POST!!!");
+                                Cursor cNRN = getActivity().getContentResolver().query(
+                                        InvoiceProvider.URI, new String[]{
+                                                InvoiceProvider.Columns.NRN
+                                        }, InvoiceProvider.Columns._ID + "=?", new String[]{String.valueOf(invoiceId)}, null
+                                );
+                                cNRN.moveToFirst();
+                                long nrn = InvoiceProvider.getNRN(cNRN);
+
+                                final Bundle syncExtras = new Bundle();
+                                syncExtras.putLong(SyncAdapter.KEY_POST_INVOICE_ID, invoiceId);
+                                ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
+                                Fragment f = getActivity().getFragmentManager().findFragmentById(R.id.detail_frame);
+                                if (f != null)
+                                    getActivity().getFragmentManager().beginTransaction().remove(f).commit();
+
+                               /* new Handler().postDelayed(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getActivity(), "Отработано", Toast.LENGTH_LONG).show();
+                                    }
+                                }, 1500);*/
+                            }
+
+                        } else {
+                            Log.d("CP_CLICK>>>", "NO SPECS???");
+                        }
+                    } finally {
+                        cur.close();
                     }
-                } finally {
-                    cur.close();
+                }
+                if (panelType == Types.INORDERS) {
+                    Log.d("INORDERS>>>", "INORDERS");
+                    Cursor cur = getActivity().getContentResolver().query(
+                            OrderSpecProvider.URI, new String[]{
+                                    OrderSpecProvider.Columns.NDISTRIBUTION_SIGN,
+                                    OrderSpecProvider.Columns.SRACK,
+                                    OrderSpecProvider.Columns.LOCAL_ICON
+                            }, OrderSpecProvider.Columns.ORDER_ID + "=?", new String[]{String.valueOf(invoiceId)}, null
+                    );
+                    boolean isChecked = true;
+                    try {
+                        if (cur.moveToFirst()) {
+                            do {
+
+
+                                if (InvoiceSpecProvider.getLOCAL_ICON(cur) == 0 || InvoiceSpecProvider.getLOCAL_ICON(cur) == R.drawable.invoice_spec_non_accepted) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            while (cur.moveToNext());
+
+
+                            if (!isChecked) {
+                                Toast.makeText(getActivity(), "Выберите все позиции!", Toast.LENGTH_LONG).show();
+                            } else {
+                                //POST
+                                Log.d("CP_CLICK>>>", "POST!!!");
+                                final Cursor cNRN = getActivity().getContentResolver().query(
+                                        OrderProvider.URI, new String[]{
+                                                OrderProvider.Columns.NRN
+                                        }, OrderProvider.Columns._ID + "=?", new String[]{String.valueOf(invoiceId)}, null
+                                );
+                                cNRN.moveToFirst();
+                                final long nrn = InvoiceProvider.getNRN(cNRN);
+
+                                final Status[] status = new Status[]{null};
+                                //final boolean[] isOK = new boolean[]{true};
+                                Thread myThread = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+
+                                            status[0] = ParusService.getService().applyOrdereAsFact(nrn);
+
+                                        } catch (RetrofitError e) {
+                                            //try {
+                                            //    Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());
+                                            //} catch (IOException e1) {
+                                            //isOK[0] = false;
+                                            Log.e("ERROR>>", e.toString());
+                                            // }
+
+                                        }
+                                    }
+                                });
+
+                                myThread.start();
+
+
+                                do {
+                                    try {
+                                        myThread.join(250);//Подождать окончания  четверть секунды.
+                                    } catch (InterruptedException e) {
+                                    }
+                                }
+                                while (myThread.isAlive());
+                                if (status[0] != null && status[0].getNRN() != -1) {
+                                    ((OrdersSpecFragment) ((OrdersListFragment) mFragment).getSpecInvoiceByID(invoiceId)).refreshSpec(ParusApplication.sAccount);
+                                    Toast.makeText(getActivity(), "Отработано", Toast.LENGTH_LONG).show();
+                                    Fragment f = getActivity().getFragmentManager().findFragmentById(R.id.detail_frame);
+                                    if (f != null)
+                                        getActivity().getFragmentManager().beginTransaction().remove(f).commit();
+                                } else {
+                                    Toast.makeText(getActivity(), status[0].getSMSG(), Toast.LENGTH_LONG).show();
+                                }
+
+
+                            }
+                        }
+                    } finally {
+                        cur.close();
+                    }
                 }
             }
+
         });
 
         return view;
+    }
+
+    @Subscribe
+    public void onInvoiceChanged(InvoiceChangedEvent event) {
+        if (event.getNRN() != -1) {
+        Toast.makeText(getActivity(), "Накладная отработана!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), event.getSMSG(), Toast.LENGTH_LONG).show();
+        }
+        }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
     }
 
     @Override

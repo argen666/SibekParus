@@ -14,6 +14,8 @@ import ru.sibek.parus.mappers.Companies;
 import ru.sibek.parus.mappers.Racks;
 import ru.sibek.parus.mappers.Status;
 import ru.sibek.parus.mappers.Storages;
+import ru.sibek.parus.mappers.complectations.ComplectationSpec;
+import ru.sibek.parus.mappers.complectations.Complectations;
 import ru.sibek.parus.mappers.ininvoices.Invoices;
 import ru.sibek.parus.mappers.ininvoices.InvoicesSpec;
 import ru.sibek.parus.mappers.ininvoices.Orders;
@@ -59,7 +61,7 @@ public interface Parus {
 
     @FormUrlEncoded
     @POST("/parus/ru/invoice/status")
-    Response applyInvoiceAsFact(@Field("NRN") long nrn/*, @Field("last_name") String last*/);
+    Status applyInvoiceAsFact(@Field("NRN") long nrn/*, @Field("last_name") String last*/);
 
     @GET("/parus/ru/inorders/{date}")
     Orders listOrders(@Path("date") String date);
@@ -70,6 +72,10 @@ public interface Parus {
     @GET("/parus/ru/order/{NRN}")
     Orders orderByNRN(@Path("NRN") String nrn);
 
+    @FormUrlEncoded
+    @POST("/parus/ru/order/status")
+    Status applyOrdereAsFact(@Field("NRN") long nrn/*, @Field("last_name") String last*/);
+
     @GET("/parus/ru/transindepts/{date}")
     Transindepts listTransindepts(@Path("date") String date);
 
@@ -77,7 +83,7 @@ public interface Parus {
     TransindeptSpec transindeptSpecByNRN(@Path("NPRN") String nprn);
 
     @DELETE("/parus/ru/transindeptspec/{NPRN}")
-    Response deleteTransindeptSpecByNRN(@Path("NPRN") String nprn);
+    Status deleteTransindeptSpecByNRN(@Path("NPRN") String nprn);
 
     @GET("/parus/ru/transindept/{NRN}")
     Transindepts transindeptByNRN(@Path("NRN") String nrn);
@@ -91,8 +97,23 @@ public interface Parus {
 
     @FormUrlEncoded
     @POST("/parus/ru/transindeptspec/{NPRN}")
-    Response addTransindeptSpecByMasterNRN(@Path("NPRN") long nrn, @Field("NNOMEN") String nnomen);
+    Status addTransindeptSpecByMasterNRN(@Path("NPRN") long nrn, @Field("NNOMEN") String nnomen);
 
     @PUT("/parus/ru/transindeptspec/{NPRN}")
-    Response updateTransindeptSpecNQuant(@Path("NPRN") long nprn, @Body Nquant json);
+    Status updateTransindeptSpecNQuant(@Path("NPRN") long nprn, @Body Nquant json);
+
+    @GET("/parus/ru/complectations/{date}")
+    Complectations listComplectations(@Path("date") String date);
+
+    @GET("/parus/ru/complectation/{NRN}")
+    Complectations complectationByNRN(@Path("NRN") String nrn);
+
+    @GET("/parus/ru/complectationspec/{NPRN}")
+    ComplectationSpec complectationSpecByNRN(@Path("NPRN") String nprn);
+
+    @PUT("/parus/ru/complectationspec/{NPRN}")
+    Status complectationSpecComplect(@Path("NPRN") long nprn, @Body Nquant json);
+
+    @POST("/parus/ru/complectationspec/{NPRN}")
+    Status createTransindeptByComplectation(@Path("NPRN") long complectationNRN);
 }

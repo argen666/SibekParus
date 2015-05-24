@@ -38,11 +38,14 @@ public class ComplectationSpecProvider extends SQLiteTableProvider {
         return c.getLong(c.getColumnIndex(Columns._ID));
     }
 
-/*    public static String getSNOMENNAME(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.SNOMENNAME));
+    public static String getSMATRES_NAME(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SMATRES_NAME));
     }
 
-    public static String getSSERNUMB(Cursor c) {
+    public static String getSMATRES_NOMEN(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SMATRES_NOMEN));
+    }
+  /*  public static String getSSERNUMB(Cursor c) {
         return c.getString(c.getColumnIndex(Columns.SSERNUMB));
     }
 
@@ -59,21 +62,29 @@ public class ComplectationSpecProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SCELL));
     }*/
 
-  /*  public static String getSNOMEN(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.SNOMEN));
+    public static String getSNOMEN(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SMATRES_NOMEN));
     }
 
     public static String getSMEAS_MAIN(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.SMEAS_MAIN));
+        return c.getString(c.getColumnIndex(Columns.SMATRES_UMEAS));
     }
 
-    public static double getQUANT(Cursor c) {
-        return c.getDouble(c.getColumnIndex(Columns.NQUANT));
+    public static double getPLANQUANT(Cursor c) {
+        return c.getDouble(c.getColumnIndex(Columns.NQUANT_PLAN));
+    }
+
+    public static double getNQUANT_DLVR(Cursor c) {
+        return c.getDouble(c.getColumnIndex(Columns.NQUANT_DLVR));
+    }
+
+    public static double getNQUANT_CMPL(Cursor c) {
+        return c.getDouble(c.getColumnIndex(Columns.NQUANT_CMPL));
     }
 
     public static double getNSTOREQUANT(Cursor c) {
-        return c.getDouble(c.getColumnIndex(Columns.NSTOREQUANT));*/
-    //}
+        return c.getDouble(c.getColumnIndex(Columns.SQUANT));
+    }
 
 
     public static long getNRN(Cursor c) {

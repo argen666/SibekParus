@@ -14,7 +14,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import ru.sibek.parus.R;
-import ru.sibek.parus.activity.InvoicesActivity;
 import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.view.DummyFragment;
 
@@ -57,8 +56,9 @@ public class OrderControlPanelFragment extends Fragment {
             case 0: {
                 mFragment = Fragment.instantiate(mActivity, Types.ININVOICES);
 
-                Fragment cp = ControlFragmentFactory.getControlPanel(Types.ININVOICES, position);
-                ((InvoicesActivity) mActivity).replaceCP(cp);
+               /* Fragment cp = ControlFragmentFactory.getControlPanel(Types.ININVOICES, position);
+                ((InvoicesActivity) mActivity).replaceCP(cp);*/
+
                 //if (f != null) getFragmentManager().beginTransaction().remove(f).commit();
                 break;
             }
@@ -137,7 +137,6 @@ public class OrderControlPanelFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         spinner.setAdapter(adapter);
         spinner.setSelection(spinnerPos);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override

@@ -20,15 +20,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.Scanner;
-
 import retrofit.RetrofitError;
 import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.fragment.Types;
 import ru.sibek.parus.fragment.outvoice.TransindeptListFragment;
 import ru.sibek.parus.fragment.outvoice.TransindeptSpecFragment;
+import ru.sibek.parus.mappers.Status;
 import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptProvider;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptSpecProvider;
@@ -236,20 +234,22 @@ public class TransindeptControlPanelFragment extends Fragment {
                             );
                             cNRN.moveToFirst();
                             final long nrn = TransindeptProvider.getNRN(cNRN);
-
+                            Log.d("NRN>>>", nrn + "");
+                            final Status[] status = {null};
                             Thread myThread = new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     try {
 
-                                        ParusService.getService().applyTransindeptAsFactWithIncome(nrn);
-                                    } catch (RetrofitError e) {
-                                        try {
-                                            Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());
-                                        } catch (IOException e1) {
+                                        status[0] = ParusService.getService().applyTransindeptAsFactWithIncome(nrn);
 
-                                            Log.e("ERROR>>", "((((");
-                                        }
+                                    } catch (RetrofitError e) {
+                                        //try {
+                                        //Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());
+                                        // } catch (IOException e1) {
+
+                                        Log.e("ERROR>>", e.toString());
+                                        // }
 
                                     }
                                 }
@@ -266,6 +266,7 @@ public class TransindeptControlPanelFragment extends Fragment {
                             }
                             while (myThread.isAlive());
                             //обновляем
+                            if (status[0] != null && status[0].getNRN() != -1) {
                             ((TransindeptSpecFragment) ((TransindeptListFragment) mFragment).getSpecInvoiceByID(invoiceId)).refreshSpec(ParusApplication.sAccount);
                             Fragment f = getActivity().getFragmentManager().findFragmentById(R.id.detail_frame);
                             if (f != null)
@@ -277,6 +278,9 @@ public class TransindeptControlPanelFragment extends Fragment {
                                     Toast.makeText(getActivity(), "Отработано", Toast.LENGTH_LONG).show();
                                 }
                             }, 1500);
+                            } else {
+                                Toast.makeText(getActivity(), status[0].getSMSG(), Toast.LENGTH_LONG).show();
+                            }
                         }
 
                     } else {

@@ -20,6 +20,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.squareup.otto.Subscribe;
+import com.squareup.otto.parus.BusProvider;
+import com.squareup.otto.parus.TransindeptDeletedEvent;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +34,7 @@ import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;
 import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.fragment.SwipeToRefreshList;
+import ru.sibek.parus.mappers.Status;
 import ru.sibek.parus.mappers.outvoices.Nquant;
 import ru.sibek.parus.rest.ParusService;
 import ru.sibek.parus.sqlite.outinvoices.TransindeptSpecProvider;
@@ -139,13 +144,14 @@ public class TransindeptSpecFragment extends SwipeToRefreshList implements Loade
                         }
                         Double nquant = Double.valueOf(text);
                         if (nstoreQuant >= nquant) {
+                            final Status[] status = new Status[]{null};
                             Thread myThread = new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     try {
                                         Nquant n = new Nquant();
                                         n.setNQUANT(text);
-                                        ParusService.getService().updateTransindeptSpecNQuant(selectedNRN, n);
+                                        status[0] = ParusService.getService().updateTransindeptSpecNQuant(selectedNRN, n);
                                     } catch (RetrofitError e) {
                                         try {
                                             Log.e("ERROR>>", new Scanner(e.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A").next());
@@ -168,11 +174,16 @@ public class TransindeptSpecFragment extends SwipeToRefreshList implements Loade
                                 }
                             }
                             while (myThread.isAlive());
-                            //обновляем спеку
-                            onRefresh(ParusApplication.sAccount);
+                            if (status[0] != null && status[0].getNRN() != -1) {
+                                //обновляем спеку
+                                onRefresh(ParusApplication.sAccount);
 
-                            Toast.makeText(getActivity().getApplicationContext(),
-                                    "text__" + text + "==" + selectedNRN, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity().getApplicationContext(),
+                                        "Обновлено!", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getActivity().getApplicationContext(),
+                                        status[0].getSMSG(), Toast.LENGTH_LONG).show();
+                            }
                         } else
 
                         {
@@ -189,6 +200,29 @@ public class TransindeptSpecFragment extends SwipeToRefreshList implements Loade
 
 
     }
+
+
+    @Subscribe
+    public void onInvoiceChanged(TransindeptDeletedEvent event) {
+        if (event.getNRN() != -1) {
+            Toast.makeText(getActivity(), "Удалено!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), event.getSMSG(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
+    }
+
 
     @Override
     protected void onRefresh(Account account) {

@@ -16,6 +16,7 @@
 
 package ru.sibek.parus.sqlite.complectations;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,7 +24,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 
+import ru.sibek.parus.ParusApplication;
+import ru.sibek.parus.account.ParusAccount;
 import ru.sibek.parus.sqlite.SQLiteTableProvider;
+import ru.sibek.parus.sync.SyncAdapter;
 
 public class ComplectationProvider extends SQLiteTableProvider {
 
@@ -55,12 +59,12 @@ public class ComplectationProvider extends SQLiteTableProvider {
         return c.getString(c.getColumnIndex(Columns.SDOCTYPE));
     }
 
-    public static String getStatus(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.SSTATUS_IN_STATUS));
+    public static String getSPROD_ORDER(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SPROD_ORDER));
     }
 
-    public static String getNSUMMWITHNDS(Cursor c) {
-        return c.getString(c.getColumnIndex(Columns.NSUMMWITHNDS));
+    public static String getSMATRES_NAME(Cursor c) {
+        return c.getString(c.getColumnIndex(Columns.SMATRES_NAME));
     }
 
     public static int getNStatus(Cursor c) {
@@ -83,8 +87,8 @@ public class ComplectationProvider extends SQLiteTableProvider {
         return c.getLong(c.getColumnIndex(Columns.SNUMB));
     }
 
-    public static long getNstore(Cursor c) {
-        return c.getInt(c.getColumnIndex(Columns.NSTORE));
+    public static int getSALIVE(Cursor c) {
+        return c.getInt(c.getColumnIndex(Columns.SALIVE));
     }
 
     public static String getSStore(Cursor c) {
@@ -99,10 +103,10 @@ public class ComplectationProvider extends SQLiteTableProvider {
     @Override
     public void onContentChanged(Context context, int operation, Bundle extras) {
         if (operation == INSERT) {
-            /*extras.keySet();
+            extras.keySet();
             final Bundle syncExtras = new Bundle();
-            syncExtras.putLong(SyncAdapter.KEY_TRANSINDEPT_ID, extras.getLong(KEY_LAST_ID, -1));
-            ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);*/
+            syncExtras.putLong(SyncAdapter.KEY_COMPLECTATION_ID, extras.getLong(KEY_LAST_ID, -1));
+            ContentResolver.requestSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, syncExtras);
             //Log.d("QQcontentChanged", "insert");
 
         }
@@ -125,7 +129,7 @@ public class ComplectationProvider extends SQLiteTableProvider {
                 + Columns.HASH + " integer, "
                 + Columns.NSTATE + " integer, "
                 + Columns.LOCAL_NSTATUS + " integer, "
-                + Columns.SSTATUS_IN_STATUS + " text, "
+                + Columns.SALIVE + " text, "
                 + Columns.NRN + " integer, "
                 + Columns.DWORK_DATE + " integer, "
                 + Columns.NSTORE + " integer, "
@@ -137,10 +141,10 @@ public class ComplectationProvider extends SQLiteTableProvider {
                 + Columns.SSUBDIV + " text, "
                 + Columns.NSUBDIV + " integer)");
         //ахуенный триггер
-        /*db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
+        db.execSQL("create trigger if not exists after delete on " + TABLE_NAME +
                 " begin " +
-                " delete from " + InvoiceSpecProvider.TABLE_NAME + " where " + InvoiceSpecProvider.Columns.INVOICE_ID + "=old." + Columns._ID + ";" +
-                " end;");*/
+                " delete from " + ComplectationSpecProvider.TABLE_NAME + " where " + ComplectationSpecProvider.Columns.COMPLECTATION_ID + "=old." + Columns._ID + ";" +
+                " end;");
     }
 
     public interface Columns extends BaseColumns {
@@ -156,7 +160,7 @@ public class ComplectationProvider extends SQLiteTableProvider {
         String SPREF = "SPREF";
         String SNUMB = "SNUMB";
         String DDOC_DATE = "DDOC_DATE";
-        String SSTATUS_IN_STATUS = "SSTATUS_IN_STATUS";
+        String SALIVE = "SALIVE";
         String DWORK_DATE = "DWORK_DATE";
         String NRN = "NRN";
         String LOCAL_NSTATUS = "LOCAL_NSTATUS";

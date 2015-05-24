@@ -73,14 +73,14 @@ public class OrderSpecListItem extends LinearLayout implements CursorBinder {
         } else {
             mSpecQuant.setText(String.format("%s", quant) + OrderSpecProvider.getSMEAS_MAIN(c).toUpperCase());
         }
-        final String sstore = OrderSpecProvider.getSSTORE(c);
+        /*final String sstore = OrderSpecProvider.getSSTORE(c);
         if (sstore != null) {
             mSpecStore.setText(" Cклад: " + OrderSpecProvider.getSSTORE(c));
             mSpecStore.setTextColor(Color.BLACK);
         } else {
             mSpecStore.setText("Cклад: - ");
             mSpecStore.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-        }
+        }*/
         final long storageSign = OrderSpecProvider.getNDISTRIBUTION_SIGN(c);
         if (storageSign == 1) {
             final String rack = OrderSpecProvider.getSRACK(c);

@@ -32,6 +32,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.otto.Subscribe;
+import com.squareup.otto.parus.BusProvider;
+import com.squareup.otto.parus.TransindeptDeletedEvent;
 
 import ru.sibek.parus.ParusApplication;
 import ru.sibek.parus.R;

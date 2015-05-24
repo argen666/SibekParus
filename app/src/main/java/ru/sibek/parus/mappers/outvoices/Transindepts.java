@@ -31,11 +31,16 @@ public class Transindepts {
     }
 
     public ContentValues[] toContentValues() {
+        return toContentValues("");
+    }
+
+    public ContentValues[] toContentValues(String linkCmpl) {
 
         final List<ContentValues> contentValuesList = new ArrayList<>();
         List<TransindeptItem> items = this.getItems();
         for (TransindeptItem item : items) {
             ContentValues contentValues = new ContentValues();
+            contentValues.put(TransindeptProvider.Columns.COMPLECTATION_LINK_ID, linkCmpl);
             contentValues.put(TransindeptProvider.Columns.NCOMPANY, item.getNcompany());
             contentValues.put(TransindeptProvider.Columns.SJUR_PERS, item.getSjurPers());
             contentValues.put(TransindeptProvider.Columns.NDOCTYPE, item.getNdoctype());
