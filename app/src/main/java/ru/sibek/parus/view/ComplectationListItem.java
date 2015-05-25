@@ -82,6 +82,8 @@ public class ComplectationListItem extends LinearLayout implements CursorBinder 
         final long docDate = ComplectationProvider.getDdocdate(c);
         if (docDate > 0) {
             mDocDate.setText(new SimpleDateFormat("dd MMM yг.").format(new Date(docDate)));
+        } else {
+            mDocDate.setText("");
         }
         final String status = ComplectationProvider.getSPROD_ORDER(c);
         if (!TextUtils.isEmpty(status)) {

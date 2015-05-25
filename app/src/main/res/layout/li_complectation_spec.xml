@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ru.sibek.parus.view.ComplectationSpecListItem xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--   <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent"
+               android:layout_gravity="center"
+               android:clickable="true"
+               android:id="@+id/spec_image" />-->
+
+
+        <!-- <ImageButton
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+
+             android:src="@drawable/invoice_spec_non_accepted"
+             android:id="@+id/spec_image" />-->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/title_spec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/title_spec_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/spec_plan_quant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/spec_cmpl_quant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/spec_dlvr_quant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/spec_store_quant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/spec_place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        />
+
+    </LinearLayout>
+
+</ru.sibek.parus.view.ComplectationSpecListItem>

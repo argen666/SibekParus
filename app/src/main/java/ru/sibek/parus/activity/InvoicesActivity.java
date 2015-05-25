@@ -47,8 +47,9 @@ public class InvoicesActivity extends Activity {
         super.onCreate(savedInstanceState);
         Crashlytics.start(this);
         setContentView(R.layout.ac_single_frame);
-        //final long interval = 5;
-        //ContentResolver.addPeriodicSync(ParusApplication.sAccount, ParusAccount.AUTHORITY, Bundle.EMPTY, interval);
+        if (findViewById(R.id.frame1) == null) {
+            return;
+        }
         showTabs();
 
         if (savedInstanceState == null) {

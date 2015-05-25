@@ -13,13 +13,14 @@
     <string-array name="auto_sync_interval_values">
         <item>60</item>
         <item>600</item>
-        <item>@string/auto_sync_interval_default</item>
+        <item>1200</item>
         <item>3600</item>
         <item>10800</item>
-        <item>86400</item>
+        <item>@string/auto_sync_interval_default</item>
     </string-array>
 
-    <string name="auto_sync_interval_default">1200</string>
+
+    <string name="auto_sync_interval_default">86400</string>
 
     <string-array name="invoice_array">
         <item>Накладные</item>

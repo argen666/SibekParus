@@ -1,55 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
 
-    <FrameLayout
-        android:id="@+id/control_panel_frame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/frame1"
-        android:orientation="horizontal"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="ru.sibek.parus.activity.InvoicesActivity">
-
-
-        <FrameLayout
-            android:id="@+id/master_frame"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-
-        <View
-            android:layout_height="match_parent"
-            android:layout_width="1dp"
-            android:background="@android:color/darker_gray" />
-
-        <FrameLayout
-            android:id="@+id/detail_frame"
-            android:layout_weight="2"
-            android:layout_width="0dp"
-            android:background="#eeeeee"
-            android:layout_height="match_parent">
-            <!--<fragment
-                class="ru.sibek.parus.fragment.ininvoice.InvoicesSpecFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:layout="@layout/li_invoice_spec">
-
-                </fragment>-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="visible"
-                android:text="Выберите элемент"
-                android:id="@+id/detail_empty_textView" />
-        </FrameLayout>
-    </LinearLayout>
-
-</LinearLayout>
+        android:text="В настоящее время приложение доступно только для планшетных ПК."
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:id="@+id/textView" />
+</RelativeLayout>

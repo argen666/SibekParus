@@ -96,6 +96,8 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                         mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
 
                         ft.replace(R.id.master_frame, mFragment);
+                        Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
+                        if (f != null) ft.remove(f);
                     } else {
 
                         if (mTag == "stores") {
@@ -106,6 +108,8 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
                             mFragment = Fragment.instantiate(mActivity, DummyFragment.class.getName());
 
                             ft.replace(R.id.master_frame, mFragment);
+                            Fragment f = mActivity.getFragmentManager().findFragmentById(R.id.detail_frame);
+                            if (f != null) ft.remove(f);
                         }
                     }
             }

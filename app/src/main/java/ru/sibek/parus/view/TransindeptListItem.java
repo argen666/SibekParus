@@ -72,6 +72,8 @@ public class TransindeptListItem extends LinearLayout implements CursorBinder {
         final long docDate = TransindeptProvider.getDdocdate(c);
         if (docDate > 0) {
             mDocDate.setText(new SimpleDateFormat("dd MMM yг.").format(new Date(docDate)));
+        } else {
+            mDocDate.setText("");
         }
         final String status = TransindeptProvider.getStatus(c);
         if (!TextUtils.isEmpty(status)) {

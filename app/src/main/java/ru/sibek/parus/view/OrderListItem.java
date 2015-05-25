@@ -78,6 +78,8 @@ public class OrderListItem extends LinearLayout implements CursorBinder {
         final long docDate = OrderProvider.getDdocdate(c);
         if (docDate > 0) {
             mDocDate.setText(new SimpleDateFormat("dd MMM yг.").format(new Date(docDate)));
+        } else {
+            mDocDate.setText("");
         }
         final String status = OrderProvider.getStatus(c);
         if (!TextUtils.isEmpty(status)) {

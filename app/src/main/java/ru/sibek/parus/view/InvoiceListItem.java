@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ru.sibek.parus.R;
@@ -71,7 +71,9 @@ public class InvoiceListItem extends LinearLayout implements CursorBinder {
         }
         final long docDate = InvoiceProvider.getDdocdate(c);
         if (docDate > 0) {
-            mDocDate.setText(DateFormat.getDateTimeInstance().format(new Date(docDate)));
+            mDocDate.setText(new SimpleDateFormat("dd MMM yг.").format(new Date(docDate)));
+        } else {
+            mDocDate.setText("");
         }
         final String status = InvoiceProvider.getStatus(c);
         if (!TextUtils.isEmpty(status)) {
